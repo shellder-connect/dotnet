@@ -13,15 +13,64 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-// Configuração do MongoDB
-builder.Services.Configure<ConfigMongoDb>(builder.Configuration.GetSection("ConfigMongoDb"));
+// Varivavel de ambiente para o MongoDB - Configuração do MongoDB
 
-// Registra o cliente MongoDB como Transient, não Signton como o professor ensinou.
-builder.Services.AddTransient<IMongoClient>(sp =>   
+/*
+    Instalar dotnet add package DotNetEnv
+*/
+
+// Carregar variáveis de ambiente do arquivo .env.local
+DotNetEnv.Env.Load(".env.local");
+
+var mongoDbConnectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING");
+if (string.IsNullOrEmpty(mongoDbConnectionString))
 {
-    var settings = sp.GetRequiredService<IOptions<ConfigMongoDb>>().Value;
-    return new MongoClient(settings.ConnectionString);
+    throw new Exception("A variável de ambiente 'MONGODB_CONNECTION_STRING' não está definida.");
+}
+
+// Configurar o objeto ConfigMongoDb com as demais infos do appsettings
+builder.Services.Configure<ConfigMongoDb>(options =>
+{
+    options.ConnectionString = mongoDbConnectionString;
+    options.DatabaseName = builder.Configuration["ConfigMongoDb:DatabaseName"] ?? throw new Exception("DatabaseName is not configured in ConfigMongoDb.");
+    options.UsuarioCollectionName = builder.Configuration["ConfigMongoDb:UsuarioCollectionName"] ?? throw new Exception("UsuarioCollectionName is not configured in ConfigMongoDb.");
+    options.LoginCollectionName = builder.Configuration["ConfigMongoDb:LoginCollectionName"] ?? throw new Exception("LoginCollectionName is not configured in ConfigMongoDb.");
+    options.EnderecoCollectionName = builder.Configuration["ConfigMongoDb:EnderecoCollectionName"] ?? throw new Exception("EnderecoCollectionName is not configured in ConfigMongoDb.");
+    options.DiasPreferenciaCollectionName = builder.Configuration["ConfigMongoDb:DiasPreferenciaCollectionName"] ?? throw new Exception("DiasPreferenciaCollectionName is not configured in ConfigMongoDb.");
+    options.TurnoCollectionName = builder.Configuration["ConfigMongoDb:TurnoCollectionName"] ?? throw new Exception("TurnoCollectionName is not configured in ConfigMongoDb.");
+    options.HorariosCollectionName = builder.Configuration["ConfigMongoDb:HorariosCollectionName"] ?? throw new Exception("HorariosCollectionName is not configured in ConfigMongoDb.");
+    options.ClinicaCollectionName = builder.Configuration["ConfigMongoDb:ClinicaCollectionName"] ?? throw new Exception("ClinicaCollectionName is not configured in ConfigMongoDb.");
+    options.MedicoCollectionName = builder.Configuration["ConfigMongoDb:MedicoCollectionName"] ?? throw new Exception("MedicoCollectionName is not configured in ConfigMongoDb.");
+    options.SugestaoConsultaClinicaCollectionName = builder.Configuration["ConfigMongoDb:SugestaoConsultaClinicaCollectionName"] ?? throw new Exception("SugestaoConsultaClinicaCollectionName is not configured in ConfigMongoDb.");
+    options.SugestaoConsultaClienteCollectionName = builder.Configuration["ConfigMongoDb:SugestaoConsultaClienteCollectionName"] ?? throw new Exception("SugestaoConsultaClienteCollectionName is not configured in ConfigMongoDb.");
+    options.MotivoRecusaCollectionName = builder.Configuration["ConfigMongoDb:MotivoRecusaCollectionName"] ?? throw new Exception("MotivoRecusaCollectionName is not configured in ConfigMongoDb.");
+    options.ServicosAgendadosCollectionName = builder.Configuration["ConfigMongoDb:ServicosAgendadosCollectionName"] ?? throw new Exception("ServicosAgendadosCollectionName is not configured in ConfigMongoDb.");
+    options.ConsultaCollectionName = builder.Configuration["ConfigMongoDb:ConsultaCollectionName"] ?? throw new Exception("ConsultaCollectionName is not configured in ConfigMongoDb.");
+    options.FeedbackCollectionName = builder.Configuration["ConfigMongoDb:FeedbackCollectionName"] ?? throw new Exception("FeedbackCollectionName is not configured in ConfigMongoDb.");
+    options.CampanhaCollectionName = builder.Configuration["ConfigMongoDb:CampanhaCollectionName"] ?? throw new Exception("CampanhaCollectionName is not configured in ConfigMongoDb.");
+    options.ChatCollectionName = builder.Configuration["ConfigMongoDb:ChatCollectionName"] ?? throw new Exception("ChatCollectionName is not configured in ConfigMongoDb.");
 });
+
+
+
+
+builder.Services.AddTransient<IMongoClient>(_ =>
+{
+    return new MongoClient(mongoDbConnectionString);
+});
+
+
+
+// // Configuração do MongoDB - Se precisar, apaga o de cima e usa este
+// builder.Services.Configure<ConfigMongoDb>(builder.Configuration.GetSection("ConfigMongoDb"));
+
+// // Registra o cliente MongoDB como Transient, não Signton como o professor ensinou.
+// builder.Services.AddTransient<IMongoClient>(sp =>   
+// {
+//     var settings = sp.GetRequiredService<IOptions<ConfigMongoDb>>().Value;
+//     return new MongoClient(settings.ConnectionString);
+// });
+
 
 // Registrar os serviços necessários
 

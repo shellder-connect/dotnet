@@ -264,3 +264,5 @@ C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Área de Trabalho\projeto-dot
 C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Área de Trabalho\projeto-dotnet\final-project-advanced-dotnet-api\obj\Debug\net8.0\Project.pdb
 C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Área de Trabalho\projeto-dotnet\final-project-advanced-dotnet-api\obj\Debug\net8.0\Project.genruntimeconfig.cache
 C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Área de Trabalho\projeto-dotnet\final-project-advanced-dotnet-api\obj\Debug\net8.0\ref\Project.dll
+C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Área de Trabalho\projeto-dotnet\final-project-advanced-dotnet-api\bin\Debug\net8.0\DotNetEnv.dll
+C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Área de Trabalho\projeto-dotnet\final-project-advanced-dotnet-api\bin\Debug\net8.0\Sprache.dll
