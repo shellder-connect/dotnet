@@ -22,17 +22,19 @@ builder.Services.AddControllersWithViews();
 // Carregar variáveis de ambiente do arquivo .env.local
 DotNetEnv.Env.Load(".env.local");
 
-var mongoDbConnectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING");
-if (string.IsNullOrEmpty(mongoDbConnectionString))
-{
-    throw new Exception("A variável de ambiente 'MONGODB_CONNECTION_STRING' não está definida.");
-}
+// Registrar as configurações no DI
+builder.Configuration.AddEnvironmentVariables();
+
+var mongoDbConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING") ??
+    throw new Exception("A variável de ambiente 'MONGO_CONNECTION_STRING' não está definida.");
+
 
 // Configurar o objeto ConfigMongoDb com as demais infos do appsettings
 builder.Services.Configure<ConfigMongoDb>(options =>
 {
     options.ConnectionString = mongoDbConnectionString;
     options.DatabaseName = builder.Configuration["ConfigMongoDb:DatabaseName"] ?? throw new Exception("DatabaseName is not configured in ConfigMongoDb.");
+    options.DatabaseTestsName = builder.Configuration["ConfigMongoDb:DatabaseTestsName"] ?? throw new Exception("DatabaseTestsName is not configured in ConfigMongoDb.");
     options.UsuarioCollectionName = builder.Configuration["ConfigMongoDb:UsuarioCollectionName"] ?? throw new Exception("UsuarioCollectionName is not configured in ConfigMongoDb.");
     options.LoginCollectionName = builder.Configuration["ConfigMongoDb:LoginCollectionName"] ?? throw new Exception("LoginCollectionName is not configured in ConfigMongoDb.");
     options.EnderecoCollectionName = builder.Configuration["ConfigMongoDb:EnderecoCollectionName"] ?? throw new Exception("EnderecoCollectionName is not configured in ConfigMongoDb.");

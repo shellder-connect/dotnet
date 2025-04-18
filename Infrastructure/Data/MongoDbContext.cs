@@ -12,6 +12,7 @@ namespace Project.Infrastructure
             var connectionString = configuration.GetConnectionString("MongoDbConnection");
             var client = new MongoClient(connectionString);
             _database = client.GetDatabase("Project");
+            _database = client.GetDatabase("TestsDb");
         }
 
         public IMongoCollection<Usuario> Usuarios => _database.GetCollection<Usuario>("t_usuario");
