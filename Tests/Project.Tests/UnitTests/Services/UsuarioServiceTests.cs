@@ -95,4 +95,32 @@ public class UsuarioServiceTests
         Assert.Empty(resultado);
     }
 
+    /*************************************************************************************************
+    
+     Consultar Usuário por ID
+
+     Teste será realizado apenas para consultar um usuário pelo ID
+
+    **************************************************************************************************/
+
+    [Fact]
+    public async Task ConsultarId_DeveRetornarUsuarioPorId()
+    {
+        var mockRepo = new Mock<IUsuarioRepository>();
+        
+        // Configura o mock para retornar um usuário específico quando consultado pelo ID
+        var usuarioEsperado = new Usuario { Nome = "Claudio", Id = "123" };
+        mockRepo.Setup(repo => repo.ConsultarId("123")).ReturnsAsync(usuarioEsperado);
+        
+        var service = new UsuarioService(mockRepo.Object);
+
+        var resultado = await service.ConsultarId("123");
+
+        _output.WriteLine($"Usuário e Id consultado: {resultado?.Nome}, {resultado?.Id}");
+        Assert.NotNull(resultado);
+        Assert.Equal("Claudio", resultado?.Nome);
+        Assert.Equal("123", resultado?.Id);
+    }
+
+
 }
