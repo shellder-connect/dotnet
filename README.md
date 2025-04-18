@@ -321,7 +321,7 @@ Nosso arquivo final do Project.Tests.csproj
     <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
@@ -347,6 +347,13 @@ Nosso arquivo final do Project.Tests.csproj
 
 ## Os testes serão feitos nos Services, Repositories e por último nos Controllers
 
-**1. Testando o UsuarioService (Camada de Aplicação)**
-Estratégia: Vamos usar mocks para isolar o serviço das dependências (como IUsuarioRepository).
+**Realizar os teste no terminal**
+
+```bash
+    _output.WriteLine("Usuários retornados:");
+    foreach (var user in resultado)
+    {
+        _output.WriteLine($"- {user.Nome}");
+    }
+```
 

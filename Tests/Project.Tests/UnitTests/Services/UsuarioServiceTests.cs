@@ -16,6 +16,14 @@ public class UsuarioServiceTests
         _output = output;
     }
 
+    /*************************************************************************************************
+    
+     Criar Usuário
+
+     Teste será realizado apenas para criaçao de um usuário
+
+    **************************************************************************************************/
+
     [Fact]
     public async Task Criar_UsuarioValido_RetornaUsuario()
     {
@@ -32,4 +40,59 @@ public class UsuarioServiceTests
 
         Assert.Equal(usuario.Nome, resultado.Nome);
     }
+
+    /*************************************************************************************************
+    
+     Consultar todos os Usuários
+
+     Teste será realizado apenas para consultar a lista completa de usuários com dados, não avistando o cenário vazio.
+
+    **************************************************************************************************/
+
+    [Fact]
+    public async Task ConsultarTodos_DeveRetornarListaDeUsuarios()
+    {
+        var mockRepo = new Mock<IUsuarioRepository>();
+        var usuariosEsperados = new List<Usuario>
+        {
+            new Usuario { Nome = "Claudio" },
+            new Usuario { Nome = "João" }
+        };
+        mockRepo.Setup(repo => repo.ConsultarTodos()).ReturnsAsync(usuariosEsperados);
+        var service = new UsuarioService(mockRepo.Object);
+
+        var resultado = await service.ConsultarTodos();
+
+        _output.WriteLine("Usuários retornados:");
+        foreach (var user in resultado)
+        {
+            _output.WriteLine($"- {user.Nome}");
+        }
+    
+        Assert.Equal(2, resultado.Count);
+        Assert.Contains(resultado, u => u.Nome == "Claudio");
+        Assert.Contains(resultado, u => u.Nome == "João");
+    }
+
+    /*************************************************************************************************
+    
+     Consultar todos os Usuários
+
+     Teste será realizado apenas para consultar a lista completa de usuários com cenário vazio
+
+    **************************************************************************************************/
+
+    [Fact]
+    public async Task ConsultarTodos_SemUsuarios_DeveRetornarListaVazia()
+    {
+        var mockRepo = new Mock<IUsuarioRepository>();
+        mockRepo.Setup(repo => repo.ConsultarTodos()).ReturnsAsync(new List<Usuario>());
+        var service = new UsuarioService(mockRepo.Object);
+
+        var resultado = await service.ConsultarTodos();
+
+        _output.WriteLine($"Total de usuários retornados: {resultado.Count}");
+        Assert.Empty(resultado);
+    }
+
 }
