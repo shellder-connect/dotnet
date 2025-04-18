@@ -10,11 +10,18 @@ namespace Project.Repositories
     {
         private readonly IMongoCollection<Usuario> _usuarioCollection;
 
+        // Construtor original para uso real
         public UsuarioRepository(IOptions<ConfigMongoDb> settings)
         {
             var mongoClient = new MongoClient(settings.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(settings.Value.DatabaseName);
             _usuarioCollection = mongoDatabase.GetCollection<Usuario>(settings.Value.UsuarioCollectionName);
+        }
+
+        // 👇 Novo construtor para testes (injeção direta do mock)
+        public UsuarioRepository(IMongoCollection<Usuario> usuarioCollection)
+        {
+            _usuarioCollection = usuarioCollection;
         }
 
         public async Task<Usuario> Criar(Usuario usuario)

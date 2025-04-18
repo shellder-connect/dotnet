@@ -357,3 +357,8 @@ Nosso arquivo final do Project.Tests.csproj
     }
 ```
 
+**Para executar um arquivo específico**
+```bash
+    dotnet test --filter "FullyQualifiedName~UsuarioRepositoryTests" --logger "console;verbosity=detailed"
+```
+
