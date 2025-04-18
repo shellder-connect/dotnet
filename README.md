@@ -8,9 +8,9 @@ A solução contempla os seguintes pontos principais:
 
 📦 Camadas bem definidas (Controllers, Services, Repositories, DTOs e Models)
 
-🔐 Padrões modernos de autenticação/autorização (JWT, Identity, etc. se aplicável)
+🔐 Padrões modernos de autenticação/autorização
 
-🧪 Testes automatizados com xUnit/MSTest/NUnit (conforme escolhido)
+🧪 Testes automatizados com xUnit
 
 📊 Banco de dados relacional com Entity Framework Core
 
