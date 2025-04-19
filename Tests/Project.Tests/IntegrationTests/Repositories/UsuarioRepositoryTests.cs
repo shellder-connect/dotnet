@@ -27,7 +27,8 @@ namespace Project.Tests.UnitTests.Repositories
         {   
             try
             {
-                _output.WriteLine("🔌 Iniciando teste: Criar_Usuario");
+                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("🔌 Iniciando teste: Criar_Usuario\n");
 
                 var settings = new ConfigMongoDb
                 {
@@ -52,19 +53,21 @@ namespace Project.Tests.UnitTests.Repositories
                     Perfil = "Comum" 
                 };
 
-                _output.WriteLine($"👤 Usuário criado para inserção: {System.Text.Json.JsonSerializer.Serialize(usuario)}");
+                _output.WriteLine($"👤 Usuário criado para inserção: {System.Text.Json.JsonSerializer.Serialize(usuario)}\n");
 
                 // Executa o método que insere o usuário
                 var resultado = await repository.Criar(usuario);
 
-                _output.WriteLine("✅ Método Criar chamado com sucesso.");
-                _output.WriteLine($"🎯 Resultado retornado: Nome={resultado.Nome}, Email={resultado.Email}");
+                _output.WriteLine("✅ Método Criar chamado com sucesso.\n");
+                _output.WriteLine($"🎯 Resultado retornado: Nome={resultado.Nome}, Email={resultado.Email}\n");
 
                 // Verifica se o usuário inserido possui os dados corretos
                 Assert.Equal(usuario.Nome, resultado.Nome);
                 Assert.Equal(usuario.Email, resultado.Email);
 
-                _output.WriteLine("🔚 Teste finalizado com sucesso.");
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+
+                _output.WriteLine("*****************************************************\n");
             }
             catch (Exception ex)
             {
@@ -84,7 +87,9 @@ namespace Project.Tests.UnitTests.Repositories
         {
             try
             {
-                _output.WriteLine("🔌 Iniciando teste: Consultar_Todos_Usuarios");
+
+                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("🔌 Iniciando teste: Consultar_Todos_Usuarios\n");
 
                 var settings = new ConfigMongoDb
                 {
@@ -98,14 +103,16 @@ namespace Project.Tests.UnitTests.Repositories
                 // Criando a instância do repositório com as configurações apontando para o banco de testes
                 var repository = new UsuarioRepository(optionsConfig);
 
-                _output.WriteLine("✅ Usuários criados com sucesso.");
+                _output.WriteLine("✅ Usuários criados com sucesso.\n");
 
                 // Executa o método que consulta todos os usuários
                 var usuarios = await repository.ConsultarTodos();
 
-                _output.WriteLine($"🎯 Total de usuários retornados: {usuarios.Count}");
+                _output.WriteLine($"🎯 Total de usuários retornados: {usuarios.Count}\n");
 
-                _output.WriteLine("🔚 Teste finalizado com sucesso.");
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+
+                _output.WriteLine("*****************************************************\n");
             }
             catch (Exception ex)
             {
@@ -126,7 +133,8 @@ namespace Project.Tests.UnitTests.Repositories
         {
             try
             {
-                _output.WriteLine("🔌 Iniciando teste: Consultar_Usuario_Por_Id");
+                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("🔌 Iniciando teste: Consultar_Usuario_Por_Id\n");
 
                 var settings = new ConfigMongoDb
                 {
@@ -146,14 +154,16 @@ namespace Project.Tests.UnitTests.Repositories
                 // Executa o método que consulta o usuário pelo ID
                 var usuarioConsultado = await repository.ConsultarId(usuarioId);
 
-                _output.WriteLine($"🎯 Usuário retornado: Nome={usuarioConsultado.Nome}, Email={usuarioConsultado.Email}");
+                _output.WriteLine($"🎯 Usuário retornado: Nome={usuarioConsultado.Nome}, Email={usuarioConsultado.Email}\n");
 
                 // Verifica se o usuário consultado possui os dados corretos
                 Assert.Equal(usuarioId, usuarioConsultado.Id);
                 Assert.NotNull(usuarioConsultado.Nome);
                 Assert.NotNull(usuarioConsultado.Email);
 
-                _output.WriteLine("🔚 Teste finalizado com sucesso.");
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+                _output.WriteLine("*****************************************************\n");   
+
             }
             catch (Exception ex)
             {
@@ -174,7 +184,8 @@ namespace Project.Tests.UnitTests.Repositories
         {
             try
             {
-                _output.WriteLine("🔌 Iniciando teste: Atualizar_Usuario");
+                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("🔌 Iniciando teste: Atualizar_Usuario\n");
 
                 var settings = new ConfigMongoDb
                 {
@@ -208,11 +219,11 @@ namespace Project.Tests.UnitTests.Repositories
 
                 if (resultado != null)
                 {
-                    _output.WriteLine($"🎯 Usuário atualizado: Nome={resultado.Nome}, Email={resultado.Email}");
+                    _output.WriteLine($"🎯 Usuário atualizado: Nome={resultado.Nome}, Email={resultado.Email}\n");
                 }
                 else
                 {
-                    _output.WriteLine("❌ Erro: O resultado da atualização é nulo.");
+                    _output.WriteLine("❌ Erro: O resultado da atualização é nulo.\n");
                 }
 
                 // Verifica se o usuário atualizado possui os dados corretos
@@ -221,7 +232,8 @@ namespace Project.Tests.UnitTests.Repositories
                 Assert.Equal(usuarioAtualizado.Email, resultado.Email);
                 Assert.Equal(usuarioAtualizado.Perfil, resultado.Perfil);
 
-                _output.WriteLine("🔚 Teste finalizado com sucesso.");
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+                _output.WriteLine("*****************************************************\n");
             }
             catch (Exception ex)
             {
@@ -243,7 +255,9 @@ namespace Project.Tests.UnitTests.Repositories
         {
             try
             {
-                _output.WriteLine("🔌 Iniciando teste: Atualizar_Usuario_Parcialmente");
+
+                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("🔌 Iniciando teste: Atualizar_Usuario_Parcialmente\n");
 
                 var settings = new ConfigMongoDb
                 {
@@ -271,11 +285,11 @@ namespace Project.Tests.UnitTests.Repositories
 
                 if (resultado != null)
                 {
-                    _output.WriteLine($"🎯 Usuário parcialmente atualizado: Nome={resultado.Nome}, Email={resultado.Email}");
+                    _output.WriteLine($"🎯 Usuário parcialmente atualizado: Nome={resultado.Nome}, Email={resultado.Email}\n");
                 }
                 else
                 {
-                    _output.WriteLine("❌ Erro: O resultado da atualização parcial é nulo.");
+                    _output.WriteLine("❌ Erro: O resultado da atualização parcial é nulo.\n");
                 }
 
                 // Verifica se os campos atualizados possuem os dados corretos
@@ -283,7 +297,8 @@ namespace Project.Tests.UnitTests.Repositories
                 Assert.Equal(camposParaAtualizar["nome"], resultado!.Nome);
                 Assert.Equal(camposParaAtualizar["email"], resultado.Email);
 
-                _output.WriteLine("🔚 Teste finalizado com sucesso.");
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+                _output.WriteLine("*****************************************************\n");   
             }
             catch (Exception ex)
             {
@@ -303,7 +318,8 @@ namespace Project.Tests.UnitTests.Repositories
         {
             try
             {
-                _output.WriteLine("🔌 Iniciando teste: Excluir_Usuario");
+                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("🔌 Iniciando teste: Excluir_Usuario\n");
 
                 var settings = new ConfigMongoDb
                 {
@@ -322,13 +338,14 @@ namespace Project.Tests.UnitTests.Repositories
                 // Executa o método que exclui o usuário
                 await repository.Excluir(usuarioId);
 
-                _output.WriteLine("✅ Usuário excluído com sucesso.");
+                _output.WriteLine("✅ Usuário excluído com sucesso.\n");
 
                 // Verifica se o usuário foi realmente excluído
                 var usuarioConsultado = await repository.ConsultarId(usuarioId);
                 Assert.Null(usuarioConsultado);
 
-                _output.WriteLine("🔚 Teste finalizado com sucesso.");
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+                _output.WriteLine("*****************************************************\n");
             }
             catch (Exception ex)
             {

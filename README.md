@@ -296,6 +296,11 @@ Integração com reconhecimento de voz para permitir que usuários interajam fal
     dotnet add package Moq
 ```
 
+**Para simular uso real das APIs**
+```bash
+     dotnet add package Microsoft.AspNetCore.Mvc.Testing --version 8.x.x
+```
+
 # Criar a pasta de teste na raiz do projeto
 
 **Executar o comando dentro da pasta test para iniciar os testes**

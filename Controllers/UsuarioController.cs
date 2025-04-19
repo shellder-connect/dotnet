@@ -286,6 +286,7 @@ public class UsuarioController : Controller
         usuarioExistente.Telefone = usuario.Telefone;
         usuarioExistente.Email = usuario.Email;
         usuarioExistente.Senha = usuario.Senha;
+        usuarioExistente.Perfil = usuario.Perfil;
 
         await _usuarioService.Atualizar(usuarioExistente);
 
@@ -358,6 +359,7 @@ public class UsuarioController : Controller
         usuarioExistente.Telefone = usuario.Telefone;
         usuarioExistente.Email = usuario.Email;
         usuarioExistente.Senha = usuario.Senha;
+        usuarioExistente.Perfil = usuario.Perfil;
 
         await _usuarioService.Atualizar(usuarioExistente);
 

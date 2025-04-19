@@ -25,8 +25,8 @@ DotNetEnv.Env.Load(".env.local");
 // Registrar as configurações no DI
 builder.Configuration.AddEnvironmentVariables();
 
-var mongoDbConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING") ??
-    throw new Exception("A variável de ambiente 'MONGO_CONNECTION_STRING' não está definida.");
+var mongoDbConnectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING") ??
+    throw new Exception("A variável de ambiente 'MONGODB_CONNECTION_STRING' não está definida.");
 
 
 // Configurar o objeto ConfigMongoDb com as demais infos do appsettings
