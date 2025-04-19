@@ -10,18 +10,23 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Project.Tests.IntegrationTests.Controllers
 {
-    public class UsuarioControllerTests
+    public class UsuarioCControllerTests
     {
         private readonly Mock<IUsuarioService> _mockUsuarioService;
         private readonly UsuarioController _controller;
         private readonly ITestOutputHelper _output;
         private readonly HttpClient _client;
 
-        public UsuarioControllerTests(ITestOutputHelper output)
+        public UsuarioCControllerTests(ITestOutputHelper output)
         {
             _mockUsuarioService = new Mock<IUsuarioService>();
             _controller = new UsuarioController(_mockUsuarioService.Object);
             _output = output;
+            
+            
+             // ✅ Setar variável de ambiente antes de criar o factory
+            Environment.SetEnvironmentVariable("MONGODB_CONNECTION_STRING",
+                "mongodb+srv://csspclaudio:clnzEcsY8xmMVXMr@cluster0.kfgkjua.mongodb.net/");
 
             var factory = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
@@ -48,7 +53,7 @@ namespace Project.Tests.IntegrationTests.Controllers
          * Cadastrar Usuário - Controller
          * Teste que garante que o endpoint CadastrarUsuario cria um novo usuário corretamente e mostre a resposta HTTP.
          **************************************************************************************************/
-        
+        /*
         [Fact]
         public async Task Cadastrar_Usuario()
         {
@@ -93,13 +98,13 @@ namespace Project.Tests.IntegrationTests.Controllers
                 throw;
             }
         }
-        
+        */
 
         /*************************************************************************************************
          * Cadastrar Usuário - Controller
          * Teste que garante que o endpoint CadastrarUsuario retorna BadRequest quando dados inválidos são fornecidos.
          **************************************************************************************************/
-        
+        /*
         [Fact]
         public async Task CadastrarUsuario_DeveRetornarBadRequest()
         {
@@ -140,13 +145,13 @@ namespace Project.Tests.IntegrationTests.Controllers
             }
 
         }
-        
+        */
         
         /*************************************************************************************************
          * Consultar Todos Usuários - Controller - Simulação
          * Teste que garante que o endpoint ConsultarTodosUsuarios retorna todos os usuários corretamente.
          **************************************************************************************************/
-        
+        /*
         [Fact]
         public async Task ConsultarTodosUsuarios_DeveRetornarOk()
         {
@@ -183,14 +188,14 @@ namespace Project.Tests.IntegrationTests.Controllers
                 throw;
             }
         }
-        
+        */
 
 
         /*************************************************************************************************
          * Consultar Usuário por ID - Controller - Simulação
          * Teste que garante que o endpoint ConsultarUsuarioPorId retorna o usuário correto com base no ID fornecido.
          **************************************************************************************************/
-        
+        /*
         [Fact]
         public async Task Consultar_Usuario_Por_Id()
         {
@@ -230,6 +235,43 @@ namespace Project.Tests.IntegrationTests.Controllers
                 throw;
             }
         }
+        */
+
+        /*************************************************************************************************
+         * Consultar Usuário por ID - Controller - Real
+         * Teste que garante que o endpoint ConsultarUsuarioPorId retorna o usuário correto com base no ID fornecido.
+         **************************************************************************************************/
+        
+        
+        [Fact]
+        public async Task Consultar_Usuario_Por_Id()
+        {
+            try
+            {
+                _output.WriteLine("*****************************************************\n");   
+                _output.WriteLine("🔌 Iniciando teste: Consultar_Usuario_Por_Id\n");
+
+                var usuarioId = "67d3673dc076687a653bbd6d";
+                var response = await _client.GetAsync($"/Usuario/ConsultarUsuarioId/{usuarioId}");
+
+                response.EnsureSuccessStatusCode();
+
+                var usuario = await response.Content.ReadFromJsonAsync<Usuario>();
+
+                Assert.NotNull(usuario);
+                Assert.Equal(usuarioId, usuario!.Id);
+
+                _output.WriteLine($"🎯 Usuário retornado: Nome={usuario.Nome}, Email={usuario.Email}\n");
+                _output.WriteLine($"📋 Código de status retornado: {response.StatusCode}\n");
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+                _output.WriteLine("*****************************************************\n");
+            }
+            catch (Exception ex)
+            {
+                _output.WriteLine($"❌ Erro no teste: {ex.Message}");
+                throw;
+            }
+        }
         
         
         
@@ -307,7 +349,7 @@ namespace Project.Tests.IntegrationTests.Controllers
          * Excluir Usuário - Controller
          * Teste que garante que o endpoint ExcluirUsuario remove corretamente um usuário existente.
          **************************************************************************************************/
-        
+        /*
         [Fact]
         public async Task Excluir_Usuario()
         {
@@ -342,6 +384,6 @@ namespace Project.Tests.IntegrationTests.Controllers
                 throw;
             }
         }
-        
+        */
     }
 }

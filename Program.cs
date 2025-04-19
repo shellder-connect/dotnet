@@ -5,7 +5,6 @@ using Project.Application.Services;
 using Project.Repositories;
 using Project.Domain;
 using MongoDB.Driver;
-using Microsoft.Extensions.Options;
 using Project.Services;
 using Microsoft.OpenApi.Models;
 
