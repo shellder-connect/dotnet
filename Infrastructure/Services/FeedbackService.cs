@@ -6,14 +6,27 @@ namespace Project.Application.Services
     public class FeedbackService : IFeedbackService
     {
         private readonly IFeedbackRepository _feedbackRepository;
+        private readonly ISentimentAnalysisService _sentimentAnalysisService;
 
-        public FeedbackService(IFeedbackRepository feedbackRepository)
+        public FeedbackService(IFeedbackRepository feedbackRepository, ISentimentAnalysisService sentimentAnalysisService)
         {
             _feedbackRepository = feedbackRepository;
+            _sentimentAnalysisService = sentimentAnalysisService;
         }
 
         public async Task<Feedback> Criar(Feedback feedback)
         {
+            // Realiza a análise de sentimento se houver comentário
+            if (!string.IsNullOrWhiteSpace(feedback.Comentario))
+            {
+                var prediction = _sentimentAnalysisService.Predict(feedback.Comentario);
+                feedback.Sentimento = prediction.IsPositive ? "Positivo" : "Negativo";
+            }
+            else
+            {
+                feedback.Sentimento = "Indefinido";
+            }
+
             return await _feedbackRepository.Criar(feedback);
         }
 

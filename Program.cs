@@ -143,6 +143,9 @@ builder.Services.AddTransient<IChatRepository, ChatRepository>();
 builder.Services.AddTransient<IDadosCadastraisService, DadosCadastraisService>();
 builder.Services.AddTransient<IDadosCadastraisRepository, DadosCadastraisRepository>();
 
+// Análise de sentimento
+builder.Services.AddTransient<ISentimentAnalysisService, SentimentAnalysisService>();
+
 
 // Configurar autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
