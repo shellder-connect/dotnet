@@ -28,7 +28,6 @@ namespace Project.Application.Services
             return await _usuarioRepository.ConsultarId(id);
         }
 
-
         public async Task<Usuario?> Atualizar(Usuario usuario)
         {
             return await _usuarioRepository.Atualizar(usuario);

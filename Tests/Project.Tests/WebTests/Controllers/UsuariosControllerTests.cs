@@ -61,12 +61,15 @@ namespace Project.Tests.IntegrationTests.Controllers
 
                 var usuario = new Usuario 
                 { 
-                    Nome = "João", 
-                    CPF = "12345678910", 
-                    Telefone = "11975776758", 
-                    Email = "joao@exemplo.com", 
-                    Senha = "senha123", 
-                    Perfil = "Comum" 
+                    Nome = "Claudio Dois", 
+                    Email = "claudio_cssp@test.com", 
+                    Senha = "senha", 
+                    IdTipoUsuario = "Adm",
+                    Telefone = "950556066", 
+                    IdEndereco = "1",
+                    DataNascimento = "1993-05-10",
+                    Documento = "40830740000", 
+                    Status = "Ativo"
                 };
 
                 _mockUsuarioService.Setup(service => service.Criar(It.IsAny<Usuario>())).ReturnsAsync(usuario);
@@ -111,12 +114,15 @@ namespace Project.Tests.IntegrationTests.Controllers
 
                 var usuario = new Usuario 
                 { 
-                    Nome = "", // Nome inválido - Vamos deixar vazio para simular erro
-                    CPF = "12345678910", 
-                    Telefone = "11975776758", 
-                    Email = "joao@exemplo.com", 
-                    Senha = "senha123", 
-                    Perfil = "Comum" 
+                    Nome = "", 
+                    Email = "claudio_cssp@test.com", 
+                    Senha = "senha", 
+                    IdTipoUsuario = "Adm",
+                    Telefone = "950556066", 
+                    IdEndereco = "1",
+                    DataNascimento = "1993-05-10",
+                    Documento = "40830740000", 
+                    Status = "Ativo"
                 };
 
                 _controller.ModelState.AddModelError("Nome", "Nome é obrigatório");
@@ -203,12 +209,15 @@ namespace Project.Tests.IntegrationTests.Controllers
                 var usuario = new Usuario 
                 { 
                     Id = usuarioId,
-                    Nome = "João", 
-                    CPF = "12345678910", 
-                    Telefone = "11975776758", 
-                    Email = "joao@exemplo.com", 
-                    Senha = "senha123", 
-                    Perfil = "Comum" 
+                    Nome = "Claudio Dois", 
+                    Email = "claudio_cssp@test.com", 
+                    Senha = "senha", 
+                    IdTipoUsuario = "Adm",
+                    Telefone = "950556066", 
+                    IdEndereco = "1",
+                    DataNascimento = "1993-05-10",
+                    Documento = "40830740000", 
+                    Status = "Ativo"
                 };
 
                 _mockUsuarioService.Setup(service => service.ConsultarId(usuarioId)).ReturnsAsync(usuario);

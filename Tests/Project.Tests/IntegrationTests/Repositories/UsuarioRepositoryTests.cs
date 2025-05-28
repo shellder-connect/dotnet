@@ -46,11 +46,14 @@ namespace Project.Tests.UnitTests.Repositories
                 var usuario = new Usuario 
                 { 
                     Nome = "Claudio Banco de Teste Dois", 
-                    CPF = "40830740000", 
-                    Telefone = "950556066", 
                     Email = "claudio@test.com", 
                     Senha = "senha", 
-                    Perfil = "Comum" 
+                    IdTipoUsuario = "Comum",
+                    Telefone = "950556066", 
+                    IdEndereco = "1",
+                    DataNascimento = "1993-05-10",
+                    Documento = "40830740000", 
+                    Status = "Ativo"
                 };
 
                 _output.WriteLine($"👤 Usuário criado para inserção: {System.Text.Json.JsonSerializer.Serialize(usuario)}\n");
@@ -206,12 +209,15 @@ namespace Project.Tests.UnitTests.Repositories
                 var usuarioAtualizado = new Usuario 
                 { 
                     Id = usuarioId,
-                    Nome = "Claudio Voltou", 
-                    CPF = "40830740000", 
-                    Telefone = "950556066", 
-                    Email = "claudio_atualizado@test.com", 
-                    Senha = "nova_senha", 
-                    Perfil = "Admin" 
+                    Nome = "Claudio Dois", 
+                    Email = "claudio_cssp@test.com", 
+                    Senha = "senha", 
+                    IdTipoUsuario = "Adm",
+                    Telefone = "950556066", 
+                    IdEndereco = "1",
+                    DataNascimento = "1993-05-10",
+                    Documento = "40830740000", 
+                    Status = "Ativo"
                 };
 
                 // Executa o método que atualiza o usuário

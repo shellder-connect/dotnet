@@ -16,10 +16,7 @@ public class DadosCadastraisService : IDadosCadastraisService
     {
         var usuario = _dadosCadastraisRepository.ObterUsuarioId(userId);
         var endereco = _dadosCadastraisRepository.ObterEnderecoId(userId);
-        var diasPreferencia = _dadosCadastraisRepository.ObterDiasId(userId);
-        var turnos = _dadosCadastraisRepository.ObterTurnosId(userId);
-        var horarios = _dadosCadastraisRepository.ObterHorariosId(userId);
-
+       
         // Verifica se o usuário existe
         if (usuario == null)
         {
@@ -49,28 +46,6 @@ public class DadosCadastraisService : IDadosCadastraisService
                     
                 }
                 : new EnderecoDTO(),
-
-
-            DiasPreferencia = diasPreferencia != null
-                ? diasPreferencia.Select(dp => new DiasPreferenciaDTO
-                {
-                    DiasSemana = dp.DiasSemana
-                }).ToList()
-                : new List<DiasPreferenciaDTO>(),
-
-            TurnosPreferencia = turnos != null
-                ? turnos.Select(t => new TurnoDTO
-                {
-                    TurnoPreferencia = t.TurnoPreferencia
-                }).ToList()
-                : new List<TurnoDTO>(),
-
-            HorariosPreferencia = horarios != null
-                ? horarios.Select(h => new HorariosDTO
-                {
-                    HorariosPreferencia = h.HorariosPreferencia
-                }).ToList()
-                : new List<HorariosDTO>()
         };
     }
 }

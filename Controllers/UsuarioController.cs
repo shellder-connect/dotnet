@@ -27,7 +27,7 @@ public class UsuarioController : Controller
     [HttpPost("Criar")]
     [ValidateAntiForgeryToken]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Criar([Bind("Id,Nome,CPF,Sobrenome,Telefone,Email,Senha,Perfil")] Usuario usuario)
+    public async Task<IActionResult> Criar([Bind("Id,Nome,Email,Senha,IdTipoUsuario,Telefone,IdEndereco,DataNascimento,Documento,Status")] Usuario usuario)
     {
         if (ModelState.IsValid)
         {
@@ -282,11 +282,14 @@ public class UsuarioController : Controller
         }
 
         usuarioExistente.Nome = usuario.Nome;
-        usuarioExistente.CPF = usuario.CPF;
-        usuarioExistente.Telefone = usuario.Telefone;
         usuarioExistente.Email = usuario.Email;
         usuarioExistente.Senha = usuario.Senha;
-        usuarioExistente.Perfil = usuario.Perfil;
+        usuarioExistente.IdTipoUsuario = usuario.IdTipoUsuario;
+        usuarioExistente.Telefone = usuario.Telefone;
+        usuarioExistente.IdEndereco = usuario.IdEndereco;
+        usuarioExistente.DataNascimento = usuario.DataNascimento;
+        usuarioExistente.Documento = usuario.Documento;
+        usuarioExistente.Status = usuario.Status;
 
         await _usuarioService.Atualizar(usuarioExistente);
 
@@ -355,11 +358,14 @@ public class UsuarioController : Controller
 
 
         usuarioExistente.Nome = usuario.Nome;
-        usuarioExistente.CPF = usuario.CPF;
-        usuarioExistente.Telefone = usuario.Telefone;
         usuarioExistente.Email = usuario.Email;
         usuarioExistente.Senha = usuario.Senha;
-        usuarioExistente.Perfil = usuario.Perfil;
+        usuarioExistente.IdTipoUsuario = usuario.IdTipoUsuario;
+        usuarioExistente.Telefone = usuario.Telefone;
+        usuarioExistente.IdEndereco = usuario.IdEndereco;
+        usuarioExistente.DataNascimento = usuario.DataNascimento;
+        usuarioExistente.Documento = usuario.Documento;
+        usuarioExistente.Status = usuario.Status;
 
         await _usuarioService.Atualizar(usuarioExistente);
 

@@ -10,7 +10,6 @@ namespace Project.Repositories
     {
         private readonly IMongoCollection<Usuario> _usuarioCollection;
 
-        // Construtor original para uso real
         public UsuarioRepository(IOptions<ConfigMongoDb> settings)
         {
             var mongoClient = new MongoClient(settings.Value.ConnectionString);
@@ -47,10 +46,14 @@ namespace Project.Repositories
 
             var update = Builders<Usuario>.Update
                 .Set(u => u.Nome, usuario.Nome)
-                .Set(u => u.CPF, usuario.CPF)
-                .Set(u => u.Telefone, usuario.Telefone)
                 .Set(u => u.Email, usuario.Email)
-                .Set(u => u.Senha, usuario.Senha);
+                .Set(u => u.Senha, usuario.Senha)
+                .Set(u => u.IdTipoUsuario, usuario.IdTipoUsuario)
+                .Set(u => u.Telefone, usuario.Telefone)
+                .Set(u => u.IdEndereco, usuario.IdEndereco)
+                .Set(u => u.DataNascimento, usuario.DataNascimento)
+                .Set(u => u.Documento, usuario.Documento)
+                .Set(u => u.Status, usuario.Status);
 
             var resultado = await _usuarioCollection.UpdateOneAsync(filtro, update);
 
@@ -80,18 +83,27 @@ namespace Project.Repositories
                     case "nome":
                         updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Nome, campo.Value.ToString()));
                         break;
-                    case "cpf":
-                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.CPF, campo.Value.ToString()));
+                    case "email":
+                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Email, campo.Value.ToString()));
+                    break;
+                    case "senha":
+                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Senha, campo.Value.ToString()));
+                        break;
+                    case "idtipousuario":
+                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.IdTipoUsuario, campo.Value.ToString()));
                         break;
                     case "telefone":
                         updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Telefone, campo.Value.ToString()));
                         break;
-                    case "email":
-                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Email, campo.Value.ToString()));
+                    case "idendereco":
+                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.IdEndereco, campo.Value.ToString()));
                         break;
-                    case "senha":
-                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Senha, campo.Value.ToString()));
+                    case "documento":
+                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Documento, campo.Value.ToString()));
                         break;
+                    case "status":
+                        updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.Status, campo.Value.ToString()));
+                        break;  
                 }
             }
 
