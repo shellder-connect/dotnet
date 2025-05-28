@@ -3,14 +3,61 @@ using Project.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("Endereco")] 
+[Route("api/Endereco")] 
 public class EnderecoController : Controller
 {
     private readonly IEnderecoService _enderecoService;
+    private readonly ICepService _cepService;
 
-    public EnderecoController(IEnderecoService enderecoService)
+    public EnderecoController(IEnderecoService enderecoService, ICepService cepService)
     {
         _enderecoService = enderecoService;
+        _cepService = cepService;
+    }
+
+    /// <summary>
+    ///     Consulta o endereço completo a partir de um CEP informado.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// ## Buscar endereço via CEP
+    /// 
+    /// Use este endpoint para consultar um endereço completo a partir do CEP fornecido.  
+    /// A resposta será preenchida automaticamente com base na base de dados do ViaCEP.
+    ///
+    /// ### Parâmetro obrigatório:
+    /// - **cep** (string): Código de Endereçamento Postal (somente números)
+    ///
+    /// ### Exemplo de requisição:
+    /// ```http
+    /// GET http://localhost:3001/api/Endereco/consultar-cep/{cep}
+    /// ```
+    ///
+    /// ### Exemplo de resposta:
+    /// ```json
+    /// {
+    ///     "cep": "01001-000",
+    ///     "estado": "SP",
+    ///     "cidade": "São Paulo",
+    ///     "bairro": "Sé",
+    ///     "rua": "Praça da Sé"
+    /// }
+    /// ```
+    ///
+    /// </remarks>
+    /// <param name="cep">CEP que deseja consultar (somente números)</param>
+    /// <response code="200">Endereço encontrado com sucesso</response>
+    /// <response code="404">CEP não encontrado</response>
+    /// <response code="500">Erro interno ao buscar o endereço</response>
+    [HttpGet("consultar-cep/{cep}")]
+    public async Task<IActionResult> ConsultarCep(string cep)
+    {
+        var endereco = await _cepService.ConsultarCepAsync(cep);
+
+        if (endereco == null)
+            return NotFound("CEP não encontrado.");
+
+        return Ok(endereco);
     }
 
     [AllowAnonymous]
@@ -80,9 +127,17 @@ public class EnderecoController : Controller
     /// ### Campos que não devem ser utilizados para criar um novo dia:
     /// - **id** : Id do dia que será gerado automaticamente
     ///
+    /// ### Exemplo de requisição:
+    /// ```http
+    /// POST http://localhost:3001/api/Endereco/CadastrarEndereco
+    /// ```
     /// 
+    /// ```http
+    /// Header: Key = Content-Type e Value = application/json
+    /// ```
+    ///
     /// ### Exemplo de body para requisição:
-    /// 
+    ///
     /// ```json
     ///     {   
     ///         "idUsuario": "67cc95b32811515d372209ce",
@@ -163,6 +218,11 @@ public class EnderecoController : Controller
     /// 
     /// Use este endPoint se seu objetivo é recuperar todos os registros de endereços do banco de dados
     /// 
+    /// ### Exemplo de requisição:
+    /// ```http
+    /// GET http://localhost:3001/api/Endereco/ConsultarTodosEndereco
+    /// ```
+    ///
     /// ### Campos que disponíveis na requisição:
     /// - **id** : Id do banco de dados, que foi gerado automaticamente.
     /// - **idUsuario** : IdUsuario que deseja registrar o endereço
@@ -227,11 +287,14 @@ public class EnderecoController : Controller
     /// ### Campos que devem ser utilizados para consultar um endereço de preferência:
     /// 
     /// - **id**: ID do banco e não o idUsuario
-    /// 
-    ///  ### Exemplo de body para requisição:
+    ///
+    /// ### Exemplo de requisição:
+    /// ```http
+    /// GET http://localhost:3001/api/Endereco/ConsultarEnderecoId/{id}
+    /// ```
     ///  
     /// ```json
-    ///     "id": "67cdee91b304fd2aaac177ca"
+    /// "id de teste": "68379ecf2843b017d24f581c"
     /// ```
     /// 
     /// ### Exemplo de body que receberemos como resposta:
@@ -345,6 +408,10 @@ public class EnderecoController : Controller
     /// Use este endpoint se o objetivo for atualizar todos os campos do endereço no cadastro. Se for parcial, utilize outro endPoint.
     /// 
     /// ### Exemplo de requisição
+    ///
+    /// ```http
+    /// PUT http://localhost:3001/api/Endereco/AtualizarEndereco/{id}
+    /// ```
     /// 
     /// ```json
     ///     {   
@@ -441,6 +508,10 @@ public class EnderecoController : Controller
     /// ### Campos que não podem ser atualizados:
     /// - **IdUsuario**: IdUsuario que foi gerado pelo banco de dados
     /// 
+    /// ```http
+    /// PATCH http://localhost:3001/api/Endereco/AtualizarParcial/{id}
+    /// ```
+    ///
     /// ### Exemplo de requisição:
     /// 
     /// ```json
@@ -481,7 +552,7 @@ public class EnderecoController : Controller
     {
         if (string.IsNullOrEmpty(id) || camposParaAtualizar == null || !camposParaAtualizar.Any())
         {
-            return BadRequest("Id da Clinica e/ou campos para atualização são necessários.");
+            return BadRequest("Id ou campos para atualização são necessários.");
         }
 
         var clinicaAtualizada = await _enderecoService.AtualizarParcial(id, camposParaAtualizar);
@@ -532,6 +603,10 @@ public class EnderecoController : Controller
     /// Use este endoPoint se seu objetivo é excluir um cadastro contendo o endereço de preferência cadastrado errado. 
     /// 
     /// ### Exemplo da requisição para excluir:
+    ///
+    /// ```http
+    /// DELETE http://localhost:3001/api/Endereco/ExcluirEndereco/{id}
+    /// ```
     /// 
     /// ```json
     ///     {

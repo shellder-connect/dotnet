@@ -48,6 +48,42 @@
             <response code="401">Usuário ou senha inválidos</response>
             <response code="500">Erro interno do servidor</response>
         </member>
+        <member name="M:EnderecoController.ConsultarCep(System.String)">
+             <summary>
+                 Consulta o endereço completo a partir de um CEP informado.
+             </summary>
+             
+             <remarks>
+             ## Buscar endereço via CEP
+             
+             Use este endpoint para consultar um endereço completo a partir do CEP fornecido.  
+             A resposta será preenchida automaticamente com base na base de dados do ViaCEP.
+            
+             ### Parâmetro obrigatório:
+             - **cep** (string): Código de Endereçamento Postal (somente números)
+            
+             ### Exemplo de requisição:
+             ```http
+             GET http://localhost:3001/api/Endereco/consultar-cep/{cep}
+             ```
+            
+             ### Exemplo de resposta:
+             ```json
+             {
+                 "cep": "01001-000",
+                 "estado": "SP",
+                 "cidade": "São Paulo",
+                 "bairro": "Sé",
+                 "rua": "Praça da Sé"
+             }
+             ```
+            
+             </remarks>
+             <param name="cep">CEP que deseja consultar (somente números)</param>
+             <response code="200">Endereço encontrado com sucesso</response>
+             <response code="404">CEP não encontrado</response>
+             <response code="500">Erro interno ao buscar o endereço</response>
+        </member>
         <member name="M:EnderecoController.CadastrarEndereco(Project.Models.EnderecoDTO)">
              <summary>
                  Cadastra um novo endereço de preferência para o usuário.
@@ -70,9 +106,17 @@
              ### Campos que não devem ser utilizados para criar um novo dia:
              - **id** : Id do dia que será gerado automaticamente
             
+             ### Exemplo de requisição:
+             ```http
+             POST http://localhost:3001/api/Endereco/CadastrarEndereco
+             ```
              
+             ```http
+             Header: Key = Content-Type e Value = application/json
+             ```
+            
              ### Exemplo de body para requisição:
-             
+            
              ```json
                  {   
                      "idUsuario": "67cc95b32811515d372209ce",
@@ -114,6 +158,11 @@
              
              Use este endPoint se seu objetivo é recuperar todos os registros de endereços do banco de dados
              
+             ### Exemplo de requisição:
+             ```http
+             GET http://localhost:3001/api/Endereco/ConsultarTodosEndereco
+             ```
+            
              ### Campos que disponíveis na requisição:
              - **id** : Id do banco de dados, que foi gerado automaticamente.
              - **idUsuario** : IdUsuario que deseja registrar o endereço
@@ -154,176 +203,191 @@
              <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:EnderecoController.ConsultarEnderecoId(System.String)">
-            <summary>
-                Consultar um único registro de preferência de endereço que o usuário cadastrou.
-            </summary>
-            
-            <remarks>
-            
-            ## Consultar um único endereço de preferência registrado, sendo consultado pelo ID do banco de dados
-            
-            Use este endpoint quando precisar consultar somente um registro com todos campos específicos.
-            
-            ### Campos que devem ser utilizados para consultar um endereço de preferência:
-            
-            - **id**: ID do banco e não o idUsuario
-            
-             ### Exemplo de body para requisição:
+             <summary>
+                 Consultar um único registro de preferência de endereço que o usuário cadastrou.
+             </summary>
              
-            ```json
-                "id": "67cdee91b304fd2aaac177ca"
-            ```
+             <remarks>
+             
+             ## Consultar um único endereço de preferência registrado, sendo consultado pelo ID do banco de dados
+             
+             Use este endpoint quando precisar consultar somente um registro com todos campos específicos.
+             
+             ### Campos que devem ser utilizados para consultar um endereço de preferência:
+             
+             - **id**: ID do banco e não o idUsuario
             
-            ### Exemplo de body que receberemos como resposta:
-            
-            ```json
-               {
-                    "id": "67cdee91b304fd2aaac177ca",
-                    "idUsuario": "67cc95b32811515d372209ce",
-                    "cep": "05728020",
-                    "estado": "São Paulo",
-                    "cidade": "São Paulo",
-                    "bairro": "Teste",
-                    "rua": "Teste"
-                }
-            ```
-            </remarks>
-            
-            <response code="200">Dia consultado com sucesso</response>
-            <response code="400">Dados inválidos fornecidos</response>
-            <response code="500">Erro interno do servidor</response>
+             ### Exemplo de requisição:
+             ```http
+             GET http://localhost:3001/api/Endereco/ConsultarEnderecoId/{id}
+             ```
+              
+             ```json
+             "id de teste": "68379ecf2843b017d24f581c"
+             ```
+             
+             ### Exemplo de body que receberemos como resposta:
+             
+             ```json
+                {
+                     "id": "67cdee91b304fd2aaac177ca",
+                     "idUsuario": "67cc95b32811515d372209ce",
+                     "cep": "05728020",
+                     "estado": "São Paulo",
+                     "cidade": "São Paulo",
+                     "bairro": "Teste",
+                     "rua": "Teste"
+                 }
+             ```
+             </remarks>
+             
+             <response code="200">Dia consultado com sucesso</response>
+             <response code="400">Dados inválidos fornecidos</response>
+             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:EnderecoController.AtualizarEndereco(System.String,Project.Models.EnderecoDTO)">
-            <summary>
-                Atualiza o endereço completo existente do usuário, com base no ID do usuário e ID do banco de dados.
-            </summary>
+             <summary>
+                 Atualiza o endereço completo existente do usuário, com base no ID do usuário e ID do banco de dados.
+             </summary>
+             
+             <remarks>
+             
+             ## Atualizar a preferência de endereço cadastrado pelo usuário
+             
+             Use este endpoint se o objetivo for atualizar todos os campos do endereço no cadastro. Se for parcial, utilize outro endPoint.
+             
+             ### Exemplo de requisição
             
-            <remarks>
-            
-            ## Atualizar a preferência de endereço cadastrado pelo usuário
-            
-            Use este endpoint se o objetivo for atualizar todos os campos do endereço no cadastro. Se for parcial, utilize outro endPoint.
-            
-            ### Exemplo de requisição
-            
-            ```json
-                {   
-                    "id": "67ce4b3d61760e36f862dd59",
-                    "idUsuario": "67cc95b32811515d372209ce",
-                    "cep": "05763290",
-                    "estado": "SP", 
-                    "cidade": "São Paulo",
-                    "Bairro": "Vila Madalena",
-                    "Rua": "Rua do Pão de Queijo"
-                }
-            
-            ``` 
-            
-            ### Se preencher alguns campos e outros não, estes campos serão preenchidos com dados inválidos e default criado pelo sistema.
-            </remarks>
-            
-            
-            <param name="id" type="string" example="67cc95b32811515d372209ce">ID do usuário a ser atualizado o endereço.</param>
-            <param name="enderecoDTO">Dados do endereço a serem atualizados.</param>
-            <response code="200">Endereço atualizado com sucesso</response>
-            <response code="400">Dados inválidos</response>
-            <response code="401">Endereço não autorizado</response>
-            <response code="404">Endereço não encontrado</response>
-            <response code="500">Erro interno do servidor</response>
+             ```http
+             PUT http://localhost:3001/api/Endereco/AtualizarEndereco/{id}
+             ```
+             
+             ```json
+                 {   
+                     "id": "67ce4b3d61760e36f862dd59",
+                     "idUsuario": "67cc95b32811515d372209ce",
+                     "cep": "05763290",
+                     "estado": "SP", 
+                     "cidade": "São Paulo",
+                     "Bairro": "Vila Madalena",
+                     "Rua": "Rua do Pão de Queijo"
+                 }
+             
+             ``` 
+             
+             ### Se preencher alguns campos e outros não, estes campos serão preenchidos com dados inválidos e default criado pelo sistema.
+             </remarks>
+             
+             
+             <param name="id" type="string" example="67cc95b32811515d372209ce">ID do usuário a ser atualizado o endereço.</param>
+             <param name="enderecoDTO">Dados do endereço a serem atualizados.</param>
+             <response code="200">Endereço atualizado com sucesso</response>
+             <response code="400">Dados inválidos</response>
+             <response code="401">Endereço não autorizado</response>
+             <response code="404">Endereço não encontrado</response>
+             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:EnderecoController.AtualizarClinica(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-                Atualiza parcialmente os dados de um endereço existente
-            </summary>
+             <summary>
+                 Atualiza parcialmente os dados de um endereço existente
+             </summary>
+             
+             <param name="id" type="string" example="67ce4b3d61760e36f862dd59">ID da endereço a ser atualizada</param>
+             <param name="camposParaAtualizar">Campos específicos a serem atualizados</param>
+             
+             <remarks>
+             
+             ## Atualização Parcial dos dados
+             
+             Use este endpoint quando precisar atualizar apenas alguns campos específicos de uma tabela,
+             sem a necessidade de enviar todos os dados.
+             
+             ### Campos que podem ser atualizados:
+             - **id**: ID gerado pelo banco de dados
+             - **cep**: CEP do endereço
+             - **Estado**: Estado do endereço
+             - **Cidade**: Cidade do endereço de preferência do usuário
+             - **Bairro**: Bairro do endereço
+             - **Rua**: Endereço completo com número
+             
+             ### Campos que não podem ser atualizados:
+             - **IdUsuario**: IdUsuario que foi gerado pelo banco de dados
+             
+             ```http
+             PATCH http://localhost:3001/api/Endereco/AtualizarParcial/{id}
+             ```
             
-            <param name="id" type="string" example="67ce4b3d61760e36f862dd59">ID da endereço a ser atualizada</param>
-            <param name="camposParaAtualizar">Campos específicos a serem atualizados</param>
-            
-            <remarks>
-            
-            ## Atualização Parcial dos dados
-            
-            Use este endpoint quando precisar atualizar apenas alguns campos específicos de uma tabela,
-            sem a necessidade de enviar todos os dados.
-            
-            ### Campos que podem ser atualizados:
-            - **id**: ID gerado pelo banco de dados
-            - **cep**: CEP do endereço
-            - **Estado**: Estado do endereço
-            - **Cidade**: Cidade do endereço de preferência do usuário
-            - **Bairro**: Bairro do endereço
-            - **Rua**: Endereço completo com número
-            
-            ### Campos que não podem ser atualizados:
-            - **IdUsuario**: IdUsuario que foi gerado pelo banco de dados
-            
-            ### Exemplo de requisição:
-            
-            ```json
-            {
-                "id": "67ce4b3d61760e36f862dd59",
-                "email": "novo.email@clinica.com.br"
-            }
-            ```
-            
-            Somente os campos incluídos no corpo da requisição serão atualizados.
-            
-            ### Exemplo de resposta da requisição:
-            
-            ```json
-            {
-                "id": "67cdee91b304fd2aaac177ca",
-                "idUsuario": "67cc95b32811515d372209ce",
-                "cep": "05763290",
-                "estado": "São Paulo",
-                "cidade": "São Paulo",
-                "bairro": "Teste",
-                "rua": "Teste"
-            }
-            ```
-            </remarks>
-            
-            <response code="200">Clinica atualizada com sucesso</response>
-            <response code="400">Dados inválidos fornecidos</response>
-            <response code="404">Clinica não encontrada</response>
-            <response code="500">Erro interno do servidor</response>
+             ### Exemplo de requisição:
+             
+             ```json
+             {
+                 "id": "67ce4b3d61760e36f862dd59",
+                 "email": "novo.email@clinica.com.br"
+             }
+             ```
+             
+             Somente os campos incluídos no corpo da requisição serão atualizados.
+             
+             ### Exemplo de resposta da requisição:
+             
+             ```json
+             {
+                 "id": "67cdee91b304fd2aaac177ca",
+                 "idUsuario": "67cc95b32811515d372209ce",
+                 "cep": "05763290",
+                 "estado": "São Paulo",
+                 "cidade": "São Paulo",
+                 "bairro": "Teste",
+                 "rua": "Teste"
+             }
+             ```
+             </remarks>
+             
+             <response code="200">Clinica atualizada com sucesso</response>
+             <response code="400">Dados inválidos fornecidos</response>
+             <response code="404">Clinica não encontrada</response>
+             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:EnderecoController.ExcluirEndereco(System.String)">
-            <summary>
-            Exclui um endereço do usuário.
-            </summary>
+             <summary>
+             Exclui um endereço do usuário.
+             </summary>
+             
+             <remarks>
+             
+             ## Excluir um endereço de preferência do usuário cadastrado
+             
+             Use este endoPoint se seu objetivo é excluir um cadastro contendo o endereço de preferência cadastrado errado. 
+             
+             ### Exemplo da requisição para excluir:
             
-            <remarks>
-            
-            ## Excluir um endereço de preferência do usuário cadastrado
-            
-            Use este endoPoint se seu objetivo é excluir um cadastro contendo o endereço de preferência cadastrado errado. 
-            
-            ### Exemplo da requisição para excluir:
-            
-            ```json
-                {
-                    "id": "67cf3f8f8d3a256253f2dab5",
-                }
-            ```
-            
-            ### Exemplo da resposta para excluir uma clínica:
-            
-            ```json
-                {
-                    "message": "Endereço de preferência excluído com sucesso."
-                }
-            ``` 
-            
-            Uma vez excluida da base, não tem reversão desta ação.
-            
-            </remarks>
-            
-            <param name="id" type="string" example="67cdee51b304fd2aaac177c9">ID do endereço a ser excluído.</param>
-            <response code="200">Endereço excluído com sucesso</response>
-            <response code="401">Usuário não autorizado</response>
-            <response code="404">Endereço não encontrado</response>
-            <response code="500">Erro interno do servidor</response>
+             ```http
+             DELETE http://localhost:3001/api/Endereco/ExcluirEndereco/{id}
+             ```
+             
+             ```json
+                 {
+                     "id": "67cf3f8f8d3a256253f2dab5",
+                 }
+             ```
+             
+             ### Exemplo da resposta para excluir uma clínica:
+             
+             ```json
+                 {
+                     "message": "Endereço de preferência excluído com sucesso."
+                 }
+             ``` 
+             
+             Uma vez excluida da base, não tem reversão desta ação.
+             
+             </remarks>
+             
+             <param name="id" type="string" example="67cdee51b304fd2aaac177c9">ID do endereço a ser excluído.</param>
+             <response code="200">Endereço excluído com sucesso</response>
+             <response code="401">Usuário não autorizado</response>
+             <response code="404">Endereço não encontrado</response>
+             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:FeedbackController.CadastrarFeedback(Project.Models.Feedback)">
             <summary>
@@ -831,7 +895,7 @@
              ### Exemplo de requisição:
              ```json
              {
-                 "id": "68378e923f38476b3138e927",
+                 "IdUsuario": "68378e923f38476b3138e927",
                  "telefone": "11999998888"
              }
              ```

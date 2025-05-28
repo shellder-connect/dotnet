@@ -31,8 +31,4 @@ namespace Project.Models;
      
       [ Required(ErrorMessage = "A rua é obrigatória")]
         public string? Rua { get; set; }
-     
-
-    
-
     }

@@ -55,6 +55,9 @@ builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<ILoginService, LoginService>();
 builder.Services.AddTransient<ILoginRepository, LoginRepository>();
 
+// Consultar o CEP
+builder.Services.AddTransient<ICepService, CepService>();
+
 // Endereco
 builder.Services.AddTransient<IEnderecoService, EnderecoService>();
 builder.Services.AddTransient<IEnderecoRepository, EnderecoRepository>();

@@ -482,7 +482,7 @@ public class UsuarioController : Controller
     /// ### Exemplo de requisição:
     /// ```json
     /// {
-    ///     "id": "68378e923f38476b3138e927",
+    ///     "IdUsuario": "68378e923f38476b3138e927",
     ///     "telefone": "11999998888"
     /// }
     /// ```
