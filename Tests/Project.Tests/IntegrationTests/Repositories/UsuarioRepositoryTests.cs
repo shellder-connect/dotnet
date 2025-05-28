@@ -236,7 +236,6 @@ namespace Project.Tests.UnitTests.Repositories
                 Assert.NotNull(resultado);
                 Assert.Equal(usuarioAtualizado.Nome, resultado!.Nome);
                 Assert.Equal(usuarioAtualizado.Email, resultado.Email);
-                Assert.Equal(usuarioAtualizado.Perfil, resultado.Perfil);
 
                 _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
                 _output.WriteLine("*****************************************************\n");

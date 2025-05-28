@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("Usuario")] 
+[Route("api/Usuario")]
 public class UsuarioController : Controller
 {
     private readonly IUsuarioService _usuarioService;
@@ -54,46 +54,62 @@ public class UsuarioController : Controller
     /// 
     /// ## Cadastrar novo usuário no banco de dados
     /// 
-    /// Use este endPoint para cadastrar um usuário. Somente usuários cadastrados podem efetuar o Login na plataforma.
+    /// Use este endpoint para cadastrar um usuário. Somente usuários cadastrados podem efetuar login na plataforma.
     /// 
-    /// ### Campos que devem ser utilizados para criar um novo dia:
-    /// - **nome** string : Nome completo do usuário
-    /// - **cpf** string : CPF oficial do usuário com 11 digitos
-    /// - **telefone** string : Telefone de contato
-    /// - **email** string : Email principal de contato
-    /// - **senha** string : Senha de acesso (teremos hash para proteger a senha)
-    /// - **perfil** string : Todos os usuários cadastrados nesta rota, nasceram com perfil padrão = "Comum"
+    /// Requisição via rota:
+    /// ```http
+    /// POST http://localhost:3001/api/Usuario/CadastrarUsuario
+    /// ```
+    ///
+    /// ```http
+    /// Content-Type: application/json
+    /// ```
+    ///
+    /// ### Campos que devem ser utilizados para criar um novo usuário:
+    /// - **nome** (string): Nome completo do usuário
+    /// - **email** (string): Email principal de contato
+    /// - **senha** (string): Senha de acesso (deve ser armazenada com hash)
+    /// - **idTipoUsuario** (string): Tipo de usuário (Ex: "Comum", "Administrador", etc.)
+    /// - **telefone** (string): Telefone para contato
+    /// - **idEndereco** (string): ID de referência do endereço (relacionamento com outra coleção)
+    /// - **dataNascimento** (string): Data de nascimento no formato ISO (Ex: "1990-05-28")
+    /// - **documento** (string): Documento oficial como CPF ou RG
+    /// - **status** (string): Status da conta (Ex: "Ativo", "Inativo")
     /// 
-    /// ### Campos que não devem ser utilizados para criar um novo dia:
-    /// - **id** : Id do dia que será gerado automaticamente
-    /// - **idUsuario** : IdUsuario será uma cópia do Id e utilizado nas demais tabelas. Será gerado de forma automática.   
-    /// 
+    /// ### Campos que não devem ser enviados:
+    /// - **id**: Gerado automaticamente pelo banco de dados
     /// 
     /// ### Exemplo de body para requisição:
     /// ```json
-    ///     {
-    ///         "nome": "João",
-    ///         "cpf": "12345678910",
-    ///         "sobrenome": "Silva",
-    ///         "email": "joao@exemplo.com",
-    ///         "senha": "senha123",
-    ///         "perfil": "Comum"
-    ///     }
+    /// {
+    ///     "nome": "João da Silva",
+    ///     "email": "joao@exemplo.com",
+    ///     "senha": "senhaSegura123",
+    ///     "idTipoUsuario": "Comum",
+    ///     "telefone": "11999998888",
+    ///     "idEndereco": "6659d12f3fae4c001fcf6d92",
+    ///     "dataNascimento": "1990-05-28",
+    ///     "documento": "12345678910",
+    ///     "status": "Ativo"
+    /// }
     /// ```
     /// 
-    /// ### Exemplo de resposta quando o cadastro for efetuado:
-    /// 
+    /// ### Exemplo de resposta ao cadastrar com sucesso:
     /// ```json
-    ///     {   
-    ///         "id": "67cc95b32811515d37220000", -- gerado pelo banco de dados
-    ///         "nome": "Delfos Machine",
-    ///         "cpf": "12345678910",
-    ///         "telefone": "11975776758",
-    ///         "email": "delfos@delfos.com",
-    ///         "senha": "123456",
-    ///         "perfil": "Comum"
-    ///     }
+    /// {
+    ///     "id": "6659fbbd3fae4c001fcf6d93",
+    ///     "nome": "João da Silva",
+    ///     "email": "joao@exemplo.com",
+    ///     "senha": "senhaHash",
+    ///     "idTipoUsuario": "Comum",
+    ///     "telefone": "11999998888",
+    ///     "idEndereco": "6659d12f3fae4c001fcf6d92",
+    ///     "dataNascimento": "1990-05-28",
+    ///     "documento": "12345678910",
+    ///     "status": "Ativo"
+    /// }
     /// ```
+    /// 
     /// </remarks>
     /// 
     /// <response code="200">Requisição realizada com sucesso</response>
@@ -127,51 +143,72 @@ public class UsuarioController : Controller
         return View(usuarios); 
     }
 
-    // Rota de API
     /// <summary>
-    ///     Consultar a lista com todo os usuários.
+    ///     Consultar a lista com todos os usuários.
     /// </summary>
     /// 
     /// <remarks>
     /// 
     /// ## Consultar todos os registros de usuários do banco de dados
     /// 
-    /// Use este endPoint se seu objetivo é recuperar todos os registros de usuários do banco de dados
+    /// Use este endpoint se o seu objetivo é recuperar todos os registros de usuários armazenados no banco de dados.
     /// 
-    /// ### Campos disponiveis para consultar os usuários:
-    /// - **id** : Id do dia que será gerado automaticamente
-    /// - **nome** string : Nome completo do usuário
-    /// - **cpf** string : CPF oficial do usuário com 11 digitos
-    /// - **telefone** string : Telefone de contato
-    /// - **email** string : Email principal de contato
-    /// - **senha** string : Senha de acesso (teremos hash para proteger a senha)
-    /// - **perfil** string : Todos os usuários cadastrados nesta rota, nasceram com perfil padrão = "Comum"
+    /// ### Exemplo de requisição:
     /// 
-    /// Exemplo de body de resposta, sempre será uma lista com todos os usuários no banco:
-    /// ```json
-    ///     [
-    ///         { 
-    ///             "id": "67cc95b32811515d372209ce",
-    ///             "nome": "claudio",
-    ///             "cpf": "12345678910",
-    ///             "telefone": "11958757740",
-    ///             "email": "claudio_cssp@hotmail.com",
-    ///             "senha": "123456"
-    ///         },
-    ///         {
-    ///             "id": "67cca0540924d08d2c4b7819",
-    ///             "nome": "Caio",
-    ///             "cpf": "12345678910",
-    ///             "telefone": "11958757740",
-    ///             "email": "caio@delfos.com",
-    ///             "senha": "123456"
-    ///         }
-    ///     ]
+    /// Requisição via rota:
+    /// ```http
+    /// GET http://localhost:3001/api/Usuario/ConsultarTodosUsuarios
     /// ```
+    /// ```http
+    /// Content-Type: application/json
+    /// ```
+    ///
+    /// ### Campos disponíveis na resposta:
+    /// - **id** (string): Identificador único do usuário (gerado automaticamente pelo banco)
+    /// - **nome** (string): Nome completo do usuário
+    /// - **email** (string): Email principal de contato
+    /// - **senha** (string): Senha de acesso (deverá estar armazenada com hash)
+    /// - **idTipoUsuario** (string): Tipo de usuário (Ex: "Comum", "Administrador", etc.)
+    /// - **telefone** (string): Telefone de contato
+    /// - **idEndereco** (string): ID de referência ao endereço do usuário
+    /// - **dataNascimento** (string): Data de nascimento no formato ISO (Ex: "1990-05-28")
+    /// - **documento** (string): Documento oficial como CPF ou RG
+    /// - **status** (string): Status da conta do usuário (Ex: "Ativo", "Inativo")
+    /// 
+    /// ### Exemplo de resposta:
+    /// ```json
+    /// [
+    ///     {
+    ///         "id": "6659fbbd3fae4c001fcf6d93",
+    ///         "nome": "João da Silva",
+    ///         "email": "joao@exemplo.com",
+    ///         "senha": "senhaHash",
+    ///         "idTipoUsuario": "Comum",
+    ///         "telefone": "11999998888",
+    ///         "idEndereco": "6659d12f3fae4c001fcf6d92",
+    ///         "dataNascimento": "1990-05-28",
+    ///         "documento": "12345678910",
+    ///         "status": "Ativo"
+    ///     },
+    ///     {
+    ///         "id": "6659fbbd3fae4c001fcf6e00",
+    ///         "nome": "Maria Oliveira",
+    ///         "email": "maria@exemplo.com",
+    ///         "senha": "outraSenhaHash",
+    ///         "idTipoUsuario": "Administrador",
+    ///         "telefone": "11988887777",
+    ///         "idEndereco": "6659d13a3fae4c001fcf6d95",
+    ///         "dataNascimento": "1985-11-12",
+    ///         "documento": "98765432100",
+    ///         "status": "Ativo"
+    ///     }
+    /// ]
+    /// ```
+    /// 
     /// </remarks>
     /// 
-    /// <response code="200">Usuário criado com sucesso</response>
-    /// <response code="400">Dados inválidos fornecidos</response>
+    /// <response code="200">Lista de usuários retornada com sucesso</response>
+    /// <response code="400">Requisição malformada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarTodosUsuarios")]
     [Produces("application/json")]
@@ -181,43 +218,47 @@ public class UsuarioController : Controller
         return Ok(usuarios);
     }
 
-    /// <summary>
-    ///     Consultar um único registro de usuário
+   /// <summary>
+    ///     Consultar um único registro de usuário.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar um único usuário no banco, sendo consultado pelo ID do banco de dados
+    /// ## Consultar um único usuário pelo ID
     /// 
-    /// Use este endpoint quando precisar consultar somente um registro com todos campos específicos.
+    /// Use este endpoint quando precisar recuperar todos os dados de um usuário específico, informando o ID armazenado no banco de dados.
     /// 
-    /// ### Campos que devem ser utilizados para consultar um usuário:
+    /// ### Parâmetro necessário:
+    /// - **id** (string): ID do usuário (gerado automaticamente pelo MongoDB)
     /// 
-    /// - **id**: ID do banco
+    /// ### Exemplo de requisição:
     /// 
-    ///  ### Exemplo de body para requisição:
-    ///  
-    /// ```json
-    ///     "id": "67cc95b32811515d372209ce"
+    /// Requisição via rota:
+    /// ```http
+    /// GET http://localhost:3001/api/Usuario/ConsultarUsuarioId/{id}
     /// ```
     /// 
-    /// ### Exemplo de body que receberemos como resposta:
-    /// 
+    /// ### Exemplo de resposta:
     /// ```json
-    ///    {
-    ///         "id": "67cc95b32811515d372209ce",
-    ///         "nome": "Claudio",
-    ///         "cpf": "12345678910",
-    ///         "telefone": "11958755567",
-    ///         "email": "delfos@delfosmachine.com",
-    ///         "senha": "123456",
-    ///         "perfil": "Comum"
-    ///     }
+    /// {
+    ///     "id": "6659fbbd3fae4c001fcf6d93",
+    ///     "nome": "João da Silva",
+    ///     "email": "joao@exemplo.com",
+    ///     "senha": "senhaHash",
+    ///     "idTipoUsuario": "Comum",
+    ///     "telefone": "11999998888",
+    ///     "idEndereco": "6659d12f3fae4c001fcf6d92",
+    ///     "dataNascimento": "1990-05-28",
+    ///     "documento": "12345678910",
+    ///     "status": "Ativo"
+    /// }
     /// ```
+    /// 
     /// </remarks>
     /// 
     /// <response code="200">Usuário consultado com sucesso</response>
-    /// <response code="400">Dados inválidos fornecidos</response>
+    /// <response code="400">ID inválido fornecido</response>
+    /// <response code="404">Usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarUsuarioId/{id}")]
     [Produces("application/json")]
@@ -306,38 +347,53 @@ public class UsuarioController : Controller
     }
 
     /// <summary>
-    ///     Atualiza os dados completos existente do usuário, com base no ID do banco de dados
+    ///     Atualiza todos os dados do usuário com base no ID.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar todas as informações do usuário no banco
+    /// ## Atualizar todas as informações de um usuário no banco de dados
     /// 
-    /// Use este endpoint se o objetivo for atualizar todos os campos para o usuário no cadastro. Se for parcial, utilize outro endPoint.
+    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um usuário.  
+    /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+    ///
+    /// ### Todos os campos devem ser preenchidos:
+    /// - Campos não enviados serão sobrescritos com valores nulos ou padrão.
     /// 
-    /// ### Exemplo de requisição
+    /// ### Exemplo de requisição:
     /// 
+    /// Requisição via rota:
+    /// ```http
+    /// PUT http://localhost:3001/api/Usuario/AtualizarUsuario/{id}
+    /// ```
+    /// ```http
+    /// Content-Type: application/json
+    /// ```
+    /// ### Exemplo de requisição para atualizar os dados:
+    ///
     /// ```json
-    ///     {   
-    ///         "id": "67ce4b3d61760e36f862dd59",
-    ///         "nome": "Patricia Delfos",
-    ///         "cpf": "12345678910",
-    ///         "telefone": "1155122066",
-    ///         "email": "patricia@delfos.com", 
-    ///         "senha": "123456",
-    ///         "perfil": "Comum"
-    ///     }
-    /// ``` 
+    /// {
+    ///     "id": "6659fbbd3fae4c001fcf6d93",
+    ///     "nome": "Patricia Delfos",
+    ///     "email": "patricia@delfos.com",
+    ///     "senha": "novaSenha123",
+    ///     "idTipoUsuario": "Comum",
+    ///     "telefone": "1155122066",
+    ///     "idEndereco": "6659d12f3fae4c001fcf6d92",
+    ///     "dataNascimento": "1988-03-20",
+    ///     "documento": "12345678910",
+    ///     "status": "Ativo"
+    /// }
+    /// ```
     /// 
-    /// ### Se preencher alguns campos e outros não, estes campos serão preenchidos com dados inválidos e default criado pelo sistema.
     /// </remarks>
     /// 
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do usuário no banco de dados.</param>
+    /// <param name="usuario">Objeto contendo os dados completos a serem atualizados.</param>
     /// 
-    /// <param name="id" type="string" example="67cc95b32811515d372209ce">ID do usuário no banco de dados.</param>
-    /// <param name="usuario">Dados do usuário a serem atualizados.</param>
     /// <response code="200">Usuário atualizado com sucesso</response>
-    /// <response code="400">Dados inválidos</response>
-    /// <response code="401">Usuário não autorizado</response>
+    /// <response code="400">Dados inválidos fornecidos</response>
+    /// <response code="401">Não autorizado</response>
     /// <response code="404">Usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPut("AtualizarUsuario/{id}")]
@@ -372,7 +428,6 @@ public class UsuarioController : Controller
         return Ok(usuarioExistente); 
     }
 
-
     [HttpGet("ConfirmarExcluir/{id}")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> ConfirmarExcluir(string id)
@@ -388,59 +443,71 @@ public class UsuarioController : Controller
     }
 
     /// <summary>
-    ///     Atualiza parcialmente os dados de uma usuário existente
+    ///     Atualiza parcialmente os dados de um usuário existente.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="67cc95b32811515d372209ce">ID do usuário a ser atualizada</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do usuário a ser atualizado.</param>
+    /// <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
     /// 
     /// <remarks>
     /// 
     /// ## Atualização Parcial de um Usuário
     /// 
-    /// Use este endpoint quando precisar atualizar apenas alguns campos específicos de um usuário,
-    /// sem a necessidade de enviar todos os dados.
-    /// 
-    /// ### Campos que podem ser atualizados:
-    /// - **nome**: Nome do usuário
-    /// - **cpf** string : CPF oficial do usuário com 11 digitos
-    /// - **telefone**: Número de telefone para contato
-    /// - **email**: Endereço de email para contato
-    /// - **senha**: Senha de acesso (será criptografada)
-    /// 
-    /// ### Campos que não podem ser atualizados:
-    /// - **Perfil**: Perfil = Comum pois a rota utilizada foi a de clientes e não de parceiros
-    /// 
+    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do usuário,
+    /// sem a necessidade de enviar todas as informações já cadastradas.
+    /// Somente os campos incluídos no corpo da requisição serão modificados.
+    ///
     /// ### Exemplo de requisição:
     /// 
+    /// Requisição via rota:
+    /// ```http
+    /// PATCH http://localhost:3001/api/Usuario/AtualizarParcial/{id}
+    /// ```
+    /// ```http
+    /// Content-Type: application/json
+    /// ```
+    /// ### Campos que podem ser atualizados:
+    /// - **nome** (string): Nome do usuário
+    /// - **email** (string): Email de contato
+    /// - **senha** (string): Nova senha (deve ser criptografada)
+    /// - **telefone** (string): Número de telefone
+    /// - **idEndereco** (string): ID de endereço
+    /// - **dataNascimento** (string): Data de nascimento no formato ISO
+    /// - **documento** (string): Documento como CPF/RG
+    /// - **status** (string): Status da conta (ex: "Ativo", "Inativo")
+    ///
+    /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
+    /// - **idTipoUsuario**: O tipo de usuário é definido no momento do cadastro e não pode ser alterado aqui.
+    ///
+    /// ### Exemplo de requisição:
     /// ```json
     /// {
-    ///     "id": "67cc95b32811515d372209ce",
-    ///     "email": "novo.email@delfo.com.br"
+    ///     "id": "68378e923f38476b3138e927",
+    ///     "telefone": "11999998888"
     /// }
     /// ```
     /// 
-    /// Somente os campos incluídos no corpo da requisição serão atualizados.
-    /// 
-    /// ### Exemplo de resposta da requisição:
-    /// 
+    /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "id": "67ce4b3d61760e36f862dd59",
-    ///     "nome": "Delfos",
-    ///     "cpf": "12345678910",
-    ///     "telefone": "string",
-    ///     "email": "delfos@delfos.com", -- Validação pode ser feita pelo campo informado!
-    ///     "senha": "string",
-    ///     "perfil": "Comum"
+    ///     "id": "68378e923f38476b3138e927",
+    ///     "nome": "João da Silva",
+    ///     "email": "novo.email@delfos.com.br",
+    ///     "senha": "senhaHash",
+    ///     "idTipoUsuario": "Comum",
+    ///     "telefone": "11999998888",
+    ///     "idEndereco": "6659d12f3fae4c001fcf6d92",
+    ///     "dataNascimento": "1990-05-28",
+    ///     "documento": "12345678910",
+    ///     "status": "Ativo"
     /// }
     /// ```
+    /// 
     /// </remarks>
     /// 
-    /// <param name="camposParaAtualizar"></param>
-    /// 
-    /// <response code="200">Usuário atualizada com sucesso</response>
+    /// <response code="200">Usuário atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="404">Usuário não encontrada</response>
+    /// <response code="404">Usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPatch("AtualizarParcial/{id}")]
     [Produces("application/json")]
@@ -464,7 +531,6 @@ public class UsuarioController : Controller
 
         return Ok(usuarioAtualizado);
     }
-
 
     [HttpPost("Excluir")]
     [ValidateAntiForgeryToken]
@@ -499,36 +565,35 @@ public class UsuarioController : Controller
     }
 
     /// <summary>
-    ///     Excluir os Usuário do banco de dados.
+    ///     Exclui um usuário do banco de dados.
     /// </summary>
-    ///
-    /// <param name="id" type="string" example="67cc95b32811515d372209ce">ID do Usuário a ser excluído</param>
+    /// 
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do usuário a ser excluído.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um Usuário do banco de dados e dos cadastros.
+    /// ## Excluir um usuário do banco de dados
     /// 
-    /// ### Exemplo da requisição para excluir um Usuário:
+    /// Use este endpoint para remover permanentemente um usuário da base de dados.
+    /// ⚠️ **A exclusão é irreversível.**
     /// 
-    /// ```json
-    ///     {
-    ///         "id": "67cc95b32811515d372209ce",
-    ///     }
+    /// ### Exemplo de requisição:
+    /// ```http
+    /// DELETE http://localhost:3001/api/Usuario/ExcluirUsuario/{id}
     /// ```
     /// 
-    /// ### Exemplo da resposta para excluir um Usuário:
-    /// 
+    /// ### Exemplo de resposta:
     /// ```json
-    ///     {
-    ///         "message": "Usuário excluído com sucesso."
-    ///     }
-    /// ``` 
+    /// {
+    ///     "message": "Usuário excluído com sucesso."
+    /// }
+    /// ```
     /// 
-    /// Uma vez excluida da base, não tem reversão desta ação.
     /// </remarks>
     /// 
-    /// <response code="200">Usuário criado com sucesso</response>
-    /// <response code="400">Dados inválidos fornecidos</response>
+    /// <response code="200">Usuário excluído com sucesso</response>
+    /// <response code="400">ID inválido fornecido</response>
+    /// <response code="404">Usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpDelete("ExcluirUsuario/{id}")]
     [Produces("application/json")]
@@ -545,5 +610,4 @@ public class UsuarioController : Controller
 
         return Ok(new { message = "Usuário excluído com sucesso." });  
     }
-
 }

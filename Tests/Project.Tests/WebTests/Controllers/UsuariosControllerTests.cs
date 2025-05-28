@@ -164,8 +164,8 @@ namespace Project.Tests.IntegrationTests.Controllers
                 // Arrange
                 var usuarios = new List<Usuario>
                 {
-                    new Usuario { Nome = "João", CPF = "12345678910", Telefone = "11975776758", Email = "joao@exemplo.com",     Senha = "senha123", Perfil = "Comum" },
-                    new Usuario { Nome = "Maria", CPF = "10987654321", Telefone = "11975776759", Email = "maria@exemplo.com", Senha = "senha456", Perfil = "Comum" }
+                    new Usuario { Nome = "João", Documento = "12345678910", Telefone = "11975776758", Email = "joao@exemplo.com",     Senha = "senha123"},
+                    new Usuario { Nome = "Maria", Documento = "10987654321", Telefone = "11975776759", Email = "maria@exemplo.com", Senha = "senha456" }
                 };
 
                 _mockUsuarioService.Setup(service => service.ConsultarTodos()).ReturnsAsync(usuarios);
@@ -263,27 +263,25 @@ namespace Project.Tests.IntegrationTests.Controllers
                 { 
                     Id = usuarioId,
                     Nome = "Claudio Silva Bispo", 
-                    CPF = "408.307.498-10", 
+                    Documento = "408.307.498-10", 
                     Telefone = "11958757740", 
                     Email = "claudio_cssp@hotmail.com", 
                     Senha = "654321", 
-                    Perfil = "Comum" 
                 });
 
                 var usuarioAtualizado = new Usuario 
                 { 
                     Id = usuarioId,
                     Nome = "João Atualizado", 
-                    CPF = "12345678910", 
+                    Documento = "12345678910", 
                     Telefone = "11975776758", 
                     Email = "joao_atualizado@exemplo.com", 
                     Senha = "nova_senha", 
-                    Perfil = "Admin" 
                 };
 
                 // Exibindo os dados do usuário encontrado
                 var usuarioExistente = await _mockUsuarioService.Object.ConsultarId(usuarioId);
-                _output.WriteLine($"🔌 Usuário encontrado: Id={usuarioExistente.Id}, Nome={usuarioExistente.Nome}, CPF={usuarioExistente.CPF}, Telefone={usuarioExistente.Telefone}, Email={usuarioExistente.Email}, Senha={usuarioExistente.Senha}, Perfil={usuarioExistente.Perfil}\n");
+                _output.WriteLine($"🔌 Usuário encontrado: Id={usuarioExistente.Id}, Nome={usuarioExistente.Nome}, Documento={usuarioExistente.Documento}, Telefone={usuarioExistente.Telefone}, Email={usuarioExistente.Email}, Senha={usuarioExistente.Senha},\n");
 
                 _mockUsuarioService.Setup(service => service.Atualizar(usuarioAtualizado)).ReturnsAsync(usuarioAtualizado);
 
@@ -298,7 +296,7 @@ namespace Project.Tests.IntegrationTests.Controllers
                 Assert.Equal(200, okResult.StatusCode);
                 Assert.Equal(usuarioAtualizado, okResult.Value);
 
-                _output.WriteLine($"🎯 Usuário atualizado: Nome={usuarioAtualizado.Nome}, CPF={usuarioAtualizado.CPF}, Telefone={usuarioAtualizado.Telefone}, Email={usuarioAtualizado.Email}, Senha={usuarioAtualizado.Senha}, Perfil={usuarioAtualizado.Perfil}\n");
+                _output.WriteLine($"🎯 Usuário atualizado: Nome={usuarioAtualizado.Nome}, Documento={usuarioAtualizado.Documento}, Telefone={usuarioAtualizado.Telefone}, Email={usuarioAtualizado.Email}, Senha={usuarioAtualizado.Senha}, \n");
                 _output.WriteLine($"📋 Código de status retornado: {okResult.StatusCode}\n");
                 _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
                 _output.WriteLine("*****************************************************\n");

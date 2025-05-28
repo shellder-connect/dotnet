@@ -30,9 +30,13 @@ public class DadosCadastraisService : IDadosCadastraisService
                 Id = usuario.Id,
                 Nome = usuario.Nome,
                 Email = usuario.Email,
-                Telefone = usuario.Telefone,
                 Senha = usuario.Senha,
-                Perfil = usuario.Perfil
+                IdTipoUsuario = usuario.IdTipoUsuario,
+                Telefone = usuario.Telefone,
+                IdEndereco = usuario.IdEndereco,
+                DataNascimento = usuario.DataNascimento,
+                Documento = usuario.Documento,
+                Status = usuario.Status,
             },
             Endereco = endereco != null && endereco.Rua != null && endereco.CEP != null && endereco.Cidade != null && endereco.Estado != null && endereco.Bairro != null
                 ? new EnderecoDTO
@@ -41,9 +45,7 @@ public class DadosCadastraisService : IDadosCadastraisService
                     Estado = endereco.Estado,
                     Cidade = endereco.Cidade,
                     Bairro = endereco.Bairro,
-                    Rua = endereco.Rua
-                    
-                    
+                    Rua = endereco.Rua  
                 }
                 : new EnderecoDTO(),
         };

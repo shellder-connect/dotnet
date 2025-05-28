@@ -11525,11 +11525,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\labsfiap\\Documents\\final-project-advanced-dotnet-api\\Project.csproj",
+      "projectUniqueName": "C:\\Users\\labsfiap\\Documents\\dotnet\\Project.csproj",
       "projectName": "Project",
-      "projectPath": "C:\\Users\\labsfiap\\Documents\\final-project-advanced-dotnet-api\\Project.csproj",
+      "projectPath": "C:\\Users\\labsfiap\\Documents\\dotnet\\Project.csproj",
       "packagesPath": "C:\\Softwares\\Nuget",
-      "outputPath": "C:\\Users\\labsfiap\\Documents\\final-project-advanced-dotnet-api\\obj\\",
+      "outputPath": "C:\\Users\\labsfiap\\Documents\\dotnet\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

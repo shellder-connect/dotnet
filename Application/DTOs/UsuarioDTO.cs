@@ -37,7 +37,7 @@ public class UsuarioDTO
     public string? IdEndereco { get; set; }
 
     [Required(ErrorMessage = "A data de nascimento é obrigatória")]
-    public DateTime DataNascimento { get; set; }
+    public string? DataNascimento { get; set; }
 
     [Required(ErrorMessage = "O documento é obrigatório")]
     [StringLength(20, ErrorMessage = "O documento deve ter no máximo 20 caracteres")]

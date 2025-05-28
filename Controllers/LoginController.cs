@@ -59,18 +59,15 @@ namespace Project.Controllers
             HttpContext.Session.SetString("UsuarioId", usuario.Id?.ToString() ?? string.Empty);
             HttpContext.Session.SetString("UsuarioNome", usuario.Nome ?? string.Empty);
             HttpContext.Session.SetString("UsuarioEmail", usuario.Email ?? string.Empty);
-            HttpContext.Session.SetString("Perfil", usuario.Perfil);
 
             // Passando os dados para a View através do ViewData
             ViewData["UsuarioId"] = usuario.Id;
             ViewData["UsuarioNome"] = usuario.Nome;
             ViewData["UsuarioEmail"] = usuario.Email;
-            ViewData["UsuarioPerfil"] = usuario.Perfil;
 
             Console.WriteLine($"Nome do Usuário: {usuario.Nome}");
             Console.WriteLine($"Email do Usuário: {usuario.Email}");
             Console.WriteLine($"ID do Usuário: {usuario.Id}");
-            Console.WriteLine($"Perfil: {usuario.Perfil}");
 
             return RedirectToAction("Inicio", "Home");
         }
@@ -141,8 +138,6 @@ namespace Project.Controllers
             }
 
             return Ok(new { message = "Login válido" });
-        }
-
-        
+        }  
     }
 }

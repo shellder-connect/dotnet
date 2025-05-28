@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F1iHbAT6VPM=",
+  "dgSpecHash": "evTPmZJRwEc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\labsfiap\\Documents\\final-project-advanced-dotnet-api\\Project.csproj",
+  "projectFilePath": "C:\\Users\\labsfiap\\Documents\\dotnet\\Project.csproj",
   "expectedPackageFiles": [
     "C:\\Softwares\\Nuget\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Softwares\\Nuget\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",

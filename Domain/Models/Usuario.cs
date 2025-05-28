@@ -16,7 +16,7 @@ namespace Project.Models;
         public string? IdTipoUsuario { get; set; }
         public string? Telefone { get; set; }
         public string? IdEndereco { get; set; }
-        public DateTime DataNascimento { get; set; }
+        public string? DataNascimento { get; set; }
         public string? Documento { get; set; }
         public string? Status { get; set; }
     }
