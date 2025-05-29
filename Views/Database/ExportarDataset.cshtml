@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Exportar Dataset";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h2>Exportar Dados do MongoDB</h2>
+    <form method="POST">
+        @Html.AntiForgeryToken()
+        
+        <label for="collection_exportar">Coleção:</label>
+        <select name="collection_exportar" id="collection_exportar" required>
+            <option value="t_usuario">Usuários</option>
+            <option value="t_tipo_usuario">Tipo de usuário</option>
+            <option value="t_endereco">Endereço</option>
+            <option value="t_feedback">Feedback</option>
+            <option value="t_categoria">Categoria</option>
+        </select><br><br>
+        
+        <button type="submit">Exportar para JSON</button>
+    </form>
+    
+    @if (ViewBag.Message != null)
+    {
+        <p><strong>@ViewBag.Message</strong></p>
+    }
+    
+    <br><a href="@Url.Action("Index", "Database")">Voltar ao Início</a>
+</body>
+</html>

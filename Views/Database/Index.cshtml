@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Menu Principal";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Gerenciador de Dados</h1>
+    <ul>
+        <li><a href="@Url.Action("Importar", "Database")">Importar JSON</a></li>
+        <li><a href="@Url.Action("Consultar", "Database")">Consultar Coleção</a></li>
+        <li><a href="@Url.Action("Excluir", "Database")">Excluir Documento</a></li>
+        <li><a href="@Url.Action("Editar", "Database")">Editar Documento</a></li>
+        <li><a href="@Url.Action("ExportarDataset", "Database")">Exportar Dataset</a></li>
+    </ul>
+</body>
+</html>

@@ -39,6 +39,7 @@ builder.Services.Configure<ConfigMongoDb>(options =>
     options.EnderecoCollectionName = builder.Configuration["ConfigMongoDb:EnderecoCollectionName"] ?? throw new Exception("EnderecoCollectionName is not configured in ConfigMongoDb.");
     options.FeedbackCollectionName = builder.Configuration["ConfigMongoDb:FeedbackCollectionName"] ?? throw new Exception("FeedbackCollectionName is not configured in ConfigMongoDb.");
     options.TipoUsuarioCollectionName = builder.Configuration["ConfigMongoDb:TipoUsuarioCollectionName"] ?? throw new Exception("TipoUsuarioCollectionName is not configured in ConfigMongoDb.");
+    options.CategoriaCollectionName = builder.Configuration["ConfigMongoDb:CategoriaCollectionName"] ?? throw new Exception("CategoriaCollectionName is not configured in ConfigMongoDb.");
 });
 
 builder.Services.AddTransient<IMongoClient>(_ =>
@@ -75,8 +76,16 @@ builder.Services.AddTransient<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddTransient<IDadosCadastraisService, DadosCadastraisService>();
 builder.Services.AddTransient<IDadosCadastraisRepository, DadosCadastraisRepository>();
 
+// Categoria
+builder.Services.AddTransient<ICategoriaService, CategoriaService>();
+builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+
 // Análise de sentimento
 builder.Services.AddTransient<ISentimentAnalysisService, SentimentAnalysisService>();
+
+// Para materia Database
+builder.Services.AddHttpClient<IDatabaseService, DatabaseService>();
+builder.Services.AddTransient<IDatabaseService, DatabaseService>();
 
 // Configurar autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

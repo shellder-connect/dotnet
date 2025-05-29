@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Importar JSON";
+    var selectedCollection = TempData["SelectedCollection"]?.ToString() ?? "";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                @Html.AntiForgeryToken()
+                
+                <div class="mb-3">
+                    <label for="collection" class="form-label">Coleção:</label>
+                    <select class="form-select" name="collection" id="collection" required>
+                        <option value="" selected disabled>Selecione uma coleção...</option>
+                        <option value="t_usuario" selected="@(selectedCollection == "t_usuario")">Usuários</option>
+                        <option value="t_tipo_usuario" selected="@(selectedCollection == "t_tipo_usuario")">Tipo de usuário</option>
+                        <option value="t_endereco" selected="@(selectedCollection == "t_endereco")">Endereço</option>
+                        <option value="t_feedback" selected="@(selectedCollection == "t_feedback")">Feedback</option>
+                        <option value="t_categoria" selected="@(selectedCollection == "t_categoria")">Categoria</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Por favor, selecione uma coleção.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="json_file" class="form-label">Arquivo JSON:</label>
+                    <input class="form-control" type="file" name="json_file" id="json_file" accept=".json" required>
+                    <div class="invalid-feedback">
+                        Por favor, selecione um arquivo JSON válido.
+                    </div>
+                    <small class="form-text text-muted">Apenas arquivos com extensão .json são permitidos.</small>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <button type="submit" class="btn btn-primary me-md-2">
+                        <i class="fas fa-upload"></i> Importar
+                    </button>
+                    <a href="@Url.Action("Index", "Database")" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Voltar ao Início
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    @if (TempData["Message"] != null)
+{
+    <div class="alert alert-@(TempData["MessageType"] ?? "info") mt-3">
+        @TempData["Message"]
+    </div>
+}
+</div>
+
+@section Scripts {
+    <script>
+        // Validação do formulário no lado do cliente
+        (function () {
+            'use strict'
+            
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+            
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}

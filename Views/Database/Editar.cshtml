@@ -1,0 +1,65 @@
+@model Dictionary<string, object>
+
+@{
+    ViewData["Title"] = "Editar Documento";
+    var collection = ViewBag.Collection as string;
+    var id = ViewBag.Id as string;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h2>Editar Documento</h2>
+    <form method="POST">
+        @Html.AntiForgeryToken()
+        
+        <label for="collection">Coleção:</label>
+        <select name="collection" id="collection" required>
+            <option value="t_usuario" selected="@(collection == "t_cliente" ? "selected" : null)">Cliente</option>
+            <option value="t_tipo_usuario" selected="@(collection == "t_clinica" ? "selected" : null)">Clínica</option>
+            <option value="t_consulta" selected="@(collection == "t_consulta" ? "selected" : null)">Consulta</option>
+            <option value="t_dentista" selected="@(collection == "t_dentista" ? "selected" : null)">Dentista</option>
+            <option value="t_feedback" selected="@(collection == "t_feedback" ? "selected" : null)">Feedback</option>
+            <option value="t_sinistro" selected="@(collection == "t_sinistro" ? "selected" : null)">Sinistro</option>
+            <option value="t_notificacao" selected="@(collection == "t_notificacao" ? "selected" : null)">Notificação</option>
+        </select><br><br>
+        
+        <label for="id">ID do Documento:</label>
+        <input type="text" name="id" id="id" value="@id" required>
+        <button type="submit" name="buscar" value="buscar">Buscar</button>
+    </form>
+    
+    @if (Model != null)
+    {
+        <hr>
+        <h3>Editando Documento</h3>
+        <form method="POST">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="collection" value="@collection">
+            <input type="hidden" name="id" value="@id">
+            
+            @foreach (var item in Model)
+            {
+                if (item.Key != "_id")
+                {
+                    <label>@item.Key:</label><br>
+                    <input type="text" name="@item.Key" value="@item.Value"><br><br>
+                }
+            }
+            
+            <button type="submit" name="salvar" value="salvar">Salvar Alterações</button>
+        </form>
+    }
+    
+    @if (ViewBag.Message != null)
+    {
+        <p><strong>@ViewBag.Message</strong></p>
+    }
+    
+    <br><a href="@Url.Action("Index", "Home")">Voltar ao Início</a>
+</body>
+</html>

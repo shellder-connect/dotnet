@@ -1,0 +1,41 @@
+@model IEnumerable<string>
+
+@{
+    ViewData["Title"] = "Consultar Coleção";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h2>Consultar Documentos</h2>
+    <form method="POST">
+        @Html.AntiForgeryToken()
+        
+        <label for="collection_select">Selecione a coleção:</label>
+        <select name="collection_select" id="collection_select" required>
+            <option value="t_usuario">Usuário</option>
+            <option value="t_tipo_usuario">Tipo de usuário</option>
+        </select>
+        <button type="submit">Consultar</button>
+    </form>
+    
+    @if (Model != null && Model.Any())
+    {
+        <h3>Documentos Encontrados:</h3>
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <pre>@item</pre>
+                </li>
+            }
+        </ul>
+    }
+    
+    <a href="@Url.Action("Index", "Database")">Voltar ao Início</a>
+</body>
+</html>

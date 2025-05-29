@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Excluir Documento";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h2>Excluir Documento</h2>
+    <form method="POST">
+        @Html.AntiForgeryToken()
+        
+        <label for="collection_excluir">Coleção:</label>
+        <select name="collection_excluir" id="collection_excluir" required>
+            <option value="t_cliente">Cliente</option>
+            <option value="t_clinica">Clínica</option>
+            <option value="t_consulta">Consulta</option>
+            <option value="t_dentista">Dentista</option>
+            <option value="t_feedback">Feedback</option>
+            <option value="t_sinistro">Sinistro</option>
+            <option value="t_notificacao">Notificação</option>
+        </select><br><br>
+        
+        <label for="id_excluir">ID do Documento:</label>
+        <input type="text" name="id_excluir" id="id_excluir" placeholder="Ex: 661e4bd43d7c2dd46df5f3e2" required><br><br>
+        
+        <button type="submit">Excluir</button>
+    </form>
+    
+    @if (ViewBag.Message != null)
+    {
+        <p>@ViewBag.Message</p>
+    }
+    
+    <a href="@Url.Action("Index", "Database")">Voltar ao Início</a>
+</body>
+</html>
