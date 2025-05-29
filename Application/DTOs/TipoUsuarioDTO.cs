@@ -12,6 +12,6 @@ public class TipoUsuarioDTO
 
     [Required(ErrorMessage = "A descrição do tipo de usuário é obrigatória.")]
     [StringLength(50, ErrorMessage = "A descrição não pode ter mais de 50 caracteres.")]
-    public string Descricao { get; set; }
+    public string? Descricao { get; set; }
 
 }

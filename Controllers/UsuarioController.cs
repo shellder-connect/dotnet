@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/Usuario")]
+[Route("Usuario")]
 public class UsuarioController : Controller
 {
     private readonly IUsuarioService _usuarioService;
@@ -14,8 +14,6 @@ public class UsuarioController : Controller
         _usuarioService = usuarioService;
     }
 
-    // usar essaa tag para permitir que todos possam fazer cadastrado, mas quem não estiver logado, não vai conseguir acessar nada.
-    [AllowAnonymous]
     [HttpGet("Criar")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Criar()
@@ -37,14 +35,6 @@ public class UsuarioController : Controller
         }
         return View(usuario);
     }
-
-    [HttpGet("Mensagem")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Mensagem()
-    {
-        return View();
-    }
-
 
     /// <summary>
     ///     Cria um novo usuário.

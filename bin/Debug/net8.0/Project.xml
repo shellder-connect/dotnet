@@ -785,7 +785,7 @@
             <response code="404">Tipo de usuário não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
-        <member name="M:TipoUsuarioController.Atualizar(Project.Models.TipoUsuario)">
+        <member name="M:TipoUsuarioController.AtualizarTipoUsuario(System.String,Project.Models.TipoUsuario)">
             <summary>
                 Atualiza todos os dados do tipo de usuário com base no ID.
             </summary>
@@ -830,7 +830,7 @@
             <response code="404">Tipo de usuário não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
-        <member name="M:TipoUsuarioController.AtualizarTipoUsuario(System.String,Project.Models.TipoUsuario)">
+        <member name="M:TipoUsuarioController.AtualizarParcial(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
                 Atualiza parcialmente os dados de um tipo de usuário existente.
             </summary>

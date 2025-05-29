@@ -1,6 +1,5 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System.ComponentModel.DataAnnotations;
 
 namespace Project.Models
 {
@@ -10,6 +9,6 @@ namespace Project.Models
         [BsonRepresentation(BsonType.ObjectId)] 
         public string? Id { get; set; }
 
-        public string Descricao { get; set; } 
+        public string? Descricao { get; set; } 
     }
 }

@@ -12,7 +12,11 @@ A solução contempla os seguintes pontos principais:
 
 🧪 Testes automatizados com xUnit
 
-📊 Banco de dados relacional com Entity Framework Core
+📊 Banco de dados relacional com Entity Framework Core - Uso do MongoDb em LocalHost
+
+```bash
+    MONGODB_CONNECTION_STRING=mongodb://localhost:27017
+```bash
 
 🛠️ Boas práticas de Clean Code e organização do código
 

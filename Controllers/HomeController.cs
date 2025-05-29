@@ -17,22 +17,10 @@ public class HomeController : Controller
     public IActionResult Inicio()
     {
 
-        if (User.Identity != null && User.Identity.IsAuthenticated)
-        {
-
-            return RedirectToAction("Hero");
-        }
-
         return View();
     }
     
-    [Authorize]
-    public IActionResult Hero()
-    { 
-        return View();
-    }
    
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

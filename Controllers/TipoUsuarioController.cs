@@ -221,35 +221,29 @@ public class TipoUsuarioController : Controller
     /// <response code="401">Não autorizado</response>
     /// <response code="404">Tipo de usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpPost("Atualizar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Atualizar(TipoUsuario tipoUsuario)
+    [HttpPut("AtualizarTipoUsuario/{id}")]
+    [Produces("application/json")]
+    public async Task<IActionResult> AtualizarTipoUsuario(string id, [FromBody] TipoUsuario tipoUsuario)
     {
-        if (!ModelState.IsValid)
+        if (string.IsNullOrEmpty(id) || tipoUsuario == null || id != tipoUsuario.Id)
         {
-            return View(tipoUsuario);
+            return BadRequest("Id não corresponde ao fornecido.");
         }
 
-        var tipoUsuarioIdString = User.Claims.FirstOrDefault(c => c.Type == "IdTipoUsuario")?.Value;
-
-        if (string.IsNullOrEmpty(tipoUsuarioIdString))
-        {
-            return RedirectToAction("Error");
-        }
-
-        var tipoUsuarioExistente = await _tipoUsuarioService.ConsultarId(tipoUsuarioIdString);
+        var tipoUsuarioExistente = await _tipoUsuarioService.ConsultarId(id);
 
         if (tipoUsuarioExistente == null)
         {
             return NotFound();
         }
 
+
         tipoUsuarioExistente.Descricao = tipoUsuario.Descricao;
+      
 
         await _tipoUsuarioService.Atualizar(tipoUsuarioExistente);
 
-        TempData["SuccessMessage"] = "Tipo de usuário atualizado com sucesso!";
-        return View(tipoUsuarioExistente);
+        return Ok(tipoUsuarioExistente); 
     }
 
     /// <summary>
