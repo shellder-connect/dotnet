@@ -18,5 +18,6 @@ namespace Project.Infrastructure
         public IMongoCollection<Login> Login => _database.GetCollection<Login>("t_login");
         public IMongoCollection<Endereco> Endereco => _database.GetCollection<Endereco>("t_endereco");
         public IMongoCollection<Feedback> Feedback => _database.GetCollection<Feedback>("t_feedback");
+        public IMongoCollection<TipoUsuario> TipoUsuario => _database.GetCollection<TipoUsuario>("t_tipo_usuario");
     }
 }

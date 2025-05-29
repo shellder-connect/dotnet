@@ -38,6 +38,7 @@ builder.Services.Configure<ConfigMongoDb>(options =>
     options.LoginCollectionName = builder.Configuration["ConfigMongoDb:LoginCollectionName"] ?? throw new Exception("LoginCollectionName is not configured in ConfigMongoDb.");
     options.EnderecoCollectionName = builder.Configuration["ConfigMongoDb:EnderecoCollectionName"] ?? throw new Exception("EnderecoCollectionName is not configured in ConfigMongoDb.");
     options.FeedbackCollectionName = builder.Configuration["ConfigMongoDb:FeedbackCollectionName"] ?? throw new Exception("FeedbackCollectionName is not configured in ConfigMongoDb.");
+    options.TipoUsuarioCollectionName = builder.Configuration["ConfigMongoDb:TipoUsuarioCollectionName"] ?? throw new Exception("TipoUsuarioCollectionName is not configured in ConfigMongoDb.");
 });
 
 builder.Services.AddTransient<IMongoClient>(_ =>
@@ -50,6 +51,10 @@ builder.Services.AddTransient<IMongoClient>(_ =>
 //Usuario -- Cadastro
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+
+//Tipo de Usuario
+builder.Services.AddTransient<ITipoUsuarioService, TipoUsuarioService>();
+builder.Services.AddTransient<ITipoUsuarioRepository, TipoUsuarioRepository>();
 
 // Login
 builder.Services.AddTransient<ILoginService, LoginService>();

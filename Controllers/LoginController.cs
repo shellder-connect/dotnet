@@ -101,10 +101,20 @@ namespace Project.Controllers
         /// - **senha** string : Senha do usuário
         /// 
         /// ### Exemplo de body para requisição:
+        ///
+        /// ### Exemplo de requisição:
+        /// ```http
+        /// POST http://localhost:3001/ValidarLogin
+        /// ```
+        /// 
+        /// ```http
+        /// Header: Key = Content-Type e Value = application/json
+        /// ```
+        ///
         /// ```json
         ///     {
         ///         "email": "joao@exemplo.com",
-        ///         "senha": "senha123"
+        ///         "senha": "senhaSegura123"
         ///     }
         /// ```
         /// 

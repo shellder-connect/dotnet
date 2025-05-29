@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("Feedback")] 
+[Route("api/Feedback")] 
 public class FeedbackController : Controller
 {
     private readonly IFeedbackService _feedbackService;
@@ -61,6 +61,16 @@ public class FeedbackController : Controller
     /// ### Campos que não devem ser utilizados para criar um novo Feedback:
     /// - **Id** : Id do feedback que será gerado automaticamente
     /// 
+    /// ### Exemplo de requisição:
+    ///
+    /// ```http
+    /// POST http://localhost:3001/api/Feedback/CadastrarFeedback
+    /// ```
+    ///
+    /// ```http
+    /// Header: Key = Content-Type e Value = application/json
+    /// ```
+    ///
     /// ### Exemplo de body para requisição:
     /// ```json
     ///     {
@@ -119,6 +129,10 @@ public class FeedbackController : Controller
     /// 
     /// Use este endpoint se seu objetivo é recuperar todos os registros de Feedbacks do banco de dados.
     /// 
+    /// ```http
+    /// GET http://localhost:3001/api/Feedback/ConsultarTodosFeedbacks
+    /// ```
+    ///
     /// ### Exemplo de body de resposta, sempre será uma lista com todos os Feedbacks no banco:
     /// ```json
     ///     [
@@ -161,6 +175,10 @@ public class FeedbackController : Controller
     /// ### Campo que deve ser utilizado para consultar um Feedback:
     /// 
     /// - **Id**: ID do banco
+    ///
+    /// ```http
+    /// GET http://localhost:3001/api/Feedback/ConsultarFeedbackId{id}
+    /// ```
     /// 
     /// ### Exemplo de body para requisição:
     /// 
@@ -271,6 +289,10 @@ public class FeedbackController : Controller
     /// Use este endpoint se o objetivo for atualizar todos os campos do Feedback no cadastro. Se for parcial, utilize outro endpoint.
     /// 
     /// ### Exemplo de requisição:
+    ///
+    /// ```http
+    /// PUT http://localhost:3001/api/Feedback/AtualizarFeedback/{id}
+    /// ```
     /// 
     /// ```json
     ///     {   
@@ -349,6 +371,10 @@ public class FeedbackController : Controller
     /// 
     /// ### Campos que não podem ser atualizados:
     /// - **Id**: ID do feedback gerado automaticamente
+    /// 
+    /// ```http
+    /// PATCH http://localhost:3001/api/Feedback/AtualizarParcial/{id}
+    /// ```
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -438,6 +464,10 @@ public class FeedbackController : Controller
     /// <remarks>
     /// 
     /// ## Excluir um Feedback do banco de dados e dos cadastros.
+    ///
+    /// ```http
+    /// DELETE http://localhost:3001/api/Feedback/ExcluirFeedback/{id}
+    /// ```
     /// 
     /// ### Exemplo da requisição para excluir um Feedback:
     /// 

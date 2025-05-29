@@ -218,7 +218,7 @@ public class UsuarioController : Controller
         return Ok(usuarios);
     }
 
-   /// <summary>
+    /// <summary>
     ///     Consultar um único registro de usuário.
     /// </summary>
     /// 
@@ -374,15 +374,7 @@ public class UsuarioController : Controller
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "nome": "Patricia Delfos",
-    ///     "email": "patricia@delfos.com",
-    ///     "senha": "novaSenha123",
-    ///     "idTipoUsuario": "Comum",
-    ///     "telefone": "1155122066",
-    ///     "idEndereco": "6659d12f3fae4c001fcf6d92",
-    ///     "dataNascimento": "1988-03-20",
-    ///     "documento": "12345678910",
-    ///     "status": "Ativo"
+    ///     "descricao": "Adm",
     /// }
     /// ```
     /// 

@@ -12,6 +12,7 @@ public class DadosCadastraisController : Controller
         _dadosCadastraisService = dadosCadastraisService;
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("Consultar")]
     public IActionResult Consultar()
     {
