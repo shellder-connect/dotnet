@@ -20,7 +20,7 @@ public class CategoriaController : Controller
     /// 
     /// ## Cadastrar novo Categoria no banco de dados
     /// 
-    /// Use este endpoint para cadastrar um Categoria no sistema. O Categoria define o perfil e permissões do usuário dentro da plataforma.
+    /// Use este endpoint para cadastrar um Categoria no sistema.
     /// 
     /// Requisição via rota:
     /// ```http
@@ -76,14 +76,14 @@ public class CategoriaController : Controller
     }
 
     /// <summary>
-    ///     Consultar a lista com todos os tipos de usuários.
+    ///     Consultar a lista com todos os tipos de categorias.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar todos os registros de tipos de usuários do banco de dados
+    /// ## Consultar todos os registros de tipos de categorias do banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os tipos de usuários armazenados no banco de dados. O Categoria define o perfil e as permissões dos usuários dentro da plataforma.
+    /// Use este endpoint para recuperar todos os tipos de categorias armazenados no banco de dados. O Categoria define o perfil e as permissões dos categorias dentro da plataforma.
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -115,7 +115,7 @@ public class CategoriaController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Lista de tipos de usuários retornada com sucesso</response>
+    /// <response code="200">Lista de tipos de categorias retornada com sucesso</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarTodasCategorias")]
     [Produces("application/json")]

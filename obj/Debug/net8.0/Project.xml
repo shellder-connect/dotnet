@@ -67,7 +67,7 @@
             
             ## Cadastrar novo Categoria no banco de dados
             
-            Use este endpoint para cadastrar um Categoria no sistema. O Categoria define o perfil e permissões do usuário dentro da plataforma.
+            Use este endpoint para cadastrar um Categoria no sistema.
             
             Requisição via rota:
             ```http
@@ -79,7 +79,7 @@
             ```
             
             ### Campos que devem ser utilizados para criar um novo Categoria:
-            - **descricao** (string): Descrição do Categoria (Ex: "Comum", "Administrador", etc.)
+            - **descricao** (string): Descrição do Categoria (Ex: "Vestuário", "Administrador", etc.)
             
             ### Campos que não devem ser enviados:
             - **id**: Gerado automaticamente pelo banco de dados
@@ -87,7 +87,7 @@
             ### Exemplo de body para requisição:
             ```json
             {
-                "descricao": "Comum"
+                "descricao": "Vestuário"
             }
             ```
             
@@ -95,7 +95,7 @@
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "descricao": "Vestuário"
             }
             ```
             
@@ -108,14 +108,14 @@
         </member>
         <member name="M:CategoriaController.ConsultarTodasCategorias">
             <summary>
-                Consultar a lista com todos os tipos de usuários.
+                Consultar a lista com todos os tipos de categorias.
             </summary>
             
             <remarks>
             
-            ## Consultar todos os registros de tipos de usuários do banco de dados
+            ## Consultar todos os registros de tipos de categorias do banco de dados
             
-            Use este endpoint para recuperar todos os tipos de usuários armazenados no banco de dados. O Categoria define o perfil e as permissões dos usuários dentro da plataforma.
+            Use este endpoint para recuperar todos os tipos de categorias armazenados no banco de dados. O Categoria define o perfil e as permissões dos categorias dentro da plataforma.
             
             ### Exemplo de requisição:
             
@@ -129,14 +129,14 @@
             
             ### Campos disponíveis na resposta:
             - **id** (string): Identificador único do Categoria (gerado automaticamente pelo banco)
-            - **descricao** (string): Descrição do Categoria (Ex: "Comum", "Administrador", etc.)
+            - **descricao** (string): Descrição do Categoria (Ex: "Vestuário", "Administrador", etc.)
             
             ### Exemplo de resposta:
             ```json
             [
                 {
                     "id": "6659fbbd3fae4c001fcf6d93",
-                    "descricao": "Comum"
+                    "descricao": "Vestuário"
                 },
                 {
                     "id": "6659fbbd3fae4c001fcf6e01",
@@ -147,7 +147,7 @@
             
             </remarks>
             
-            <response code="200">Lista de tipos de usuários retornada com sucesso</response>
+            <response code="200">Lista de tipos de categorias retornada com sucesso</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:CategoriaController.ConsultarCategoriaId(System.String)">
@@ -175,7 +175,7 @@
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "descricao": "Vestuário"
             }
             ```
             
@@ -261,7 +261,7 @@
             ```
             
             ### Campos que podem ser atualizados:
-            - **descricao** (string): Descrição do Categoria (Ex: "Administrador", "Comum")
+            - **descricao** (string): Descrição do Categoria (Ex: "Administrador", "Vestuário")
             
             ### Exemplo de requisição:
             ```json
@@ -919,14 +919,14 @@
         </member>
         <member name="M:TipoUsuarioController.CadastrarTipoUsuario(Project.Models.TipoUsuario)">
             <summary>
-                Cria um novo tipo de usuário.
+                Cria um novo tipo de tipo de usuário.
             </summary>
             
             <remarks>
             
-            ## Cadastrar novo tipo de usuário no banco de dados
+            ## Cadastrar novo tipo de tipo de usuário no banco de dados
             
-            Use este endpoint para cadastrar um tipo de usuário no sistema. O tipo de usuário define o perfil e permissões do usuário dentro da plataforma.
+            Use este endpoint para cadastrar um tipo de tipo de usuário no sistema. O tipo de tipo de usuário define o perfil e permissões do tipo de usuário dentro da plataforma.
             
             Requisição via rota:
             ```http
@@ -937,8 +937,8 @@
             Content-Type: application/json
             ```
             
-            ### Campos que devem ser utilizados para criar um novo tipo de usuário:
-            - **descricao** (string): Descrição do tipo de usuário (Ex: "Comum", "Administrador", etc.)
+            ### Campos que devem ser utilizados para criar um novo tipo de tipo de usuário:
+            - **descricao** (string): Descrição do tipo de tipo de usuário (Ex: "Comum", "Administrador", etc.)
             
             ### Campos que não devem ser enviados:
             - **id**: Gerado automaticamente pelo banco de dados
@@ -961,20 +961,20 @@
             </remarks>
             
             <response code="200">Requisição realizada com sucesso</response>
-            <response code="201">Tipo de usuário criado com sucesso</response>
+            <response code="201">Tipo de tipo de usuário criado com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:TipoUsuarioController.ConsultarTodosTiposUsuario">
             <summary>
-                Consultar a lista com todos os tipos de usuários.
+                Consultar a lista com todos os tipos de tipo de usuários.
             </summary>
             
             <remarks>
             
-            ## Consultar todos os registros de tipos de usuários do banco de dados
+            ## Consultar todos os registros de tipos de tipo de usuários do banco de dados
             
-            Use este endpoint para recuperar todos os tipos de usuários armazenados no banco de dados. O tipo de usuário define o perfil e as permissões dos usuários dentro da plataforma.
+            Use este endpoint para recuperar todos os tipos de tipo de usuários armazenados no banco de dados. O tipo de tipo de usuário define o perfil e as permissões dos tipo de usuários dentro da plataforma.
             
             ### Exemplo de requisição:
             
@@ -987,8 +987,8 @@
             ```
             
             ### Campos disponíveis na resposta:
-            - **id** (string): Identificador único do tipo de usuário (gerado automaticamente pelo banco)
-            - **descricao** (string): Descrição do tipo de usuário (Ex: "Comum", "Administrador", etc.)
+            - **id** (string): Identificador único do tipo de tipo de usuário (gerado automaticamente pelo banco)
+            - **descricao** (string): Descrição do tipo de tipo de usuário (Ex: "Comum", "Administrador", etc.)
             
             ### Exemplo de resposta:
             ```json
@@ -1006,22 +1006,22 @@
             
             </remarks>
             
-            <response code="200">Lista de tipos de usuários retornada com sucesso</response>
+            <response code="200">Lista de tipos de tipo de usuários retornada com sucesso</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:TipoUsuarioController.ConsultarTipoUsuarioId(System.String)">
             <summary>
-                Consultar um único registro de tipo de usuário.
+                Consultar um único registro de tipo de tipo de usuário.
             </summary>
             
             <remarks>
             
-            ## Consultar um único tipo de usuário pelo ID
+            ## Consultar um único tipo de tipo de usuário pelo ID
             
-            Use este endpoint quando precisar recuperar os dados de um tipo de usuário específico, informando o ID armazenado no banco de dados.
+            Use este endpoint quando precisar recuperar os dados de um tipo de tipo de usuário específico, informando o ID armazenado no banco de dados.
             
             ### Parâmetro necessário:
-            - **id** (string): ID do tipo de usuário (gerado automaticamente pelo MongoDB)
+            - **id** (string): ID do tipo de tipo de usuário (gerado automaticamente pelo MongoDB)
             
             ### Exemplo de requisição:
             
@@ -1040,21 +1040,21 @@
             
             </remarks>
             
-            <response code="200">Tipo de usuário consultado com sucesso</response>
+            <response code="200">Tipo de tipo de usuário consultado com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Tipo de usuário não encontrado</response>
+            <response code="404">Tipo de tipo de usuário não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:TipoUsuarioController.AtualizarTipoUsuario(System.String,Project.Models.TipoUsuario)">
             <summary>
-                Atualiza todos os dados do tipo de usuário com base no ID.
+                Atualiza todos os dados do tipo de tipo de usuário com base no ID.
             </summary>
             
             <remarks>
             
-            ## Atualizar todas as informações de um tipo de usuário no banco de dados
+            ## Atualizar todas as informações de um tipo de tipo de usuário no banco de dados
             
-            Use este endpoint para sobrescrever **todos os campos** do cadastro de um tipo de usuário.
+            Use este endpoint para sobrescrever **todos os campos** do cadastro de um tipo de tipo de usuário.
             ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
             
             ### Todos os campos devem ser preenchidos:
@@ -1081,33 +1081,33 @@
             
             </remarks>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de usuário no banco de dados.</param>
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de tipo de usuário no banco de dados.</param>
             <param name="tipoUsuario">Objeto contendo os dados completos a serem atualizados.</param>
             
-            <response code="200">Tipo de usuário atualizado com sucesso</response>
+            <response code="200">Tipo de tipo de usuário atualizado com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="401">Não autorizado</response>
-            <response code="404">Tipo de usuário não encontrado</response>
+            <response code="404">Tipo de tipo de usuário não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:TipoUsuarioController.AtualizarParcial(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-                Atualiza parcialmente os dados de um tipo de usuário existente.
+                Atualiza parcialmente os dados de um tipo de tipo de usuário existente.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de usuário a ser atualizado.</param>
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de tipo de usuário a ser atualizado.</param>
             <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
             
             <remarks>
             
-            ## Atualização Parcial de um Tipo de Usuário
+            ## Atualização Parcial de um Tipo de Tipo de Usuário
             
-            Use este endpoint quando for necessário atualizar apenas **alguns campos** do tipo de usuário,
+            Use este endpoint quando for necessário atualizar apenas **alguns campos** do tipo de tipo de usuário,
             sem a necessidade de enviar todos os dados já cadastrados.
             Somente os campos incluídos no corpo da requisição serão modificados.
             
             ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-            - **id**: O ID do tipo de usuário não pode ser alterado.
+            - **id**: O ID do tipo de tipo de usuário não pode ser alterado.
             
             ### Exemplo de requisição:
             
@@ -1120,7 +1120,7 @@
             ```
             
             ### Campos que podem ser atualizados:
-            - **descricao** (string): Descrição do tipo de usuário (Ex: "Administrador", "Comum")
+            - **descricao** (string): Descrição do tipo de tipo de usuário (Ex: "Administrador", "Comum")
             
             ### Exemplo de requisição:
             ```json
@@ -1139,23 +1139,23 @@
             
             </remarks>
             
-            <response code="200">Tipo de usuário atualizado com sucesso</response>
+            <response code="200">Tipo de tipo de usuário atualizado com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
-            <response code="404">Tipo de usuário não encontrado</response>
+            <response code="404">Tipo de tipo de usuário não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:TipoUsuarioController.ExcluirTipoUsuario(System.String)">
             <summary>
-                Exclui um tipo de usuário do banco de dados.
+                Exclui um tipo de tipo de usuário do banco de dados.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de usuário a ser excluído.</param>
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de tipo de usuário a ser excluído.</param>
             
             <remarks>
             
-            ## Excluir um Tipo de Usuário do banco de dados
+            ## Excluir um Tipo de Tipo de Usuário do banco de dados
             
-            Use este endpoint para remover permanentemente um tipo de usuário da base de dados.
+            Use este endpoint para remover permanentemente um tipo de tipo de usuário da base de dados.
             ⚠️ **A exclusão é irreversível.**
             
             ### Exemplo de requisição:
@@ -1166,15 +1166,15 @@
             ### Exemplo de resposta:
             ```json
             {
-                "message": "Tipo de usuário excluído com sucesso."
+                "message": "Tipo de tipo de usuário excluído com sucesso."
             }
             ```
             
             </remarks>
             
-            <response code="200">Tipo de usuário excluído com sucesso</response>
+            <response code="200">Tipo de tipo de usuário excluído com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Tipo de usuário não encontrado</response>
+            <response code="404">Tipo de tipo de usuário não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:UsuarioController.CadastrarUsuario(Project.Models.Usuario)">
