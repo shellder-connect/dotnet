@@ -12,15 +12,15 @@ public class DoacaoController : Controller
         _doacaoService = doacaoService;
     }
 
-    /// <summary>
-    ///     Cria um novo doação.
+   /// <summary>
+    ///     Cria uma nova doação.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Cadastrar novo doação no banco de dados
+    /// ## Cadastrar nova doação no banco de dados
     /// 
-    /// Use este endpoint para cadastrar um doação no sistema.
+    /// Use este endpoint para cadastrar uma nova doação no sistema.
     /// 
     /// Requisição via rota:
     /// ```http
@@ -31,8 +31,11 @@ public class DoacaoController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que devem ser utilizados para criar um novo doação:
-    /// - **descricao** (string): Descrição do doação (Ex: "Comum", "Administrador", etc.)
+    /// ### Campos que devem ser utilizados para criar uma nova doação:
+    /// - **idAbrigo** (string): ID do abrigo associado (ex: "665c1e9c3fae4c001fcf6d87")
+    /// - **descricao** (string): Descrição da doação (ex: "Cestas básicas")
+    /// - **idCategoria** (string): ID da categoria (ex: "665c1ea83fae4c001fcf6d89")
+    /// - **quantidade** (int): Quantidade de itens doados
     /// 
     /// ### Campos que não devem ser enviados:
     /// - **id**: Gerado automaticamente pelo banco de dados
@@ -40,22 +43,27 @@ public class DoacaoController : Controller
     /// ### Exemplo de body para requisição:
     /// ```json
     /// {
-    ///     "descricao": "Comum"
+    ///     "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+    ///     "descricao": "Cestas básicas",
+    ///     "idCategoria": "665c1ea83fae4c001fcf6d89",
+    ///     "quantidade": 50
     /// }
     /// ```
     /// 
     /// ### Exemplo de resposta ao cadastrar com sucesso:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Comum"
+    ///     "id": "665c1f983fae4c001fcf6d88",
+    ///     "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+    ///     "descricao": "Cestas básicas",
+    ///     "idCategoria": "665c1ea83fae4c001fcf6d89",
+    ///     "quantidade": 50
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Requisição realizada com sucesso</response>
-    /// <response code="201">Doacao criado com sucesso</response>
+    /// <response code="201">Doação criada com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPost("CadastrarDoacao")]
@@ -76,40 +84,37 @@ public class DoacaoController : Controller
     }
 
     /// <summary>
-    ///     Consultar a lista com todos os doações.
+    ///     Consultar a lista com todas as doações.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar todos os registros de doações do banco de dados
+    /// ## Consultar todos os registros de doações no banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os doações armazenados no banco de dados. O doação define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+    /// Use este endpoint para recuperar todas as doações cadastradas.
     /// 
     /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
     /// ```http
     /// GET http://localhost:3001/api/Doacao/ConsultarTodosDoacao
     /// ```
-    /// ```http
-    /// Content-Type: application/json
-    /// ```
     /// 
-    /// ### Campos disponíveis na resposta:
-    /// - **id** (string): Identificador único do doação (gerado automaticamente pelo banco)
-    /// - **descricao** (string): Descrição do doação (Ex: "Comum", "Administrador", etc.)
+    /// ### Campos retornados:
+    /// - **id** (string): ID da doação
+    /// - **idAbrigo** (string): ID do abrigo associado
+    /// - **descricao** (string): Descrição da doação
+    /// - **idCategoria** (string): ID da categoria
+    /// - **quantidade** (int): Quantidade de itens doados
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// [
-    ///     {
-    ///         "id": "6659fbbd3fae4c001fcf6d93",
-    ///         "descricao": "Comum"
-    ///     },
-    ///     {
-    ///         "id": "6659fbbd3fae4c001fcf6e01",
-    ///         "descricao": "Administrador"
-    ///     }
+    ///   {
+    ///     "id": "665c1f983fae4c001fcf6d88",
+    ///     "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+    ///     "descricao": "Cestas básicas",
+    ///     "idCategoria": "665c1ea83fae4c001fcf6d89",
+    ///     "quantidade": 50
+    ///   }
     /// ]
     /// ```
     /// 
@@ -131,16 +136,14 @@ public class DoacaoController : Controller
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar um único doação pelo ID
+    /// ## Consultar uma doação pelo ID
     /// 
-    /// Use este endpoint quando precisar recuperar os dados de um doação específico, informando o ID armazenado no banco de dados.
+    /// Use este endpoint para recuperar os dados de uma doação específica, informando o ID.
     /// 
     /// ### Parâmetro necessário:
-    /// - **id** (string): ID do doação (gerado automaticamente pelo MongoDB)
+    /// - **id** (string): ID da doação
     /// 
     /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
     /// ```http
     /// GET http://localhost:3001/api/Doacao/ConsultarDoacaoId/{id}
     /// ```
@@ -148,16 +151,19 @@ public class DoacaoController : Controller
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Comum"
+    ///     "id": "665c1f983fae4c001fcf6d88",
+    ///     "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+    ///     "descricao": "Cestas básicas",
+    ///     "idCategoria": "665c1ea83fae4c001fcf6d89",
+    ///     "quantidade": 50
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Doacao consultado com sucesso</response>
+    /// <response code="200">Doação consultada com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Doação não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarDoacaoId/{id}")]
     [Produces("application/json")]
@@ -177,47 +183,48 @@ public class DoacaoController : Controller
     }
 
     /// <summary>
-    ///     Atualiza todos os dados do doação com base no ID.
+    ///     Atualiza todos os dados da doação com base no ID.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar todas as informações de um doação no banco de dados
+    /// ## Atualizar todas as informações de uma doação
     /// 
-    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um doação.
-    /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+    /// Use este endpoint para sobrescrever **todos os campos** de uma doação.
+    /// ⚠️ Se desejar atualizar apenas alguns campos, utilize o endpoint PATCH.
     /// 
     /// ### Todos os campos devem ser preenchidos:
     /// - Campos não enviados serão sobrescritos com valores nulos ou padrão.
     /// 
     /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
     /// ```http
     /// PUT http://localhost:3001/api/Doacao/AtualizarDoacao/{id}
     /// ```
+    /// 
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Exemplo de requisição para atualizar os dados:
-    /// 
+    /// ### Exemplo de body:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "id": "665c1f983fae4c001fcf6d88",
+    ///     "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+    ///     "descricao": "Doação de roupas",
+    ///     "idCategoria": "665c1ea83fae4c001fcf6d89",
+    ///     "quantidade": 100
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação no banco de dados.</param>
+    /// <param name="id" type="string">ID da doação no banco de dados.</param>
     /// <param name="doacao">Objeto contendo os dados completos a serem atualizados.</param>
     /// 
-    /// <response code="200">Doacao atualizado com sucesso</response>
+    /// <response code="200">Doação atualizada com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="401">Não autorizado</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Doação não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPut("AtualizarDoacao/{id}")]
     [Produces("application/json")]
@@ -235,66 +242,70 @@ public class DoacaoController : Controller
             return NotFound();
         }
 
-
         doacaoExistente.Descricao = doacao.Descricao;
+        doacaoExistente.Quantidade = doacao.Quantidade;
       
-
         await _doacaoService.Atualizar(doacaoExistente);
 
         return Ok(doacaoExistente); 
     }
 
     /// <summary>
-    ///     Atualiza parcialmente os dados de um doação existente.
+    ///     Atualiza parcialmente os dados de uma doação existente.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação a ser atualizado.</param>
+    /// <param name="id" type="string">ID da doação a ser atualizada.</param>
     /// <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualização Parcial de um  Doacao
+    /// ## Atualização parcial de uma doação
     /// 
-    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do doação,
-    /// sem a necessidade de enviar todos os dados já cadastrados.
-    /// Somente os campos incluídos no corpo da requisição serão modificados.
+    /// Use este endpoint para atualizar **apenas alguns campos** da doação.
+    /// Somente os campos enviados no body serão modificados.
     /// 
-    /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-    /// - **id**: O ID do doação não pode ser alterado.
+    /// ⚠️ Campos que **não podem ser atualizados**:
+    /// - **id**: O ID da doação não pode ser alterado.
     /// 
     /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
     /// ```http
     /// PATCH http://localhost:3001/api/Doacao/AtualizarParcial/{id}
     /// ```
+    /// 
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
     /// ### Campos que podem ser atualizados:
-    /// - **descricao** (string): Descrição do doação (Ex: "Administrador", "Comum")
+    /// - **idAbrigo** (string)
+    /// - **descricao** (string)
+    /// - **idCategoria** (string)
+    /// - **quantidade** (int)
     /// 
-    /// ### Exemplo de requisição:
+    /// ### Exemplo de body:
     /// ```json
     /// {
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Doação de alimentos",
+    ///     "quantidade": 80
     /// }
     /// ```
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "id": "665c1f983fae4c001fcf6d88",
+    ///     "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+    ///     "descricao": "Doação de alimentos",
+    ///     "idCategoria": "665c1ea83fae4c001fcf6d89",
+    ///     "quantidade": 80
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Doacao atualizado com sucesso</response>
+    /// <response code="200">Doação atualizada com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Doação não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPatch("AtualizarParcial/{id}")]
     [Produces("application/json")]
@@ -320,16 +331,16 @@ public class DoacaoController : Controller
     }
 
     /// <summary>
-    ///     Exclui um doação do banco de dados.
+    ///     Exclui uma doação do banco de dados.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação a ser excluído.</param>
+    /// <param name="id" type="string">ID da doação a ser excluída.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um  Doacao do banco de dados
+    /// ## Excluir uma doação do banco de dados
     /// 
-    /// Use este endpoint para remover permanentemente um doação da base de dados.
+    /// Use este endpoint para remover permanentemente uma doação da base de dados.
     /// ⚠️ **A exclusão é irreversível.**
     /// 
     /// ### Exemplo de requisição:
@@ -340,15 +351,15 @@ public class DoacaoController : Controller
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "message": "Doacao excluído com sucesso."
+    ///     "message": "Doação excluída com sucesso."
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Doacao excluído com sucesso</response>
+    /// <response code="200">Doação excluída com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Doação não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpDelete("ExcluirDoacao/{id}")]
     [Produces("application/json")]

@@ -20,7 +20,7 @@ public class EnderecoServiceTests
     
      Criar Endereco
 
-     Teste será realizado apenas para criaçao de um usuário
+     Teste será realizado apenas para criação de um endereço
 
     **************************************************************************************************/
 
@@ -29,27 +29,33 @@ public class EnderecoServiceTests
     {
         var mockRepo = new Mock<IEnderecoRepository>();
         var service = new EnderecoService(mockRepo.Object);
-        var endereco = new Endereco { CEP = "05763290", Estado = "São Paulo", Cidade = "Polo", Bairro = "Centro", Rua = "Teste" };
+        var endereco = new Endereco 
+        { 
+            CEP = "05763290", 
+            Estado = "São Paulo", 
+            Cidade = "Polo", 
+            Bairro = "Centro", 
+            Rua = "Teste" 
+        };
 
         mockRepo.Setup(repo => repo.Criar(endereco)).ReturnsAsync(endereco);
 
-        _output.WriteLine("********************( Chamando o serviço Criar para o usuário )********************\n");
+        _output.WriteLine("********************( Chamando o serviço Criar para o endereço )********************\n");
 
         var resultado = await service.Criar(endereco);
 
-        // saber o que houve no teste
         _output.WriteLine($"Endereco criado: {resultado.CEP}\n");
 
         Assert.Equal(endereco.CEP, resultado.CEP);
 
-        _output.WriteLine("********************( Teste de criação de usuário concluído )********************\n");
+        _output.WriteLine("********************( Teste de criação de endereço concluído )********************\n");
     }
 
     /*************************************************************************************************
     
      Consultar todos os Enderecos
 
-     Teste será realizado apenas para consultar a lista completa de usuários com dados, não avistando o cenário vazio.
+     Teste será realizado para consultar a lista completa de endereços com dados
 
     **************************************************************************************************/
 
@@ -59,40 +65,32 @@ public class EnderecoServiceTests
         var mockRepo = new Mock<IEnderecoRepository>();
         var enderecosEsperados = new List<Endereco>
         {
-            new Endereco { CEP = "05763290" },
-            new Endereco { Estado = "João" },
-            new Endereco { Cidade = "São Carlos" },
-            new Endereco { Bairro = "Teste" },
-            new Endereco { Rua = "João da Cunha" }
+            new Endereco { CEP = "05763290", Estado = "SP", Cidade = "Polo", Bairro = "Centro", Rua = "Teste" },
+            new Endereco { CEP = "12345678", Estado = "RJ", Cidade = "Rio", Bairro = "Copacabana", Rua = "Av. Atlântica" }
         };
         mockRepo.Setup(repo => repo.ConsultarTodos()).ReturnsAsync(enderecosEsperados);
         var service = new EnderecoService(mockRepo.Object);
 
-        _output.WriteLine("********************( Chamando o serviço Consultar todos os usuários )********************\n");
+        _output.WriteLine("********************( Chamando o serviço Consultar todos os endereços )********************\n");
 
         var resultado = await service.ConsultarTodos();
 
-        _output.WriteLine("Enderecos retornados:");
-        foreach (var user in resultado)
+        _output.WriteLine("Endereços retornados:");
+        foreach (var endereco in resultado)
         {
-            _output.WriteLine($"- {user.CEP}\n");
+            _output.WriteLine($"- CEP: {endereco.CEP}, Estado: {endereco.Estado}, Cidade: {endereco.Cidade}, Bairro: {endereco.Bairro}, Rua: {endereco.Rua}\n");
         }
     
         Assert.Equal(2, resultado.Count);
-        Assert.Contains(resultado, u => u.CEP == "05763290");
-        Assert.Contains(resultado, u => u.Estado == "Estado");
-        Assert.Contains(resultado, u => u.Cidade == "Cidade");
-        Assert.Contains(resultado, u => u.Bairro == "Bairro");
-        Assert.Contains(resultado, u => u.Rua == "Rua");
+        Assert.Contains(resultado, e => e.CEP == "05763290" && e.Estado == "SP" && e.Cidade == "Polo");
+        Assert.Contains(resultado, e => e.CEP == "12345678" && e.Estado == "RJ" && e.Cidade == "Rio");
 
-        _output.WriteLine("********************( Teste de consulta de usuário concluído )********************\n");
+        _output.WriteLine("********************( Teste de consulta de endereços concluído )********************\n");
     }
 
     /*************************************************************************************************
     
-     Consultar todos os Enderecos
-
-     Teste será realizado apenas para consultar a lista completa de usuários com cenário vazio
+     Consultar todos os Enderecos - lista vazia
 
     **************************************************************************************************/
 
@@ -103,11 +101,11 @@ public class EnderecoServiceTests
         mockRepo.Setup(repo => repo.ConsultarTodos()).ReturnsAsync(new List<Endereco>());
         var service = new EnderecoService(mockRepo.Object);
 
-        _output.WriteLine("********************( Chamando o serviço Consultar lista vazia de usuário )********************\n");
+        _output.WriteLine("********************( Chamando o serviço Consultar lista vazia de endereços )********************\n");
 
         var resultado = await service.ConsultarTodos();
 
-        _output.WriteLine($"Total de usuários retornados: {resultado.Count}\n");
+        _output.WriteLine($"Total de endereços retornados: {resultado.Count}\n");
         Assert.Empty(resultado);
 
         _output.WriteLine("********************( Teste de consulta vazia concluído )********************\n");
@@ -117,8 +115,6 @@ public class EnderecoServiceTests
     
      Consultar Endereco por ID
 
-     Teste será realizado apenas para consultar um usuário pelo ID
-
     **************************************************************************************************/
 
     [Fact]
@@ -126,19 +122,28 @@ public class EnderecoServiceTests
     {
         var mockRepo = new Mock<IEnderecoRepository>();
         
-        // Configura o mock para retornar um usuário específico quando consultado pelo ID
-        var enderecoEsperado = new Endereco { CEP = "CEP", Id = "123" };
-        mockRepo.Setup(repo => repo.ConsultarPorUsuarioId("1")).ReturnsAsync(enderecoEsperado);
+        // Configura o mock para retornar um endereço específico quando consultado pelo ID
+        var enderecoEsperado = new Endereco 
+        { 
+            CEP = "05763290", 
+            Estado = "SP", 
+            Cidade = "Polo", 
+            Bairro = "Centro", 
+            Rua = "Teste",
+            Id = "123" 
+        };
+        mockRepo.Setup(repo => repo.ConsultarPorUsuarioId("123")).ReturnsAsync(enderecoEsperado);
         
         var service = new EnderecoService(mockRepo.Object);
 
-        _output.WriteLine("********************( Chamando o serviço Consultar o usuário pelo Id )********************\n");
+        _output.WriteLine("********************( Chamando o serviço Consultar o endereço pelo Id )********************\n");
 
         var resultado = await service.ConsultarId("123");
 
-        _output.WriteLine($"Endereco e Id consultado: {resultado?.CEP}, {resultado?.Id}\n");
+        _output.WriteLine($"Endereço consultado: CEP={resultado?.CEP}, Estado={resultado?.Estado}, Id={resultado?.Id}\n");
         Assert.NotNull(resultado);
-        Assert.Equal("Medicamento", resultado?.CEP);
+        Assert.Equal("05763290", resultado?.CEP);
+        Assert.Equal("SP", resultado?.Estado);
         Assert.Equal("123", resultado?.Id);
 
         _output.WriteLine("********************( Teste de consulta pelo Id concluído )********************\n");
@@ -148,8 +153,6 @@ public class EnderecoServiceTests
     
      Atualizar Endereco
 
-     Teste será realizado apenas para atualizar um usuário existente
-
     **************************************************************************************************/
 
     [Fact]
@@ -157,24 +160,37 @@ public class EnderecoServiceTests
     {
         var mockRepo = new Mock<IEnderecoRepository>();
         
-        // Endereco original
-        var enderecoOriginal = new Endereco { Estado = "Estado", Id = "1" };
-        var enderecoAtualizado = new Endereco { Estado = "Estado Atualizado", Id = "1" };
+        var enderecoOriginal = new Endereco 
+        { 
+            CEP = "05763290", 
+            Estado = "SP", 
+            Cidade = "Polo", 
+            Bairro = "Centro", 
+            Rua = "Teste",
+            Id = "123" 
+        };
+        var enderecoAtualizado = new Endereco 
+        { 
+            CEP = "99999999", 
+            Estado = "RJ", 
+            Cidade = "Rio", 
+            Bairro = "Copacabana", 
+            Rua = "Av. Atlântica",
+            Id = "123" 
+        };
         
-        // Configura o mock para retornar o usuário atualizado quando chamado o método de atualização
         mockRepo.Setup(repo => repo.Atualizar(enderecoOriginal)).ReturnsAsync(enderecoAtualizado);
         
         var service = new EnderecoService(mockRepo.Object);
 
-        _output.WriteLine("********************( Chamando o serviço Atualizar todos os dados do usuário )********************\n");
+        _output.WriteLine("********************( Chamando o serviço Atualizar endereço )********************\n");
 
-        // Chama o serviço para atualizar o usuário
         var resultado = await service.Atualizar(enderecoOriginal);
 
-        // Verifica se o nome foi atualizado
-        _output.WriteLine($"Endereco atualizado: {resultado?.CEP}\n");
+        _output.WriteLine($"Endereço atualizado: CEP={resultado?.CEP}, Estado={resultado?.Estado}\n");
         Assert.NotNull(resultado);
-        Assert.Equal("Medicamento Atualizado", resultado?.CEP);
+        Assert.Equal("99999999", resultado?.CEP);
+        Assert.Equal("RJ", resultado?.Estado);
         Assert.Equal("123", resultado?.Id);
 
         _output.WriteLine("********************( Teste de atualização concluído )********************\n");
@@ -184,8 +200,6 @@ public class EnderecoServiceTests
     
      Atualizar Parcial Endereco
 
-     Teste será realizado apenas para atualizar parcialmente um usuário existente
-
     **************************************************************************************************/
 
     [Fact]
@@ -193,34 +207,32 @@ public class EnderecoServiceTests
     {
         var mockRepo = new Mock<IEnderecoRepository>();
         
-        // Endereco original
-        var enderecoOriginal = new Endereco { CEP = "CEP", Id = "1" };
-         
-        // Descricao e Email serão atualizados
-        var enderecoAtualizado = new Endereco { CEP = "05763290", Id = "1" }; 
+        var enderecoAtualizado = new Endereco 
+        { 
+            CEP = "05763290", 
+            Estado = "SP", 
+            Id = "123" 
+        };
         
-        // Dados de campos a serem atualizados
         var camposParaAtualizar = new Dictionary<string, object>
         {
             { "CEP", "05763290" },
-            { "Estado", "Centro" }
+            { "Estado", "SP" }
         };
         
-        // Configura o mock para retornar o usuário parcialmente atualizado
         mockRepo.Setup(repo => repo.AtualizarParcial("123", camposParaAtualizar)).ReturnsAsync(enderecoAtualizado);
         
         var service = new EnderecoService(mockRepo.Object);
 
-        _output.WriteLine("********************( Chamando o serviço Atualização parcial do usuário )********************\n");
+        _output.WriteLine("********************( Chamando o serviço Atualização parcial do endereço )********************\n");
 
-        // Chama o serviço para atualizar parcialmente o usuário
         var resultado = await service.AtualizarParcial("123", camposParaAtualizar);
 
-        // Verifica se os campos foram atualizados
-        _output.WriteLine($"Endereco parcialmente atualizado: Descricao: {resultado?.CEP}\n");
+        _output.WriteLine($"Endereço parcialmente atualizado: CEP={resultado?.CEP}, Estado={resultado?.Estado}\n");
         Assert.NotNull(resultado);
-        Assert.Equal("Medicamento Silva", resultado?.CEP);
-        Assert.Equal("123", resultado?.Id);  // ID não foi alterado
+        Assert.Equal("05763290", resultado?.CEP);
+        Assert.Equal("SP", resultado?.Estado);
+        Assert.Equal("123", resultado?.Id);
 
         _output.WriteLine("********************( Teste de atualização parcial concluído )********************\n");
     }
@@ -229,35 +241,25 @@ public class EnderecoServiceTests
 
     Excluir Endereco
 
-    Teste será realizado para garantir que o método Excluir seja chamado corretamente
-
     **************************************************************************************************/
 
     [Fact]
     public async Task Excluir_EnderecoValido_ChamaMetodoExcluirNoRepositorio()
     {
         var mockRepo = new Mock<IEnderecoRepository>();
-        var enderecoId = "123";  // ID do usuário a ser excluído
+        var enderecoId = "123";
         var service = new EnderecoService(mockRepo.Object);
 
-        // Configurando o mock para simular a exclusão sem retornar nada
         mockRepo.Setup(repo => repo.Excluir(enderecoId)).Returns(Task.CompletedTask);
 
-        // Chama o método Excluir no serviço
         await service.Excluir(enderecoId);
 
-        _output.WriteLine("********************( Chamando o serviço Exclusão do usuário )********************\n");
+        _output.WriteLine("********************( Chamando o serviço Exclusão do endereço )********************\n");
 
-        _output.WriteLine($"Endereco com ID {enderecoId} excluído\n");
+        _output.WriteLine($"Endereço com ID {enderecoId} excluído\n");
 
-        // Verifica se o método Excluir foi chamado uma vez no repositório com o ID correto
         mockRepo.Verify(repo => repo.Excluir(enderecoId), Times.Once);
 
         _output.WriteLine("********************( Teste de exclusão concluído )********************\n");
     }
-
-
-
-
-
 }

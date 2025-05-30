@@ -190,14 +190,12 @@ public class TipoUsuarioServiceTests
         // Tipo de Usuário original
         var tipoUsuarioOriginal = new TipoUsuario { Descricao = "Medicamento", Id = "123" };
          
-        // Descricao e Email serão atualizados
         var tipoUsuarioAtualizado = new TipoUsuario { Descricao = "Medicamento Silva", Id = "123" }; 
         
         // Dados de campos a serem atualizados
         var camposParaAtualizar = new Dictionary<string, object>
         {
             { "Descricao", "Medicamento Silva" },
-            { "Email", "claudio.silva@exemplo.com" }
         };
         
         // Configura o mock para retornar o usuário parcialmente atualizado

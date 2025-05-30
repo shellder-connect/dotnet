@@ -190,14 +190,12 @@ public class AbrigoServiceTests
         // Abrigo original
         var abrigoOriginal = new Abrigo { Descricao = "Medicamento", Id = "123" };
          
-        // Descricao e Email serão atualizados
         var abrigoAtualizado = new Abrigo { Descricao = "Medicamento Silva", Id = "123" }; 
         
         // Dados de campos a serem atualizados
         var camposParaAtualizar = new Dictionary<string, object>
         {
-            { "Descricao", "Medicamento Silva" },
-            { "Email", "claudio.silva@exemplo.com" }
+            { "Descricao", "Medicamento Silva" }
         };
         
         // Configura o mock para retornar o usuário parcialmente atualizado

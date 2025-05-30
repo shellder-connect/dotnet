@@ -3,52 +3,91 @@ using Project.Models;
 using Xunit;
 using Xunit.Abstractions;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Project.Domain;
 
 namespace Project.Tests.UnitTests.Repositories
 {
-    public class CategoriaRepositoryTests
+    public class DistribuicaoRepositoryTests
     {
         private readonly ITestOutputHelper _output;
 
-        public CategoriaRepositoryTests(ITestOutputHelper output)
+        public DistribuicaoRepositoryTests(ITestOutputHelper output)
         {
             _output = output;
         }
 
         [Fact]
-        public async Task Criar_Categoria()
-        {
+        public async Task Criar_Distribuicao()
+        {   
             try
             {
                 _output.WriteLine("*****************************************************\n");
-                _output.WriteLine("🔌 Iniciando teste: Criar_Categoria\n");
+                _output.WriteLine("🔌 Iniciando teste: Criar_Distribuicao\n");
 
                 var settings = new ConfigMongoDb
                 {
                     ConnectionString = "inserir a string de conexão aqui",
                     DatabaseName = "TestsDb",
-                    CategoriaCollectionName = "t_categoria"
+                    DistribuicaoCollectionName = "t_distribuicao"
                 };
 
                 var optionsConfig = Options.Create(settings);
 
-                var repository = new CategoriaRepository(optionsConfig);
+                var repository = new DistribuicaoRepository(optionsConfig);
 
-                var categoria = new Categoria
+                var distribuicao = new Distribuicao
                 {
-                    Descricao = "Medicamento"
+                    IdDoacao = "665af8b13fae4c001fcf6d12",
+                    QuantidadeDestinada = 10,
+                    DataDestinada = DateTime.Parse("2025-06-01T10:00:00"),
+                    IdPessoaAtendida = "665af9a03fae4c001fcf6d15"
                 };
 
-                _output.WriteLine($"👤 Categoria criado para inserção: {System.Text.Json.JsonSerializer.Serialize(categoria)}\n");
+                _output.WriteLine($"👤 Distribuicao criado para inserção: {System.Text.Json.JsonSerializer.Serialize(distribuicao)}\n");
 
-                var resultado = await repository.Criar(categoria);
+                var resultado = await repository.Criar(distribuicao);
 
                 _output.WriteLine("✅ Método Criar chamado com sucesso.\n");
-                _output.WriteLine($"🎯 Resultado retornado: Descricao={resultado.Descricao}\n");
+                _output.WriteLine($"🎯 Resultado retornado: QuantidadeDestinada={resultado.QuantidadeDestinada}, DataDestinada={resultado.DataDestinada}\n");
 
-                Assert.Equal(categoria.Descricao, resultado.Descricao);
+                Assert.Equal(distribuicao.IdDoacao, resultado.IdDoacao);
+
+                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
+
+                _output.WriteLine("*****************************************************\n");
+            }
+            catch (Exception ex)
+            {
+                _output.WriteLine($"❌ Erro no teste: {ex.Message}");
+                throw;
+            }
+        }
+
+        [Fact]
+        public async Task Consultar_Todas_Distribuicaos()
+        {
+            try
+            {
+                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("🔌 Iniciando teste: Consultar_Todas_Distribuicaos\n");
+
+                var settings = new ConfigMongoDb
+                {
+                    ConnectionString = "inserir a string de conexão aqui",
+                    DatabaseName = "TestsDb",
+                    DistribuicaoCollectionName = "t_distribuicao"
+                };
+
+                var optionsConfig = Options.Create(settings);
+
+                var repository = new DistribuicaoRepository(optionsConfig);
+
+                var distribuicaos = await repository.ConsultarTodos();
+
+                _output.WriteLine($"🎯 Total de Distribuicaos retornados: {distribuicaos.Count}\n");
 
                 _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
                 _output.WriteLine("*****************************************************\n");
@@ -61,29 +100,35 @@ namespace Project.Tests.UnitTests.Repositories
         }
 
         [Fact]
-        public async Task Consultar_Todas_Categorias()
+        public async Task Consultar_Distribuicao_Por_Id()
         {
             try
             {
                 _output.WriteLine("*****************************************************\n");
-                _output.WriteLine("🔌 Iniciando teste: Consultar_Todas_Categorias\n");
+                _output.WriteLine("🔌 Iniciando teste: Consultar_Distribuicao_Por_Id\n");
 
                 var settings = new ConfigMongoDb
                 {
                     ConnectionString = "inserir a string de conexão aqui",
                     DatabaseName = "TestsDb",
-                    CategoriaCollectionName = "t_categoria"
+                    DistribuicaoCollectionName = "t_distribuicao"
                 };
 
                 var optionsConfig = Options.Create(settings);
 
-                var repository = new CategoriaRepository(optionsConfig);
+                var repository = new DistribuicaoRepository(optionsConfig);
 
-                var categorias = await repository.ConsultarTodos();
+                string distribuicaoId = "6802d91a7c1790dc372551af";
 
-                _output.WriteLine($"🎯 Total de Categorias retornados: {categorias.Count}\n");
+                var distribuicaoConsultado = await repository.ConsultarId(distribuicaoId);
+
+                _output.WriteLine($"🎯 Distribuicao retornado: IdDoacao={distribuicaoConsultado.IdDoacao}\n");
+
+                Assert.Equal(distribuicaoId, distribuicaoConsultado.Id);
+                Assert.NotNull(distribuicaoConsultado.IdDoacao);
+
                 _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
-                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("*****************************************************\n");   
             }
             catch (Exception ex)
             {
@@ -93,75 +138,40 @@ namespace Project.Tests.UnitTests.Repositories
         }
 
         [Fact]
-        public async Task Consultar_Categoria_Por_Id()
+        public async Task Atualizar_Distribuicao()
         {
             try
             {
                 _output.WriteLine("*****************************************************\n");
-                _output.WriteLine("🔌 Iniciando teste: Consultar_Categoria_Por_Id\n");
+                _output.WriteLine("🔌 Iniciando teste: Atualizar_Distribuicao\n");
 
                 var settings = new ConfigMongoDb
                 {
                     ConnectionString = "inserir a string de conexão aqui",
                     DatabaseName = "TestsDb",
-                    CategoriaCollectionName = "t_categoria"
+                    DistribuicaoCollectionName = "t_distribuicao"
                 };
 
                 var optionsConfig = Options.Create(settings);
 
-                var repository = new CategoriaRepository(optionsConfig);
+                var repository = new DistribuicaoRepository(optionsConfig);
 
-                string categoriaId = "6802d91a7c1790dc372551af";
+                string distribuicaoId = "6802d91a7c1790dc372551af";
 
-                var categoriaConsultado = await repository.ConsultarId(categoriaId);
-
-                _output.WriteLine($"🎯 Categoria retornado: Descricao={categoriaConsultado?.Descricao}\n");
-
-                Assert.Equal(categoriaId, categoriaConsultado?.Id);
-                Assert.NotNull(categoriaConsultado?.Descricao);
-
-                _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
-                _output.WriteLine("*****************************************************\n");
-            }
-            catch (Exception ex)
-            {
-                _output.WriteLine($"❌ Erro no teste: {ex.Message}");
-                throw;
-            }
-        }
-
-        [Fact]
-        public async Task Atualizar_Categoria()
-        {
-            try
-            {
-                _output.WriteLine("*****************************************************\n");
-                _output.WriteLine("🔌 Iniciando teste: Atualizar_Categoria\n");
-
-                var settings = new ConfigMongoDb
-                {
-                    ConnectionString = "inserir a string de conexão aqui",
-                    DatabaseName = "TestsDb",
-                    CategoriaCollectionName = "t_categoria"
+                var distribuicaoAtualizada = new Distribuicao 
+                { 
+                    Id = distribuicaoId,
+                    IdDoacao = "665af8b13fae4c001fcf6d12",
+                    QuantidadeDestinada = 20,
+                    DataDestinada = DateTime.Parse("2025-07-01T10:00:00"),
+                    IdPessoaAtendida = "665af9a03fae4c001fcf6d16"
                 };
 
-                var optionsConfig = Options.Create(settings);
-
-                var repository = new CategoriaRepository(optionsConfig);
-
-                string categoriaId = "6802d91a7c1790dc372551af";
-
-                var categoriaAtualizada = new Categoria
-                {
-                    Id = categoriaId,
-                    Descricao = "Alimento"
-                };
-
-                var resultado = await repository.Atualizar(categoriaAtualizada);
+                var resultado = await repository.Atualizar(distribuicaoAtualizada);
 
                 if (resultado != null)
                 {
-                    _output.WriteLine($"🎯 Categoria atualizado: Descricao={resultado.Descricao}\n");
+                    _output.WriteLine($"🎯 Distribuicao atualizado: QuantidadeDestinada={resultado.QuantidadeDestinada}\n");
                 }
                 else
                 {
@@ -169,7 +179,7 @@ namespace Project.Tests.UnitTests.Repositories
                 }
 
                 Assert.NotNull(resultado);
-                Assert.Equal(categoriaAtualizada.Descricao, resultado!.Descricao);
+                Assert.Equal(distribuicaoAtualizada.QuantidadeDestinada, resultado!.QuantidadeDestinada);
 
                 _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
                 _output.WriteLine("*****************************************************\n");
@@ -182,36 +192,37 @@ namespace Project.Tests.UnitTests.Repositories
         }
 
         [Fact]
-        public async Task Atualizar_Categoria_Parcialmente()
+        public async Task Atualizar_Distribuicao_Parcialmente()
         {
             try
             {
                 _output.WriteLine("*****************************************************\n");
-                _output.WriteLine("🔌 Iniciando teste: Atualizar_Categoria_Parcialmente\n");
+                _output.WriteLine("🔌 Iniciando teste: Atualizar_Distribuicao_Parcialmente\n");
 
                 var settings = new ConfigMongoDb
                 {
                     ConnectionString = "inserir a string de conexão aqui",
                     DatabaseName = "TestsDb",
-                    CategoriaCollectionName = "t_categoria"
+                    DistribuicaoCollectionName = "t_distribuicao"
                 };
 
                 var optionsConfig = Options.Create(settings);
 
-                var repository = new CategoriaRepository(optionsConfig);
+                var repository = new DistribuicaoRepository(optionsConfig);
 
-                string categoriaId = "6802d91a7c1790dc372551af";
+                string distribuicaoId = "6802d91a7c1790dc372551af";
 
                 var camposParaAtualizar = new Dictionary<string, object>
                 {
-                    { "Descricao", "Claudio Parcialmente Atualizado" }
+                    { "QuantidadeDestinada", 30 },
+                    { "IdPessoaAtendida", "665af9a03fae4c001fcf6d99" }
                 };
 
-                var resultado = await repository.AtualizarParcial(categoriaId, camposParaAtualizar);
+                var resultado = await repository.AtualizarParcial(distribuicaoId, camposParaAtualizar);
 
                 if (resultado != null)
                 {
-                    _output.WriteLine($"🎯 Categoria parcialmente atualizado: Descricao={resultado.Descricao}\n");
+                    _output.WriteLine($"🎯 Distribuicao parcialmente atualizado: QuantidadeDestinada={resultado.QuantidadeDestinada}\n");
                 }
                 else
                 {
@@ -219,10 +230,10 @@ namespace Project.Tests.UnitTests.Repositories
                 }
 
                 Assert.NotNull(resultado);
-                Assert.Equal(camposParaAtualizar["Descricao"], resultado!.Descricao);
+                Assert.Equal(camposParaAtualizar["QuantidadeDestinada"], resultado!.QuantidadeDestinada);
 
                 _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
-                _output.WriteLine("*****************************************************\n");
+                _output.WriteLine("*****************************************************\n");   
             }
             catch (Exception ex)
             {
@@ -232,32 +243,32 @@ namespace Project.Tests.UnitTests.Repositories
         }
 
         [Fact]
-        public async Task Excluir_Categoria()
+        public async Task Excluir_Distribuicao()
         {
             try
             {
                 _output.WriteLine("*****************************************************\n");
-                _output.WriteLine("🔌 Iniciando teste: Excluir_Categoria\n");
+                _output.WriteLine("🔌 Iniciando teste: Excluir_Distribuicao\n");
 
                 var settings = new ConfigMongoDb
                 {
                     ConnectionString = "inserir a string de conexão aqui",
                     DatabaseName = "TestsDb",
-                    CategoriaCollectionName = "t_categoria"
+                    DistribuicaoCollectionName = "t_distribuicao"
                 };
 
                 var optionsConfig = Options.Create(settings);
 
-                var repository = new CategoriaRepository(optionsConfig);
+                var repository = new DistribuicaoRepository(optionsConfig);
 
-                string categoriaId = "6802d91a7c1790dc372551af";
+                string distribuicaoId = "6802d91a7c1790dc372551af";
 
-                await repository.Excluir(categoriaId);
+                await repository.Excluir(distribuicaoId);
 
-                _output.WriteLine("✅ Categoria excluído com sucesso.\n");
+                _output.WriteLine("✅ Distribuicao excluído com sucesso.\n");
 
-                var categoriaConsultado = await repository.ConsultarId(categoriaId);
-                Assert.Null(categoriaConsultado);
+                var distribuicaoConsultado = await repository.ConsultarId(distribuicaoId);
+                Assert.Null(distribuicaoConsultado);
 
                 _output.WriteLine("🔚 Teste finalizado com sucesso.\n");
                 _output.WriteLine("*****************************************************\n");

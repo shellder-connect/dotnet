@@ -13,16 +13,16 @@ public class CategoriaController : Controller
     }
 
     /// <summary>
-    ///     Cria um novo Categoria.
+    ///     Cria uma nova categoria.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Cadastrar novo Categoria no banco de dados
+    /// ## Cadastrar nova categoria no banco de dados
     /// 
-    /// Use este endpoint para cadastrar um Categoria no sistema.
+    /// Use este endpoint para cadastrar uma categoria no sistema.
     /// 
-    /// Requisição via rota:
+    /// ### Requisição via rota:
     /// ```http
     /// POST http://localhost:3001/api/Categoria/CadastrarCategoria
     /// ```
@@ -31,31 +31,31 @@ public class CategoriaController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que devem ser utilizados para criar um novo Categoria:
-    /// - **descricao** (string): Descrição do Categoria (Ex: "Vestuário", "Administrador", etc.)
+    /// ### Campos necessários para criar uma nova categoria:
+    /// - **descricao** (string): Descrição da categoria (Ex: "Alimentos", "Higiene", etc.)
     /// 
     /// ### Campos que não devem ser enviados:
     /// - **id**: Gerado automaticamente pelo banco de dados
     /// 
-    /// ### Exemplo de body para requisição:
+    /// ### Exemplo de body da requisição:
     /// ```json
     /// {
-    ///     "descricao": "Vestuário"
+    ///     "descricao": "Alimentos"
     /// }
     /// ```
     /// 
-    /// ### Exemplo de resposta ao cadastrar com sucesso:
+    /// ### Exemplo de resposta:
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Vestuário"
+    ///     "descricao": "Alimentos"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
     /// <response code="200">Requisição realizada com sucesso</response>
-    /// <response code="201">Categoria criado com sucesso</response>
+    /// <response code="201">Categoria criada com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPost("CadastrarCategoria")]
@@ -76,46 +76,44 @@ public class CategoriaController : Controller
     }
 
     /// <summary>
-    ///     Consultar a lista com todos os tipos de categorias.
+    ///     Consultar a lista com todas as categorias.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar todos os registros de tipos de categorias do banco de dados
+    /// ## Consultar todas as categorias do banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os tipos de categorias armazenados no banco de dados. O Categoria define o perfil e as permissões dos categorias dentro da plataforma.
+    /// Use este endpoint para recuperar todas as categorias armazenadas.
     /// 
-    /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
+    /// ### Requisição via rota:
     /// ```http
-    /// GET http://localhost:3001/api/Categoria/ConsultarTodosCategoria
+    /// GET http://localhost:3001/api/Categoria/ConsultarTodasCategorias
     /// ```
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos disponíveis na resposta:
-    /// - **id** (string): Identificador único do Categoria (gerado automaticamente pelo banco)
-    /// - **descricao** (string): Descrição do Categoria (Ex: "Vestuário", "Administrador", etc.)
+    /// ### Campos na resposta:
+    /// - **id** (string): Identificador único da categoria
+    /// - **descricao** (string): Descrição da categoria
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// [
     ///     {
     ///         "id": "6659fbbd3fae4c001fcf6d93",
-    ///         "descricao": "Vestuário"
+    ///         "descricao": "Alimentos"
     ///     },
     ///     {
     ///         "id": "6659fbbd3fae4c001fcf6e01",
-    ///         "descricao": "Administrador"
+    ///         "descricao": "Higiene"
     ///     }
     /// ]
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Lista de tipos de categorias retornada com sucesso</response>
+    /// <response code="200">Lista de categorias retornada com sucesso</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarTodasCategorias")]
     [Produces("application/json")]
@@ -126,21 +124,19 @@ public class CategoriaController : Controller
     }
 
     /// <summary>
-    ///     Consultar um único registro de Categoria.
+    ///     Consultar uma única categoria.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar um único Categoria pelo ID
+    /// ## Consultar uma categoria pelo ID
     /// 
-    /// Use este endpoint quando precisar recuperar os dados de um Categoria específico, informando o ID armazenado no banco de dados.
+    /// Use este endpoint para recuperar os dados de uma categoria específica, informando o ID.
     /// 
     /// ### Parâmetro necessário:
-    /// - **id** (string): ID do Categoria (gerado automaticamente pelo MongoDB)
+    /// - **id** (string): ID da categoria
     /// 
-    /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
+    /// ### Requisição via rota:
     /// ```http
     /// GET http://localhost:3001/api/Categoria/ConsultarCategoriaId/{id}
     /// ```
@@ -149,15 +145,15 @@ public class CategoriaController : Controller
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Vestuário"
+    ///     "descricao": "Alimentos"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Categoria consultado com sucesso</response>
+    /// <response code="200">Categoria consultada com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Categoria não encontrado</response>
+    /// <response code="404">Categoria não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarCategoriaId/{id}")]
     [Produces("application/json")]
@@ -177,22 +173,20 @@ public class CategoriaController : Controller
     }
 
     /// <summary>
-    ///     Atualiza todos os dados do Categoria com base no ID.
+    ///     Atualiza todos os dados da categoria com base no ID.
     /// </summary>
+    /// 
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID da categoria no banco de dados.</param>
+    /// <param name="categoria">Objeto contendo os dados completos a serem atualizados.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar todas as informações de um Categoria no banco de dados
+    /// ## Atualizar todas as informações de uma categoria
     /// 
-    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um Categoria.
-    /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
-    /// 
-    /// ### Todos os campos devem ser preenchidos:
-    /// - Campos não enviados serão sobrescritos com valores nulos ou padrão.
+    /// Use este endpoint para sobrescrever **todos os campos** da categoria.
+    /// ⚠️ Campos não enviados serão sobrescritos com valores nulos.
     /// 
     /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
     /// ```http
     /// PUT http://localhost:3001/api/Categoria/AtualizarCategoria/{id}
     /// ```
@@ -200,24 +194,27 @@ public class CategoriaController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Exemplo de requisição para atualizar os dados:
-    /// 
+    /// ### Exemplo de body:
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Higiene"
+    /// }
+    /// ```
+    /// 
+    /// ### Exemplo de resposta:
+    /// ```json
+    /// {
+    ///     "id": "6659fbbd3fae4c001fcf6d93",
+    ///     "descricao": "Higiene"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do Categoria no banco de dados.</param>
-    /// <param name="categoria">Objeto contendo os dados completos a serem atualizados.</param>
-    /// 
-    /// <response code="200">Categoria atualizado com sucesso</response>
+    /// <response code="200">Categoria atualizada com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="401">Não autorizado</response>
-    /// <response code="404">Categoria não encontrado</response>
+    /// <response code="404">Categoria não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPut("AtualizarCategoria/{id}")]
     [Produces("application/json")]
@@ -237,7 +234,6 @@ public class CategoriaController : Controller
 
 
         categoriaExistente.Descricao = categoria.Descricao;
-      
 
         await _categoriaService.Atualizar(categoriaExistente);
 
@@ -245,26 +241,24 @@ public class CategoriaController : Controller
     }
 
     /// <summary>
-    ///     Atualiza parcialmente os dados de um Categoria existente.
+    ///     Atualiza parcialmente os dados de uma categoria.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do Categoria a ser atualizado.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID da categoria a ser atualizada.</param>
     /// <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualização Parcial de um Categoria
+    /// ## Atualização Parcial de Categoria
     /// 
-    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do Categoria,
-    /// sem a necessidade de enviar todos os dados já cadastrados.
-    /// Somente os campos incluídos no corpo da requisição serão modificados.
+    /// Use este endpoint quando quiser atualizar apenas **alguns campos** da categoria.
     /// 
-    /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-    /// - **id**: O ID do Categoria não pode ser alterado.
+    /// ⚠️ Não é permitido atualizar o campo **id**.
     /// 
-    /// ### Exemplo de requisição:
+    /// ### Campo que pode ser atualizado:
+    /// - **descricao** (string)
     /// 
-    /// Requisição via rota:
+    /// ### Requisição via rota:
     /// ```http
     /// PATCH http://localhost:3001/api/Categoria/AtualizarParcial/{id}
     /// ```
@@ -272,13 +266,10 @@ public class CategoriaController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que podem ser atualizados:
-    /// - **descricao** (string): Descrição do Categoria (Ex: "Administrador", "Vestuário")
-    /// 
-    /// ### Exemplo de requisição:
+    /// ### Exemplo de body:
     /// ```json
     /// {
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Higiene Pessoal"
     /// }
     /// ```
     /// 
@@ -286,15 +277,15 @@ public class CategoriaController : Controller
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Higiene Pessoal"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Categoria atualizado com sucesso</response>
+    /// <response code="200">Categoria atualizada com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="404">Categoria não encontrado</response>
+    /// <response code="404">Categoria não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPatch("AtualizarParcial/{id}")]
     [Produces("application/json")]
@@ -320,35 +311,35 @@ public class CategoriaController : Controller
     }
 
     /// <summary>
-    ///     Exclui um Categoria do banco de dados.
+    ///     Exclui uma categoria do banco de dados.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do Categoria a ser excluído.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID da categoria a ser excluída.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um Categoria do banco de dados
+    /// ## Excluir uma Categoria do banco de dados
     /// 
-    /// Use este endpoint para remover permanentemente um Categoria da base de dados.
+    /// Use este endpoint para remover uma categoria permanentemente.
     /// ⚠️ **A exclusão é irreversível.**
     /// 
-    /// ### Exemplo de requisição:
+    /// ### Requisição via rota:
     /// ```http
-    /// DELETE http://localhost:3001/api/Categoria/Excluir/{id}
+    /// DELETE http://localhost:3001/api/Categoria/ExcluirCategoria/{id}
     /// ```
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "message": "Categoria excluído com sucesso."
+    ///     "message": "Categoria excluída com sucesso."
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Categoria excluído com sucesso</response>
+    /// <response code="200">Categoria excluída com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Categoria não encontrado</response>
+    /// <response code="404">Categoria não encontrada</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpDelete("ExcluirCategoria/{id}")]
     [Produces("application/json")]

@@ -10,12 +10,12 @@ public class Doacao
     public string? Id { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? IdAbrigo { get; set; } // Referência ao Abrigo (T_Abrigo)
+    public string? IdAbrigo { get; set; } 
 
     public string? Descricao { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? IdCategoria { get; set; } // Referência à Categoria (T_Categoria)
+    public string? IdCategoria { get; set; }
 
     public int Quantidade { get; set; }
 }

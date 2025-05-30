@@ -34,7 +34,9 @@ public class AbrigoController : Controller
     /// ```
     /// 
     /// ### Campos que devem ser utilizados para criar um novo abrigo:
-    /// - **descricao** (string): Descrição do abrigo (Ex: "Comum", "Administrador", etc.)
+    /// - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+    /// - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+    /// - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
     /// 
     /// ### Campos que não devem ser enviados:
     /// - **id**: Gerado automaticamente pelo banco de dados
@@ -42,7 +44,9 @@ public class AbrigoController : Controller
     /// ### Exemplo de body para requisição:
     /// ```json
     /// {
-    ///     "descricao": "Comum"
+    ///     "descricao": "Abrigo Central",
+    ///     "capacidadeTotal": 100,
+    ///     "ocupacaoAtual": 25
     /// }
     /// ```
     /// 
@@ -50,7 +54,9 @@ public class AbrigoController : Controller
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Comum"
+    ///     "descricao": "Abrigo Central",
+    ///     "capacidadeTotal": 100,
+    ///     "ocupacaoAtual": 25
     /// }
     /// ```
     /// 
@@ -78,14 +84,14 @@ public class AbrigoController : Controller
     }
 
     /// <summary>
-    ///     Consultar a lista com todos os abrigoss.
+    ///     Consultar a lista com todos os abrigos.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar todos os registros de abrigoss do banco de dados
+    /// ## Consultar todos os registros de abrigos do banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os abrigoss armazenados no banco de dados. O abrigo define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+    /// Use este endpoint para recuperar todos os abrigos armazenados no banco de dados. O abrigo representa uma estrutura com capacidade e ocupação, que pode ser utilizada para gestão e controle dentro da plataforma.
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -99,25 +105,31 @@ public class AbrigoController : Controller
     /// 
     /// ### Campos disponíveis na resposta:
     /// - **id** (string): Identificador único do abrigo (gerado automaticamente pelo banco)
-    /// - **descricao** (string): Descrição do abrigo (Ex: "Comum", "Administrador", etc.)
+    /// - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+    /// - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+    /// - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// [
     ///     {
     ///         "id": "6659fbbd3fae4c001fcf6d93",
-    ///         "descricao": "Comum"
+    ///         "descricao": "Abrigo Central",
+    ///         "capacidadeTotal": 100,
+    ///         "ocupacaoAtual": 25
     ///     },
     ///     {
     ///         "id": "6659fbbd3fae4c001fcf6e01",
-    ///         "descricao": "Administrador"
+    ///         "descricao": "Abrigo Temporário",
+    ///         "capacidadeTotal": 50,
+    ///         "ocupacaoAtual": 10
     ///     }
     /// ]
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Lista de abrigoss retornada com sucesso</response>
+    /// <response code="200">Lista de abrigos retornada com sucesso</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarTodosAbrigo")]
     [Produces("application/json")]
@@ -147,11 +159,19 @@ public class AbrigoController : Controller
     /// GET http://localhost:3001/api/Abrigo/ConsultarAbrigoId/{id}
     /// ```
     /// 
+    /// ### Campos disponíveis na resposta:
+    /// - **id** (string): Identificador único do abrigo
+    /// - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+    /// - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+    /// - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
+    /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Comum"
+    ///     "descricao": "Abrigo Central",
+    ///     "capacidadeTotal": 100,
+    ///     "ocupacaoAtual": 25
     /// }
     /// ```
     /// 
@@ -187,10 +207,20 @@ public class AbrigoController : Controller
     /// ## Atualizar todas as informações de um abrigo no banco de dados
     /// 
     /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um abrigo.
-    /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+    /// 
+    /// ⚠️ **Atenção:** Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
     /// 
     /// ### Todos os campos devem ser preenchidos:
     /// - Campos não enviados serão sobrescritos com valores nulos ou padrão.
+    /// 
+    /// ### Parâmetro necessário:
+    /// - **id** (string): ID do abrigo (gerado automaticamente pelo MongoDB)
+    /// 
+    /// ### Campos no body da requisição:
+    /// - **id** (string): Deve ser o mesmo informado na rota ou pode ser omitido, pois o ID da rota prevalece.
+    /// - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+    /// - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+    /// - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -202,12 +232,23 @@ public class AbrigoController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Exemplo de requisição para atualizar os dados:
-    /// 
+    /// ### Exemplo de body da requisição:
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Abrigo Central",
+    ///     "capacidadeTotal": 120,
+    ///     "ocupacaoAtual": 30
+    /// }
+    /// ```
+    /// 
+    /// ### Exemplo de resposta:
+    /// ```json
+    /// {
+    ///     "id": "6659fbbd3fae4c001fcf6d93",
+    ///     "descricao": "Abrigo Central",
+    ///     "capacidadeTotal": 120,
+    ///     "ocupacaoAtual": 30
     /// }
     /// ```
     /// 
@@ -238,9 +279,10 @@ public class AbrigoController : Controller
         }
 
 
+        abrigoExistente.CapacidadeTotal = abrigo.CapacidadeTotal;
+        abrigoExistente.OcupacaoAtual = abrigo.OcupacaoAtual;
         abrigoExistente.Descricao = abrigo.Descricao;
       
-
         await _abrigoService.Atualizar(abrigoExistente);
 
         return Ok(abrigoExistente); 
@@ -255,14 +297,19 @@ public class AbrigoController : Controller
     /// 
     /// <remarks>
     /// 
-    /// ## Atualização Parcial de um  Abrigo
+    /// ## Atualização Parcial de um Abrigo
     /// 
     /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do abrigo,
     /// sem a necessidade de enviar todos os dados já cadastrados.
     /// Somente os campos incluídos no corpo da requisição serão modificados.
     /// 
-    /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
+    /// ⚠️ **Atenção:** Campos que **não podem ser atualizados** por este endpoint:
     /// - **id**: O ID do abrigo não pode ser alterado.
+    /// 
+    /// ### Campos que podem ser atualizados:
+    /// - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+    /// - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+    /// - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -274,13 +321,11 @@ public class AbrigoController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que podem ser atualizados:
-    /// - **descricao** (string): Descrição do abrigo (Ex: "Administrador", "Comum")
-    /// 
-    /// ### Exemplo de requisição:
+    /// ### Exemplo de body com atualização parcial:
     /// ```json
     /// {
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Abrigo Central",
+    ///     "ocupacaoAtual": 35
     /// }
     /// ```
     /// 
@@ -288,7 +333,9 @@ public class AbrigoController : Controller
     /// ```json
     /// {
     ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Abrigo Central",
+    ///     "capacidadeTotal": 100,
+    ///     "ocupacaoAtual": 35
     /// }
     /// ```
     /// 
@@ -329,22 +376,31 @@ public class AbrigoController : Controller
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um  Abrigo do banco de dados
+    /// ## Excluir um Abrigo do banco de dados
     /// 
     /// Use este endpoint para remover permanentemente um abrigo da base de dados.
-    /// ⚠️ **A exclusão é irreversível.**
+    /// 
+    /// ⚠️ **Atenção:** A exclusão é irreversível. Todos os dados relacionados a este abrigo serão permanentemente perdidos.
+    /// 
+    /// ### Parâmetro necessário:
+    /// - **id** (string): ID do abrigo (gerado automaticamente pelo MongoDB)
     /// 
     /// ### Exemplo de requisição:
+    /// 
     /// ```http
     /// DELETE http://localhost:3001/api/Abrigo/ExcluirAbrigo/{id}
     /// ```
     /// 
-    /// ### Exemplo de resposta:
+    /// ### Exemplo de resposta ao excluir com sucesso:
     /// ```json
     /// {
     ///     "message": "Abrigo excluído com sucesso."
     /// }
     /// ```
+    /// 
+    /// ### Possíveis respostas de erro:
+    /// - ID inválido ou mal formatado
+    /// - Abrigo não encontrado
     /// 
     /// </remarks>
     /// 

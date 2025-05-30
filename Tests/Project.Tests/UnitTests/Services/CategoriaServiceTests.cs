@@ -190,14 +190,12 @@ public class CategoriaServiceTests
         // Categoria original
         var categoriaOriginal = new Categoria { Descricao = "Medicamento", Id = "123" };
          
-        // Descricao e Email serão atualizados
         var categoriaAtualizado = new Categoria { Descricao = "Medicamento Silva", Id = "123" }; 
         
         // Dados de campos a serem atualizados
         var camposParaAtualizar = new Dictionary<string, object>
         {
-            { "Descricao", "Medicamento Silva" },
-            { "Email", "claudio.silva@exemplo.com" }
+            { "Descricao", "Roupa" },
         };
         
         // Configura o mock para retornar o categoria parcialmente atualizado

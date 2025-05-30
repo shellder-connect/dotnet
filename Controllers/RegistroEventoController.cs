@@ -15,14 +15,14 @@ public class RegistroEventoController : Controller
     }
 
     /// <summary>
-    ///     Cria um novo registro do evento.
+    ///     Cria um novo registro de evento.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Cadastrar novo registro do evento no banco de dados
+    /// ## Cadastrar novo registro de evento no banco de dados
     /// 
-    /// Use este endpoint para cadastrar um registro do evento no sistema.
+    /// Use este endpoint para cadastrar um registro de evento no sistema.
     /// 
     /// Requisição via rota:
     /// ```http
@@ -33,8 +33,12 @@ public class RegistroEventoController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que devem ser utilizados para criar um novo registro do evento:
-    /// - **descricao** (string): Descrição do registro do evento (Ex: "Comum", "Administrador", etc.)
+    /// ### Campos que devem ser utilizados para criar um novo registro:
+    /// - **descricao** (string): Descrição do evento
+    /// - **dataHora** (DateTime): Data e hora do evento (local)
+    /// - **idUsuario** (string): ID do usuário associado
+    /// - **localizacao** (string): Local onde ocorreu o evento
+    /// - **idAbrigo** (string): ID do abrigo associado
     /// 
     /// ### Campos que não devem ser enviados:
     /// - **id**: Gerado automaticamente pelo banco de dados
@@ -42,22 +46,29 @@ public class RegistroEventoController : Controller
     /// ### Exemplo de body para requisição:
     /// ```json
     /// {
-    ///     "descricao": "Comum"
+    ///     "descricao": "Reunião de voluntários",
+    ///     "dataHora": "2025-05-30T14:00:00",
+    ///     "idUsuario": "6659fbbd3fae4c001fcf6d93",
+    ///     "localizacao": "Sala 5",
+    ///     "idAbrigo": "6659fbbd3fae4c001fcf6e01"
     /// }
     /// ```
     /// 
     /// ### Exemplo de resposta ao cadastrar com sucesso:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Comum"
+    ///     "id": "6659fbbd3fae4c001fcf6d94",
+    ///     "descricao": "Reunião de voluntários",
+    ///     "dataHora": "2025-05-30T14:00:00",
+    ///     "idUsuario": "6659fbbd3fae4c001fcf6d93",
+    ///     "localizacao": "Sala 5",
+    ///     "idAbrigo": "6659fbbd3fae4c001fcf6e01"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Requisição realizada com sucesso</response>
-    /// <response code="201">RegistroEvento criado com sucesso</response>
+    /// <response code="201">Registro de evento criado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPost("CadastrarRegistroEvento")]
@@ -77,47 +88,46 @@ public class RegistroEventoController : Controller
         return BadRequest(ModelState); 
     }
 
-    /// <summary>
-    ///     Consultar a lista com todos os tipos de registro do eventos.
+   /// <summary>
+    ///     Consultar todos os registros de eventos.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar todos os registros de tipos de registro do eventos do banco de dados
+    /// ## Consultar todos os registros de eventos do banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os tipos de registro do eventos armazenados no banco de dados. O registro do evento define o perfil e as permissões dos registro do eventos dentro da plataforma.
-    /// 
-    /// ### Exemplo de requisição:
+    /// Use este endpoint para recuperar todos os registros de eventos armazenados no banco.
     /// 
     /// Requisição via rota:
     /// ```http
     /// GET http://localhost:3001/api/RegistroEvento/ConsultarTodosRegistroEvento
     /// ```
-    /// ```http
-    /// Content-Type: application/json
-    /// ```
     /// 
     /// ### Campos disponíveis na resposta:
-    /// - **id** (string): Identificador único do registro do evento (gerado automaticamente pelo banco)
-    /// - **descricao** (string): Descrição do registro do evento (Ex: "Comum", "Administrador", etc.)
+    /// - **id** (string): Identificador único do registro (gerado automaticamente)
+    /// - **descricao** (string): Descrição do evento
+    /// - **dataHora** (DateTime): Data e hora do evento
+    /// - **idUsuario** (string): ID do usuário associado
+    /// - **localizacao** (string): Local do evento
+    /// - **idAbrigo** (string): ID do abrigo associado
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// [
     ///     {
-    ///         "id": "6659fbbd3fae4c001fcf6d93",
-    ///         "descricao": "Comum"
-    ///     },
-    ///     {
-    ///         "id": "6659fbbd3fae4c001fcf6e01",
-    ///         "descricao": "Administrador"
+    ///         "id": "6659fbbd3fae4c001fcf6d94",
+    ///         "descricao": "Reunião de voluntários",
+    ///         "dataHora": "2025-05-30T14:00:00",
+    ///         "idUsuario": "6659fbbd3fae4c001fcf6d93",
+    ///         "localizacao": "Sala 5",
+    ///         "idAbrigo": "6659fbbd3fae4c001fcf6e01"
     ///     }
     /// ]
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Lista de tipos de registro do eventos retornada com sucesso</response>
+    /// <response code="200">Lista de registros retornada com sucesso</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarTodosRegistroEvento")]
     [Produces("application/json")]
@@ -128,19 +138,14 @@ public class RegistroEventoController : Controller
     }
 
     /// <summary>
-    ///     Consultar um único registro de registro do evento.
+    ///     Consultar um único registro de evento pelo ID.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar um único registro do evento pelo ID
+    /// ## Consultar registro pelo ID
     /// 
-    /// Use este endpoint quando precisar recuperar os dados de um registro do evento específico, informando o ID armazenado no banco de dados.
-    /// 
-    /// ### Parâmetro necessário:
-    /// - **id** (string): ID do registro do evento (gerado automaticamente pelo MongoDB)
-    /// 
-    /// ### Exemplo de requisição:
+    /// Use este endpoint para recuperar os dados de um registro específico, informando seu ID.
     /// 
     /// Requisição via rota:
     /// ```http
@@ -150,16 +155,20 @@ public class RegistroEventoController : Controller
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Comum"
+    ///     "id": "6659fbbd3fae4c001fcf6d94",
+    ///     "descricao": "Reunião de voluntários",
+    ///     "dataHora": "2025-05-30T14:00:00",
+    ///     "idUsuario": "6659fbbd3fae4c001fcf6d93",
+    ///     "localizacao": "Sala 5",
+    ///     "idAbrigo": "6659fbbd3fae4c001fcf6e01"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">RegistroEvento consultado com sucesso</response>
+    /// <response code="200">Registro consultado com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">RegistroEvento não encontrado</response>
+    /// <response code="404">Registro não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarRegistroEventoId/{id}")]
     [Produces("application/json")]
@@ -179,47 +188,42 @@ public class RegistroEventoController : Controller
     }
 
     /// <summary>
-    ///     Atualiza todos os dados do registro do evento com base no ID.
+    ///     Atualiza todos os dados de um registro de evento com base no ID.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar todas as informações de um registro do evento no banco de dados
+    /// ## Atualizar todas as informações de um registro no banco de dados
     /// 
-    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um registro do evento.
-    /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um registro de evento.
+    /// ⚠️ Para atualização parcial, utilize o endpoint PATCH.
     /// 
     /// ### Todos os campos devem ser preenchidos:
     /// - Campos não enviados serão sobrescritos com valores nulos ou padrão.
-    /// 
-    /// ### Exemplo de requisição:
     /// 
     /// Requisição via rota:
     /// ```http
     /// PUT http://localhost:3001/api/RegistroEvento/AtualizarRegistroEvento/{id}
     /// ```
-    /// ```http
-    /// Content-Type: application/json
-    /// ```
     /// 
-    /// ### Exemplo de requisição para atualizar os dados:
-    /// 
+    /// ### Exemplo de requisição:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "id": "6659fbbd3fae4c001fcf6d94",
+    ///     "descricao": "Nova descrição",
+    ///     "dataHora": "2025-06-01T10:00:00",
+    ///     "idUsuario": "6659fbbd3fae4c001fcf6d93",
+    ///     "localizacao": "Nova sala",
+    ///     "idAbrigo": "6659fbbd3fae4c001fcf6e01"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento no banco de dados.</param>
-    /// <param name="registroEvento">Objeto contendo os dados completos a serem atualizados.</param>
-    /// 
-    /// <response code="200">RegistroEvento atualizado com sucesso</response>
+    /// <response code="200">Registro atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="401">Não autorizado</response>
-    /// <response code="404">RegistroEvento não encontrado</response>
+    /// <response code="404">Registro não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPut("AtualizarRegistroEvento/{id}")]
     [Produces("application/json")]
@@ -250,56 +254,59 @@ public class RegistroEventoController : Controller
     }
 
     /// <summary>
-    ///     Atualiza parcialmente os dados de um registro do evento existente.
+    ///     Atualiza parcialmente os dados de um registro de evento existente.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento a ser atualizado.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d94">ID do registro a ser atualizado.</param>
     /// <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualização Parcial de um  RegistroEvento
+    /// ## Atualização Parcial de um Registro de Evento
     /// 
-    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do registro do evento,
-    /// sem a necessidade de enviar todos os dados já cadastrados.
-    /// Somente os campos incluídos no corpo da requisição serão modificados.
+    /// Use este endpoint para atualizar apenas alguns campos, sem enviar todos os dados.
+    /// Somente os campos incluídos na requisição serão modificados.
     /// 
-    /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-    /// - **id**: O ID do registro do evento não pode ser alterado.
+    /// ⚠️ Campos que **não podem ser atualizados**:
+    /// - **id**
     /// 
     /// ### Exemplo de requisição:
-    /// 
-    /// Requisição via rota:
     /// ```http
     /// PATCH http://localhost:3001/api/RegistroEvento/AtualizarParcial/{id}
     /// ```
-    /// ```http
-    /// Content-Type: application/json
-    /// ```
     /// 
     /// ### Campos que podem ser atualizados:
-    /// - **descricao** (string): Descrição do registro do evento (Ex: "Administrador", "Comum")
+    /// - **descricao**
+    /// - **dataHora**
+    /// - **idUsuario**
+    /// - **localizacao**
+    /// - **idAbrigo**
     /// 
-    /// ### Exemplo de requisição:
+    /// ### Exemplo de body:
     /// ```json
     /// {
-    ///     "descricao": "Administrador"
+    ///     "descricao": "Descrição atualizada",
+    ///     "localizacao": "Auditório"
     /// }
     /// ```
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "id": "6659fbbd3fae4c001fcf6d93",
-    ///     "descricao": "Administrador"
+    ///     "id": "6659fbbd3fae4c001fcf6d94",
+    ///     "descricao": "Descrição atualizada",
+    ///     "dataHora": "2025-05-30T14:00:00",
+    ///     "idUsuario": "6659fbbd3fae4c001fcf6d93",
+    ///     "localizacao": "Auditório",
+    ///     "idAbrigo": "6659fbbd3fae4c001fcf6e01"
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">RegistroEvento atualizado com sucesso</response>
+    /// <response code="200">Registro atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="404">RegistroEvento não encontrado</response>
+    /// <response code="404">Registro não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPatch("AtualizarParcial/{id}")]
     [Produces("application/json")]
@@ -325,19 +332,19 @@ public class RegistroEventoController : Controller
     }
 
     /// <summary>
-    ///     Exclui um registro do evento do banco de dados.
+    ///     Exclui um registro de evento do banco de dados.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento a ser excluído.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d94">ID do registro a ser excluído.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um  RegistroEvento do banco de dados
+    /// ## Excluir um registro do banco de dados
     /// 
-    /// Use este endpoint para remover permanentemente um registro do evento da base de dados.
-    /// ⚠️ **A exclusão é irreversível.**
+    /// Use este endpoint para remover permanentemente um registro.
+    /// ⚠️ Exclusão é irreversível.
     /// 
-    /// ### Exemplo de requisição:
+    /// Requisição via rota:
     /// ```http
     /// DELETE http://localhost:3001/api/RegistroEvento/ExcluirRegistroEvento/{id}
     /// ```
@@ -345,15 +352,15 @@ public class RegistroEventoController : Controller
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "message": "RegistroEvento excluído com sucesso."
+    ///     "message": "Registro excluído com sucesso."
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">RegistroEvento excluído com sucesso</response>
+    /// <response code="200">Registro excluído com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">RegistroEvento não encontrado</response>
+    /// <response code="404">Registro não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpDelete("ExcluirRegistroEvento/{id}")]
     [Produces("application/json")]

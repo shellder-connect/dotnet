@@ -79,7 +79,9 @@
             ```
             
             ### Campos que devem ser utilizados para criar um novo abrigo:
-            - **descricao** (string): Descrição do abrigo (Ex: "Comum", "Administrador", etc.)
+            - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+            - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+            - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
             
             ### Campos que não devem ser enviados:
             - **id**: Gerado automaticamente pelo banco de dados
@@ -87,7 +89,9 @@
             ### Exemplo de body para requisição:
             ```json
             {
-                "descricao": "Comum"
+                "descricao": "Abrigo Central",
+                "capacidadeTotal": 100,
+                "ocupacaoAtual": 25
             }
             ```
             
@@ -95,7 +99,9 @@
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "descricao": "Abrigo Central",
+                "capacidadeTotal": 100,
+                "ocupacaoAtual": 25
             }
             ```
             
@@ -108,14 +114,14 @@
         </member>
         <member name="M:AbrigoController.ConsultarTodosAbrigo">
             <summary>
-                Consultar a lista com todos os abrigoss.
+                Consultar a lista com todos os abrigos.
             </summary>
             
             <remarks>
             
-            ## Consultar todos os registros de abrigoss do banco de dados
+            ## Consultar todos os registros de abrigos do banco de dados
             
-            Use este endpoint para recuperar todos os abrigoss armazenados no banco de dados. O abrigo define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+            Use este endpoint para recuperar todos os abrigos armazenados no banco de dados. O abrigo representa uma estrutura com capacidade e ocupação, que pode ser utilizada para gestão e controle dentro da plataforma.
             
             ### Exemplo de requisição:
             
@@ -129,25 +135,31 @@
             
             ### Campos disponíveis na resposta:
             - **id** (string): Identificador único do abrigo (gerado automaticamente pelo banco)
-            - **descricao** (string): Descrição do abrigo (Ex: "Comum", "Administrador", etc.)
+            - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+            - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+            - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
             
             ### Exemplo de resposta:
             ```json
             [
                 {
                     "id": "6659fbbd3fae4c001fcf6d93",
-                    "descricao": "Comum"
+                    "descricao": "Abrigo Central",
+                    "capacidadeTotal": 100,
+                    "ocupacaoAtual": 25
                 },
                 {
                     "id": "6659fbbd3fae4c001fcf6e01",
-                    "descricao": "Administrador"
+                    "descricao": "Abrigo Temporário",
+                    "capacidadeTotal": 50,
+                    "ocupacaoAtual": 10
                 }
             ]
             ```
             
             </remarks>
             
-            <response code="200">Lista de abrigoss retornada com sucesso</response>
+            <response code="200">Lista de abrigos retornada com sucesso</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:AbrigoController.ConsultarAbrigoId(System.String)">
@@ -171,11 +183,19 @@
             GET http://localhost:3001/api/Abrigo/ConsultarAbrigoId/{id}
             ```
             
+            ### Campos disponíveis na resposta:
+            - **id** (string): Identificador único do abrigo
+            - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+            - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+            - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
+            
             ### Exemplo de resposta:
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "descricao": "Abrigo Central",
+                "capacidadeTotal": 100,
+                "ocupacaoAtual": 25
             }
             ```
             
@@ -196,10 +216,20 @@
             ## Atualizar todas as informações de um abrigo no banco de dados
             
             Use este endpoint para sobrescrever **todos os campos** do cadastro de um abrigo.
-            ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+            
+            ⚠️ **Atenção:** Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
             
             ### Todos os campos devem ser preenchidos:
             - Campos não enviados serão sobrescritos com valores nulos ou padrão.
+            
+            ### Parâmetro necessário:
+            - **id** (string): ID do abrigo (gerado automaticamente pelo MongoDB)
+            
+            ### Campos no body da requisição:
+            - **id** (string): Deve ser o mesmo informado na rota ou pode ser omitido, pois o ID da rota prevalece.
+            - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+            - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+            - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
             
             ### Exemplo de requisição:
             
@@ -211,12 +241,23 @@
             Content-Type: application/json
             ```
             
-            ### Exemplo de requisição para atualizar os dados:
-            
+            ### Exemplo de body da requisição:
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "descricao": "Abrigo Central",
+                "capacidadeTotal": 120,
+                "ocupacaoAtual": 30
+            }
+            ```
+            
+            ### Exemplo de resposta:
+            ```json
+            {
+                "id": "6659fbbd3fae4c001fcf6d93",
+                "descricao": "Abrigo Central",
+                "capacidadeTotal": 120,
+                "ocupacaoAtual": 30
             }
             ```
             
@@ -241,14 +282,19 @@
             
             <remarks>
             
-            ## Atualização Parcial de um  Abrigo
+            ## Atualização Parcial de um Abrigo
             
             Use este endpoint quando for necessário atualizar apenas **alguns campos** do abrigo,
             sem a necessidade de enviar todos os dados já cadastrados.
             Somente os campos incluídos no corpo da requisição serão modificados.
             
-            ⚠️ Campos que **não podem ser atualizados** por este endpoint:
+            ⚠️ **Atenção:** Campos que **não podem ser atualizados** por este endpoint:
             - **id**: O ID do abrigo não pode ser alterado.
+            
+            ### Campos que podem ser atualizados:
+            - **descricao** (string): Descrição do abrigo (Ex: "Abrigo Central", "Abrigo Temporário", etc.)
+            - **capacidadeTotal** (int): Quantidade máxima de pessoas que o abrigo comporta
+            - **ocupacaoAtual** (int): Quantidade atual de pessoas no abrigo
             
             ### Exemplo de requisição:
             
@@ -260,13 +306,11 @@
             Content-Type: application/json
             ```
             
-            ### Campos que podem ser atualizados:
-            - **descricao** (string): Descrição do abrigo (Ex: "Administrador", "Comum")
-            
-            ### Exemplo de requisição:
+            ### Exemplo de body com atualização parcial:
             ```json
             {
-                "descricao": "Administrador"
+                "descricao": "Abrigo Central",
+                "ocupacaoAtual": 35
             }
             ```
             
@@ -274,7 +318,9 @@
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "descricao": "Abrigo Central",
+                "capacidadeTotal": 100,
+                "ocupacaoAtual": 35
             }
             ```
             
@@ -294,22 +340,31 @@
             
             <remarks>
             
-            ## Excluir um  Abrigo do banco de dados
+            ## Excluir um Abrigo do banco de dados
             
             Use este endpoint para remover permanentemente um abrigo da base de dados.
-            ⚠️ **A exclusão é irreversível.**
+            
+            ⚠️ **Atenção:** A exclusão é irreversível. Todos os dados relacionados a este abrigo serão permanentemente perdidos.
+            
+            ### Parâmetro necessário:
+            - **id** (string): ID do abrigo (gerado automaticamente pelo MongoDB)
             
             ### Exemplo de requisição:
+            
             ```http
             DELETE http://localhost:3001/api/Abrigo/ExcluirAbrigo/{id}
             ```
             
-            ### Exemplo de resposta:
+            ### Exemplo de resposta ao excluir com sucesso:
             ```json
             {
                 "message": "Abrigo excluído com sucesso."
             }
             ```
+            
+            ### Possíveis respostas de erro:
+            - ID inválido ou mal formatado
+            - Abrigo não encontrado
             
             </remarks>
             
@@ -320,16 +375,16 @@
         </member>
         <member name="M:CategoriaController.CadastrarCategoria(Project.Models.Categoria)">
             <summary>
-                Cria um novo Categoria.
+                Cria uma nova categoria.
             </summary>
             
             <remarks>
             
-            ## Cadastrar novo Categoria no banco de dados
+            ## Cadastrar nova categoria no banco de dados
             
-            Use este endpoint para cadastrar um Categoria no sistema.
+            Use este endpoint para cadastrar uma categoria no sistema.
             
-            Requisição via rota:
+            ### Requisição via rota:
             ```http
             POST http://localhost:3001/api/Categoria/CadastrarCategoria
             ```
@@ -338,95 +393,91 @@
             Content-Type: application/json
             ```
             
-            ### Campos que devem ser utilizados para criar um novo Categoria:
-            - **descricao** (string): Descrição do Categoria (Ex: "Vestuário", "Administrador", etc.)
+            ### Campos necessários para criar uma nova categoria:
+            - **descricao** (string): Descrição da categoria (Ex: "Alimentos", "Higiene", etc.)
             
             ### Campos que não devem ser enviados:
             - **id**: Gerado automaticamente pelo banco de dados
             
-            ### Exemplo de body para requisição:
+            ### Exemplo de body da requisição:
             ```json
             {
-                "descricao": "Vestuário"
+                "descricao": "Alimentos"
             }
             ```
             
-            ### Exemplo de resposta ao cadastrar com sucesso:
+            ### Exemplo de resposta:
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Vestuário"
+                "descricao": "Alimentos"
             }
             ```
             
             </remarks>
             
             <response code="200">Requisição realizada com sucesso</response>
-            <response code="201">Categoria criado com sucesso</response>
+            <response code="201">Categoria criada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:CategoriaController.ConsultarTodasCategorias">
             <summary>
-                Consultar a lista com todos os tipos de categorias.
+                Consultar a lista com todas as categorias.
             </summary>
             
             <remarks>
             
-            ## Consultar todos os registros de tipos de categorias do banco de dados
+            ## Consultar todas as categorias do banco de dados
             
-            Use este endpoint para recuperar todos os tipos de categorias armazenados no banco de dados. O Categoria define o perfil e as permissões dos categorias dentro da plataforma.
+            Use este endpoint para recuperar todas as categorias armazenadas.
             
-            ### Exemplo de requisição:
-            
-            Requisição via rota:
+            ### Requisição via rota:
             ```http
-            GET http://localhost:3001/api/Categoria/ConsultarTodosCategoria
+            GET http://localhost:3001/api/Categoria/ConsultarTodasCategorias
             ```
             ```http
             Content-Type: application/json
             ```
             
-            ### Campos disponíveis na resposta:
-            - **id** (string): Identificador único do Categoria (gerado automaticamente pelo banco)
-            - **descricao** (string): Descrição do Categoria (Ex: "Vestuário", "Administrador", etc.)
+            ### Campos na resposta:
+            - **id** (string): Identificador único da categoria
+            - **descricao** (string): Descrição da categoria
             
             ### Exemplo de resposta:
             ```json
             [
                 {
                     "id": "6659fbbd3fae4c001fcf6d93",
-                    "descricao": "Vestuário"
+                    "descricao": "Alimentos"
                 },
                 {
                     "id": "6659fbbd3fae4c001fcf6e01",
-                    "descricao": "Administrador"
+                    "descricao": "Higiene"
                 }
             ]
             ```
             
             </remarks>
             
-            <response code="200">Lista de tipos de categorias retornada com sucesso</response>
+            <response code="200">Lista de categorias retornada com sucesso</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:CategoriaController.ConsultarCategoriaId(System.String)">
             <summary>
-                Consultar um único registro de Categoria.
+                Consultar uma única categoria.
             </summary>
             
             <remarks>
             
-            ## Consultar um único Categoria pelo ID
+            ## Consultar uma categoria pelo ID
             
-            Use este endpoint quando precisar recuperar os dados de um Categoria específico, informando o ID armazenado no banco de dados.
+            Use este endpoint para recuperar os dados de uma categoria específica, informando o ID.
             
             ### Parâmetro necessário:
-            - **id** (string): ID do Categoria (gerado automaticamente pelo MongoDB)
+            - **id** (string): ID da categoria
             
-            ### Exemplo de requisição:
-            
-            Requisição via rota:
+            ### Requisição via rota:
             ```http
             GET http://localhost:3001/api/Categoria/ConsultarCategoriaId/{id}
             ```
@@ -435,35 +486,33 @@
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Vestuário"
+                "descricao": "Alimentos"
             }
             ```
             
             </remarks>
             
-            <response code="200">Categoria consultado com sucesso</response>
+            <response code="200">Categoria consultada com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Categoria não encontrado</response>
+            <response code="404">Categoria não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:CategoriaController.AtualizarCategoria(System.String,Project.Models.Categoria)">
             <summary>
-                Atualiza todos os dados do Categoria com base no ID.
+                Atualiza todos os dados da categoria com base no ID.
             </summary>
+            
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID da categoria no banco de dados.</param>
+            <param name="categoria">Objeto contendo os dados completos a serem atualizados.</param>
             
             <remarks>
             
-            ## Atualizar todas as informações de um Categoria no banco de dados
+            ## Atualizar todas as informações de uma categoria
             
-            Use este endpoint para sobrescrever **todos os campos** do cadastro de um Categoria.
-            ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
-            
-            ### Todos os campos devem ser preenchidos:
-            - Campos não enviados serão sobrescritos com valores nulos ou padrão.
+            Use este endpoint para sobrescrever **todos os campos** da categoria.
+            ⚠️ Campos não enviados serão sobrescritos com valores nulos.
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             PUT http://localhost:3001/api/Categoria/AtualizarCategoria/{id}
             ```
@@ -471,48 +520,49 @@
             Content-Type: application/json
             ```
             
-            ### Exemplo de requisição para atualizar os dados:
-            
+            ### Exemplo de body:
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "descricao": "Higiene"
+            }
+            ```
+            
+            ### Exemplo de resposta:
+            ```json
+            {
+                "id": "6659fbbd3fae4c001fcf6d93",
+                "descricao": "Higiene"
             }
             ```
             
             </remarks>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do Categoria no banco de dados.</param>
-            <param name="categoria">Objeto contendo os dados completos a serem atualizados.</param>
-            
-            <response code="200">Categoria atualizado com sucesso</response>
+            <response code="200">Categoria atualizada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
-            <response code="401">Não autorizado</response>
-            <response code="404">Categoria não encontrado</response>
+            <response code="404">Categoria não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:CategoriaController.AtualizarParcial(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-                Atualiza parcialmente os dados de um Categoria existente.
+                Atualiza parcialmente os dados de uma categoria.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do Categoria a ser atualizado.</param>
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID da categoria a ser atualizada.</param>
             <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
             
             <remarks>
             
-            ## Atualização Parcial de um Categoria
+            ## Atualização Parcial de Categoria
             
-            Use este endpoint quando for necessário atualizar apenas **alguns campos** do Categoria,
-            sem a necessidade de enviar todos os dados já cadastrados.
-            Somente os campos incluídos no corpo da requisição serão modificados.
+            Use este endpoint quando quiser atualizar apenas **alguns campos** da categoria.
             
-            ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-            - **id**: O ID do Categoria não pode ser alterado.
+            ⚠️ Não é permitido atualizar o campo **id**.
             
-            ### Exemplo de requisição:
+            ### Campo que pode ser atualizado:
+            - **descricao** (string)
             
-            Requisição via rota:
+            ### Requisição via rota:
             ```http
             PATCH http://localhost:3001/api/Categoria/AtualizarParcial/{id}
             ```
@@ -520,13 +570,10 @@
             Content-Type: application/json
             ```
             
-            ### Campos que podem ser atualizados:
-            - **descricao** (string): Descrição do Categoria (Ex: "Administrador", "Vestuário")
-            
-            ### Exemplo de requisição:
+            ### Exemplo de body:
             ```json
             {
-                "descricao": "Administrador"
+                "descricao": "Higiene Pessoal"
             }
             ```
             
@@ -534,62 +581,62 @@
             ```json
             {
                 "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "descricao": "Higiene Pessoal"
             }
             ```
             
             </remarks>
             
-            <response code="200">Categoria atualizado com sucesso</response>
+            <response code="200">Categoria atualizada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
-            <response code="404">Categoria não encontrado</response>
+            <response code="404">Categoria não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:CategoriaController.ExcluirCategoria(System.String)">
             <summary>
-                Exclui um Categoria do banco de dados.
+                Exclui uma categoria do banco de dados.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do Categoria a ser excluído.</param>
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID da categoria a ser excluída.</param>
             
             <remarks>
             
-            ## Excluir um Categoria do banco de dados
+            ## Excluir uma Categoria do banco de dados
             
-            Use este endpoint para remover permanentemente um Categoria da base de dados.
+            Use este endpoint para remover uma categoria permanentemente.
             ⚠️ **A exclusão é irreversível.**
             
-            ### Exemplo de requisição:
+            ### Requisição via rota:
             ```http
-            DELETE http://localhost:3001/api/Categoria/Excluir/{id}
+            DELETE http://localhost:3001/api/Categoria/ExcluirCategoria/{id}
             ```
             
             ### Exemplo de resposta:
             ```json
             {
-                "message": "Categoria excluído com sucesso."
+                "message": "Categoria excluída com sucesso."
             }
             ```
             
             </remarks>
             
-            <response code="200">Categoria excluído com sucesso</response>
+            <response code="200">Categoria excluída com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Categoria não encontrado</response>
+            <response code="404">Categoria não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DistribuicaoController.CadastrarDistribuicao(Project.Models.Distribuicao)">
             <summary>
-                Cria um novo distribuicao.
+                Cria uma nova distribuição.
             </summary>
             
             <remarks>
             
-            ## Cadastrar novo distribuicao no banco de dados
+            ## Cadastrar nova distribuição no banco de dados
             
-            Use este endpoint para cadastrar um distribuicao no sistema.
+            Use este endpoint para cadastrar uma nova distribuição no sistema.
             
-            Requisição via rota:
+            ### Requisição via rota:
             ```http
             POST http://localhost:3001/api/Distribuicao/CadastrarDistribuicao
             ```
@@ -598,8 +645,11 @@
             Content-Type: application/json
             ```
             
-            ### Campos que devem ser utilizados para criar um novo distribuicao:
-            - **descricao** (string): Descrição do distribuicao (Ex: "Comum", "Administrador", etc.)
+            ### Campos que devem ser utilizados para criar uma nova distribuição:
+            - **idDoacao** (string): ID da doação relacionada
+            - **quantidadeDestinada** (int): Quantidade de itens destinados
+            - **dataDestinada** (string - formato ISO 8601): Data em que a distribuição foi realizada
+            - **idPessoaAtendida** (string): ID da pessoa atendida pela distribuição
             
             ### Campos que não devem ser enviados:
             - **id**: Gerado automaticamente pelo banco de dados
@@ -607,60 +657,67 @@
             ### Exemplo de body para requisição:
             ```json
             {
-                "descricao": "Comum"
+                "idDoacao": "665af8b13fae4c001fcf6d12",
+                "quantidadeDestinada": 10,
+                "dataDestinada": "2025-05-30T14:30:00",
+                "idPessoaAtendida": "665af9a03fae4c001fcf6d15"
             }
             ```
             
             ### Exemplo de resposta ao cadastrar com sucesso:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "id": "665afa483fae4c001fcf6d19",
+                "idDoacao": "665af8b13fae4c001fcf6d12",
+                "quantidadeDestinada": 10,
+                "dataDestinada": "2025-05-30T14:30:00",
+                "idPessoaAtendida": "665af9a03fae4c001fcf6d15"
             }
             ```
             
             </remarks>
             
             <response code="200">Requisição realizada com sucesso</response>
-            <response code="201">Distribuicao criado com sucesso</response>
+            <response code="201">Distribuição criada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DistribuicaoController.ConsultarTodosDistribuicao">
             <summary>
-                Consultar a lista com todos os distribuições.
+                Consultar a lista com todas as distribuições.
             </summary>
             
             <remarks>
             
-            ## Consultar todos os registros de distribuições do banco de dados
+            ## Consultar todos os registros de distribuições no banco de dados
             
-            Use este endpoint para recuperar todos os distribuições armazenados no banco de dados. O distribuicao define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+            Use este endpoint para recuperar todas as distribuições armazenadas no banco de dados.
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
-            GET http://localhost:3001/api/Distribuicao/ConsultarTodosDistribuicao
+            GET http://localhost:3001/api/Distribuicao/ConsultarTodasDistribuicao
             ```
+            
             ```http
             Content-Type: application/json
             ```
             
             ### Campos disponíveis na resposta:
-            - **id** (string): Identificador único do distribuicao (gerado automaticamente pelo banco)
-            - **descricao** (string): Descrição do distribuicao (Ex: "Comum", "Administrador", etc.)
+            - **id** (string): Identificador único da distribuição
+            - **idDoacao** (string): ID da doação associada
+            - **quantidadeDestinada** (int): Quantidade de itens destinados
+            - **dataDestinada** (string - formato ISO 8601): Data da distribuição
+            - **idPessoaAtendida** (string): ID da pessoa atendida
             
             ### Exemplo de resposta:
             ```json
             [
                 {
-                    "id": "6659fbbd3fae4c001fcf6d93",
-                    "descricao": "Comum"
-                },
-                {
-                    "id": "6659fbbd3fae4c001fcf6e01",
-                    "descricao": "Administrador"
+                    "id": "665afa483fae4c001fcf6d19",
+                    "idDoacao": "665af8b13fae4c001fcf6d12",
+                    "quantidadeDestinada": 10,
+                    "dataDestinada": "2025-05-30T14:30:00",
+                    "idPessoaAtendida": "665af9a03fae4c001fcf6d15"
                 }
             ]
             ```
@@ -672,21 +729,19 @@
         </member>
         <member name="M:DistribuicaoController.ConsultarDistribuicaoId(System.String)">
             <summary>
-                Consultar um único registro de distribuicao.
+                Consultar um único registro de distribuição.
             </summary>
             
             <remarks>
             
-            ## Consultar um único distribuicao pelo ID
+            ## Consultar uma distribuição pelo ID
             
-            Use este endpoint quando precisar recuperar os dados de um distribuicao específico, informando o ID armazenado no banco de dados.
+            Use este endpoint para recuperar os dados de uma distribuição específica, informando o ID.
             
             ### Parâmetro necessário:
-            - **id** (string): ID do distribuicao (gerado automaticamente pelo MongoDB)
+            - **id** (string): ID da distribuição
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             GET http://localhost:3001/api/Distribuicao/ConsultarDistribuicaoId/{id}
             ```
@@ -694,129 +749,136 @@
             ### Exemplo de resposta:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "id": "665afa483fae4c001fcf6d19",
+                "idDoacao": "665af8b13fae4c001fcf6d12",
+                "quantidadeDestinada": 10,
+                "dataDestinada": "2025-05-30T14:30:00",
+                "idPessoaAtendida": "665af9a03fae4c001fcf6d15"
             }
             ```
             
             </remarks>
             
-            <response code="200">Distribuicao consultado com sucesso</response>
+            <response code="200">Distribuição consultada com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Distribuicao não encontrado</response>
+            <response code="404">Distribuição não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DistribuicaoController.AtualizarDistribuicao(System.String,Project.Models.Distribuicao)">
             <summary>
-                Atualiza todos os dados do distribuicao com base no ID.
+                Atualiza todos os dados da distribuição com base no ID.
             </summary>
             
             <remarks>
             
-            ## Atualizar todas as informações de um distribuicao no banco de dados
+            ## Atualizar todas as informações de uma distribuição
             
-            Use este endpoint para sobrescrever **todos os campos** do cadastro de um distribuicao.
-            ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+            Use este endpoint para sobrescrever **todos os campos** de uma distribuição.
+            ⚠️ Se desejar atualizar apenas alguns campos, utilize o endpoint PATCH.
             
             ### Todos os campos devem ser preenchidos:
             - Campos não enviados serão sobrescritos com valores nulos ou padrão.
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             PUT http://localhost:3001/api/Distribuicao/AtualizarDistribuicao/{id}
             ```
+            
             ```http
             Content-Type: application/json
             ```
             
-            ### Exemplo de requisição para atualizar os dados:
-            
+            ### Exemplo de body:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "id": "665afa483fae4c001fcf6d19",
+                "quantidadeDestinada": 20,
+                "dataDestinada": "2025-06-01T10:00:00",
             }
             ```
             
             </remarks>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do distribuicao no banco de dados.</param>
+            <param name="id" type="string">ID da distribuição no banco de dados.</param>
             <param name="distribuicao">Objeto contendo os dados completos a serem atualizados.</param>
             
-            <response code="200">Distribuicao atualizado com sucesso</response>
+            <response code="200">Distribuição atualizada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="401">Não autorizado</response>
-            <response code="404">Distribuicao não encontrado</response>
+            <response code="404">Distribuição não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DistribuicaoController.AtualizarParcial(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-                Atualiza parcialmente os dados de um distribuicao existente.
+                Atualiza parcialmente os dados de uma distribuição existente.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do distribuicao a ser atualizado.</param>
+            <param name="id" type="string">ID da distribuição a ser atualizada.</param>
             <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
             
             <remarks>
             
-            ## Atualização Parcial de um  Distribuicao
+            ## Atualização parcial de uma distribuição
             
-            Use este endpoint quando for necessário atualizar apenas **alguns campos** do distribuicao,
-            sem a necessidade de enviar todos os dados já cadastrados.
-            Somente os campos incluídos no corpo da requisição serão modificados.
+            Use este endpoint para atualizar **apenas alguns campos** da distribuição.
+            Somente os campos enviados no body serão modificados.
             
-            ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-            - **id**: O ID do distribuicao não pode ser alterado.
+            ⚠️ Campos que **não podem ser atualizados**:
+            - **id**: O ID da distribuição não pode ser alterado.
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             PATCH http://localhost:3001/api/Distribuicao/AtualizarParcial/{id}
             ```
+            
             ```http
             Content-Type: application/json
             ```
             
             ### Campos que podem ser atualizados:
-            - **descricao** (string): Descrição do distribuicao (Ex: "Administrador", "Comum")
+            - **idDoacao** (string)
+            - **quantidadeDestinada** (int)
+            - **dataDestinada** (string - formato ISO 8601)
+            - **idPessoaAtendida** (string)
             
-            ### Exemplo de requisição:
+            ### Exemplo de body:
             ```json
             {
-                "descricao": "Administrador"
+                "quantidadeDestinada": 25,
+                "dataDestinada": "2025-06-02T09:00:00"
             }
             ```
             
             ### Exemplo de resposta:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "id": "665afa483fae4c001fcf6d19",
+                "idDoacao": "665af8b13fae4c001fcf6d12",
+                "quantidadeDestinada": 25,
+                "dataDestinada": "2025-06-02T09:00:00",
+                "idPessoaAtendida": "665af9a03fae4c001fcf6d15"
             }
             ```
             
             </remarks>
             
-            <response code="200">Distribuicao atualizado com sucesso</response>
+            <response code="200">Distribuição atualizada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
-            <response code="404">Distribuicao não encontrado</response>
+            <response code="404">Distribuição não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DistribuicaoController.ExcluirDistribuicao(System.String)">
             <summary>
-                Exclui um distribuicao do banco de dados.
+                Exclui uma distribuição do banco de dados.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do distribuicao a ser excluído.</param>
+            <param name="id" type="string">ID da distribuição a ser excluída.</param>
             
             <remarks>
             
-            ## Excluir um  Distribuicao do banco de dados
+            ## Excluir uma distribuição do banco de dados
             
-            Use este endpoint para remover permanentemente um distribuicao da base de dados.
+            Use este endpoint para remover permanentemente uma distribuição da base de dados.
             ⚠️ **A exclusão é irreversível.**
             
             ### Exemplo de requisição:
@@ -827,27 +889,27 @@
             ### Exemplo de resposta:
             ```json
             {
-                "message": "Distribuicao excluído com sucesso."
+                "message": "Distribuição excluída com sucesso."
             }
             ```
             
             </remarks>
             
-            <response code="200">Distribuicao excluído com sucesso</response>
+            <response code="200">Distribuição excluída com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Distribuicao não encontrado</response>
+            <response code="404">Distribuição não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DoacaoController.CadastrarDoacao(Project.Models.Doacao)">
             <summary>
-                Cria um novo doação.
+                Cria uma nova doação.
             </summary>
             
             <remarks>
             
-            ## Cadastrar novo doação no banco de dados
+            ## Cadastrar nova doação no banco de dados
             
-            Use este endpoint para cadastrar um doação no sistema.
+            Use este endpoint para cadastrar uma nova doação no sistema.
             
             Requisição via rota:
             ```http
@@ -858,8 +920,11 @@
             Content-Type: application/json
             ```
             
-            ### Campos que devem ser utilizados para criar um novo doação:
-            - **descricao** (string): Descrição do doação (Ex: "Comum", "Administrador", etc.)
+            ### Campos que devem ser utilizados para criar uma nova doação:
+            - **idAbrigo** (string): ID do abrigo associado (ex: "665c1e9c3fae4c001fcf6d87")
+            - **descricao** (string): Descrição da doação (ex: "Cestas básicas")
+            - **idCategoria** (string): ID da categoria (ex: "665c1ea83fae4c001fcf6d89")
+            - **quantidade** (int): Quantidade de itens doados
             
             ### Campos que não devem ser enviados:
             - **id**: Gerado automaticamente pelo banco de dados
@@ -867,61 +932,63 @@
             ### Exemplo de body para requisição:
             ```json
             {
-                "descricao": "Comum"
+                "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+                "descricao": "Cestas básicas",
+                "idCategoria": "665c1ea83fae4c001fcf6d89",
+                "quantidade": 50
             }
             ```
             
             ### Exemplo de resposta ao cadastrar com sucesso:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "id": "665c1f983fae4c001fcf6d88",
+                "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+                "descricao": "Cestas básicas",
+                "idCategoria": "665c1ea83fae4c001fcf6d89",
+                "quantidade": 50
             }
             ```
             
             </remarks>
             
-            <response code="200">Requisição realizada com sucesso</response>
-            <response code="201">Doacao criado com sucesso</response>
+            <response code="201">Doação criada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DoacaoController.ConsultarTodosDoacao">
             <summary>
-                Consultar a lista com todos os doações.
+                Consultar a lista com todas as doações.
             </summary>
             
             <remarks>
             
-            ## Consultar todos os registros de doações do banco de dados
+            ## Consultar todos os registros de doações no banco de dados
             
-            Use este endpoint para recuperar todos os doações armazenados no banco de dados. O doação define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+            Use este endpoint para recuperar todas as doações cadastradas.
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             GET http://localhost:3001/api/Doacao/ConsultarTodosDoacao
             ```
-            ```http
-            Content-Type: application/json
-            ```
             
-            ### Campos disponíveis na resposta:
-            - **id** (string): Identificador único do doação (gerado automaticamente pelo banco)
-            - **descricao** (string): Descrição do doação (Ex: "Comum", "Administrador", etc.)
+            ### Campos retornados:
+            - **id** (string): ID da doação
+            - **idAbrigo** (string): ID do abrigo associado
+            - **descricao** (string): Descrição da doação
+            - **idCategoria** (string): ID da categoria
+            - **quantidade** (int): Quantidade de itens doados
             
             ### Exemplo de resposta:
             ```json
             [
-                {
-                    "id": "6659fbbd3fae4c001fcf6d93",
-                    "descricao": "Comum"
-                },
-                {
-                    "id": "6659fbbd3fae4c001fcf6e01",
-                    "descricao": "Administrador"
-                }
+              {
+                "id": "665c1f983fae4c001fcf6d88",
+                "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+                "descricao": "Cestas básicas",
+                "idCategoria": "665c1ea83fae4c001fcf6d89",
+                "quantidade": 50
+              }
             ]
             ```
             
@@ -937,16 +1004,14 @@
             
             <remarks>
             
-            ## Consultar um único doação pelo ID
+            ## Consultar uma doação pelo ID
             
-            Use este endpoint quando precisar recuperar os dados de um doação específico, informando o ID armazenado no banco de dados.
+            Use este endpoint para recuperar os dados de uma doação específica, informando o ID.
             
             ### Parâmetro necessário:
-            - **id** (string): ID do doação (gerado automaticamente pelo MongoDB)
+            - **id** (string): ID da doação
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             GET http://localhost:3001/api/Doacao/ConsultarDoacaoId/{id}
             ```
@@ -954,129 +1019,136 @@
             ### Exemplo de resposta:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "id": "665c1f983fae4c001fcf6d88",
+                "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+                "descricao": "Cestas básicas",
+                "idCategoria": "665c1ea83fae4c001fcf6d89",
+                "quantidade": 50
             }
             ```
             
             </remarks>
             
-            <response code="200">Doacao consultado com sucesso</response>
+            <response code="200">Doação consultada com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Doacao não encontrado</response>
+            <response code="404">Doação não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DoacaoController.AtualizarDoacao(System.String,Project.Models.Doacao)">
             <summary>
-                Atualiza todos os dados do doação com base no ID.
+                Atualiza todos os dados da doação com base no ID.
             </summary>
             
             <remarks>
             
-            ## Atualizar todas as informações de um doação no banco de dados
+            ## Atualizar todas as informações de uma doação
             
-            Use este endpoint para sobrescrever **todos os campos** do cadastro de um doação.
-            ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+            Use este endpoint para sobrescrever **todos os campos** de uma doação.
+            ⚠️ Se desejar atualizar apenas alguns campos, utilize o endpoint PATCH.
             
             ### Todos os campos devem ser preenchidos:
             - Campos não enviados serão sobrescritos com valores nulos ou padrão.
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             PUT http://localhost:3001/api/Doacao/AtualizarDoacao/{id}
             ```
+            
             ```http
             Content-Type: application/json
             ```
             
-            ### Exemplo de requisição para atualizar os dados:
-            
+            ### Exemplo de body:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "id": "665c1f983fae4c001fcf6d88",
+                "descricao": "Doação de roupas",
+                "quantidade": 100
             }
             ```
             
             </remarks>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação no banco de dados.</param>
+            <param name="id" type="string">ID da doação no banco de dados.</param>
             <param name="doacao">Objeto contendo os dados completos a serem atualizados.</param>
             
-            <response code="200">Doacao atualizado com sucesso</response>
+            <response code="200">Doação atualizada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="401">Não autorizado</response>
-            <response code="404">Doacao não encontrado</response>
+            <response code="404">Doação não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DoacaoController.AtualizarParcial(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-                Atualiza parcialmente os dados de um doação existente.
+                Atualiza parcialmente os dados de uma doação existente.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação a ser atualizado.</param>
+            <param name="id" type="string">ID da doação a ser atualizada.</param>
             <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
             
             <remarks>
             
-            ## Atualização Parcial de um  Doacao
+            ## Atualização parcial de uma doação
             
-            Use este endpoint quando for necessário atualizar apenas **alguns campos** do doação,
-            sem a necessidade de enviar todos os dados já cadastrados.
-            Somente os campos incluídos no corpo da requisição serão modificados.
+            Use este endpoint para atualizar **apenas alguns campos** da doação.
+            Somente os campos enviados no body serão modificados.
             
-            ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-            - **id**: O ID do doação não pode ser alterado.
+            ⚠️ Campos que **não podem ser atualizados**:
+            - **id**: O ID da doação não pode ser alterado.
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             PATCH http://localhost:3001/api/Doacao/AtualizarParcial/{id}
             ```
+            
             ```http
             Content-Type: application/json
             ```
             
             ### Campos que podem ser atualizados:
-            - **descricao** (string): Descrição do doação (Ex: "Administrador", "Comum")
+            - **idAbrigo** (string)
+            - **descricao** (string)
+            - **idCategoria** (string)
+            - **quantidade** (int)
             
-            ### Exemplo de requisição:
+            ### Exemplo de body:
             ```json
             {
-                "descricao": "Administrador"
+                "descricao": "Doação de alimentos",
+                "quantidade": 80
             }
             ```
             
             ### Exemplo de resposta:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "id": "665c1f983fae4c001fcf6d88",
+                "idAbrigo": "665c1e9c3fae4c001fcf6d87",
+                "descricao": "Doação de alimentos",
+                "idCategoria": "665c1ea83fae4c001fcf6d89",
+                "quantidade": 80
             }
             ```
             
             </remarks>
             
-            <response code="200">Doacao atualizado com sucesso</response>
+            <response code="200">Doação atualizada com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
-            <response code="404">Doacao não encontrado</response>
+            <response code="404">Doação não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:DoacaoController.ExcluirDoacao(System.String)">
             <summary>
-                Exclui um doação do banco de dados.
+                Exclui uma doação do banco de dados.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação a ser excluído.</param>
+            <param name="id" type="string">ID da doação a ser excluída.</param>
             
             <remarks>
             
-            ## Excluir um  Doacao do banco de dados
+            ## Excluir uma doação do banco de dados
             
-            Use este endpoint para remover permanentemente um doação da base de dados.
+            Use este endpoint para remover permanentemente uma doação da base de dados.
             ⚠️ **A exclusão é irreversível.**
             
             ### Exemplo de requisição:
@@ -1087,15 +1159,15 @@
             ### Exemplo de resposta:
             ```json
             {
-                "message": "Doacao excluído com sucesso."
+                "message": "Doação excluída com sucesso."
             }
             ```
             
             </remarks>
             
-            <response code="200">Doacao excluído com sucesso</response>
+            <response code="200">Doação excluída com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">Doacao não encontrado</response>
+            <response code="404">Doação não encontrada</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:EnderecoController.ConsultarCep(System.String)">
@@ -1699,14 +1771,14 @@
         </member>
         <member name="M:RegistroEventoController.CadastrarRegistroEvento(Project.Models.RegistroEvento)">
             <summary>
-                Cria um novo registro do evento.
+                Cria um novo registro de evento.
             </summary>
             
             <remarks>
             
-            ## Cadastrar novo registro do evento no banco de dados
+            ## Cadastrar novo registro de evento no banco de dados
             
-            Use este endpoint para cadastrar um registro do evento no sistema.
+            Use este endpoint para cadastrar um registro de evento no sistema.
             
             Requisição via rota:
             ```http
@@ -1717,8 +1789,12 @@
             Content-Type: application/json
             ```
             
-            ### Campos que devem ser utilizados para criar um novo registro do evento:
-            - **descricao** (string): Descrição do registro do evento (Ex: "Comum", "Administrador", etc.)
+            ### Campos que devem ser utilizados para criar um novo registro:
+            - **descricao** (string): Descrição do evento
+            - **dataHora** (DateTime): Data e hora do evento (local)
+            - **idUsuario** (string): ID do usuário associado
+            - **localizacao** (string): Local onde ocorreu o evento
+            - **idAbrigo** (string): ID do abrigo associado
             
             ### Campos que não devem ser enviados:
             - **id**: Gerado automaticamente pelo banco de dados
@@ -1726,84 +1802,85 @@
             ### Exemplo de body para requisição:
             ```json
             {
-                "descricao": "Comum"
+                "descricao": "Reunião de voluntários",
+                "dataHora": "2025-05-30T14:00:00",
+                "idUsuario": "6659fbbd3fae4c001fcf6d93",
+                "localizacao": "Sala 5",
+                "idAbrigo": "6659fbbd3fae4c001fcf6e01"
             }
             ```
             
             ### Exemplo de resposta ao cadastrar com sucesso:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "id": "6659fbbd3fae4c001fcf6d94",
+                "descricao": "Reunião de voluntários",
+                "dataHora": "2025-05-30T14:00:00",
+                "idUsuario": "6659fbbd3fae4c001fcf6d93",
+                "localizacao": "Sala 5",
+                "idAbrigo": "6659fbbd3fae4c001fcf6e01"
             }
             ```
             
             </remarks>
             
-            <response code="200">Requisição realizada com sucesso</response>
-            <response code="201">RegistroEvento criado com sucesso</response>
+            <response code="201">Registro de evento criado com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:RegistroEventoController.ConsultarTodosRegistroEvento">
             <summary>
-                Consultar a lista com todos os tipos de registro do eventos.
+                Consultar todos os registros de eventos.
             </summary>
             
             <remarks>
             
-            ## Consultar todos os registros de tipos de registro do eventos do banco de dados
+            ## Consultar todos os registros de eventos do banco de dados
             
-            Use este endpoint para recuperar todos os tipos de registro do eventos armazenados no banco de dados. O registro do evento define o perfil e as permissões dos registro do eventos dentro da plataforma.
-            
-            ### Exemplo de requisição:
+            Use este endpoint para recuperar todos os registros de eventos armazenados no banco.
             
             Requisição via rota:
             ```http
             GET http://localhost:3001/api/RegistroEvento/ConsultarTodosRegistroEvento
             ```
-            ```http
-            Content-Type: application/json
-            ```
             
             ### Campos disponíveis na resposta:
-            - **id** (string): Identificador único do registro do evento (gerado automaticamente pelo banco)
-            - **descricao** (string): Descrição do registro do evento (Ex: "Comum", "Administrador", etc.)
+            - **id** (string): Identificador único do registro (gerado automaticamente)
+            - **descricao** (string): Descrição do evento
+            - **dataHora** (DateTime): Data e hora do evento
+            - **idUsuario** (string): ID do usuário associado
+            - **localizacao** (string): Local do evento
+            - **idAbrigo** (string): ID do abrigo associado
             
             ### Exemplo de resposta:
             ```json
             [
                 {
-                    "id": "6659fbbd3fae4c001fcf6d93",
-                    "descricao": "Comum"
-                },
-                {
-                    "id": "6659fbbd3fae4c001fcf6e01",
-                    "descricao": "Administrador"
+                    "id": "6659fbbd3fae4c001fcf6d94",
+                    "descricao": "Reunião de voluntários",
+                    "dataHora": "2025-05-30T14:00:00",
+                    "idUsuario": "6659fbbd3fae4c001fcf6d93",
+                    "localizacao": "Sala 5",
+                    "idAbrigo": "6659fbbd3fae4c001fcf6e01"
                 }
             ]
             ```
             
             </remarks>
             
-            <response code="200">Lista de tipos de registro do eventos retornada com sucesso</response>
+            <response code="200">Lista de registros retornada com sucesso</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:RegistroEventoController.ConsultarRegistroEventoId(System.String)">
             <summary>
-                Consultar um único registro de registro do evento.
+                Consultar um único registro de evento pelo ID.
             </summary>
             
             <remarks>
             
-            ## Consultar um único registro do evento pelo ID
+            ## Consultar registro pelo ID
             
-            Use este endpoint quando precisar recuperar os dados de um registro do evento específico, informando o ID armazenado no banco de dados.
-            
-            ### Parâmetro necessário:
-            - **id** (string): ID do registro do evento (gerado automaticamente pelo MongoDB)
-            
-            ### Exemplo de requisição:
+            Use este endpoint para recuperar os dados de um registro específico, informando seu ID.
             
             Requisição via rota:
             ```http
@@ -1813,132 +1890,134 @@
             ### Exemplo de resposta:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Comum"
+                "id": "6659fbbd3fae4c001fcf6d94",
+                "descricao": "Reunião de voluntários",
+                "dataHora": "2025-05-30T14:00:00",
+                "idUsuario": "6659fbbd3fae4c001fcf6d93",
+                "localizacao": "Sala 5",
+                "idAbrigo": "6659fbbd3fae4c001fcf6e01"
             }
             ```
             
             </remarks>
             
-            <response code="200">RegistroEvento consultado com sucesso</response>
+            <response code="200">Registro consultado com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">RegistroEvento não encontrado</response>
+            <response code="404">Registro não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:RegistroEventoController.AtualizarRegistroEvento(System.String,Project.Models.RegistroEvento)">
             <summary>
-                Atualiza todos os dados do registro do evento com base no ID.
+                Atualiza todos os dados de um registro de evento com base no ID.
             </summary>
             
             <remarks>
             
-            ## Atualizar todas as informações de um registro do evento no banco de dados
+            ## Atualizar todas as informações de um registro no banco de dados
             
-            Use este endpoint para sobrescrever **todos os campos** do cadastro de um registro do evento.
-            ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
+            Use este endpoint para sobrescrever **todos os campos** do cadastro de um registro de evento.
+            ⚠️ Para atualização parcial, utilize o endpoint PATCH.
             
             ### Todos os campos devem ser preenchidos:
             - Campos não enviados serão sobrescritos com valores nulos ou padrão.
-            
-            ### Exemplo de requisição:
             
             Requisição via rota:
             ```http
             PUT http://localhost:3001/api/RegistroEvento/AtualizarRegistroEvento/{id}
             ```
-            ```http
-            Content-Type: application/json
-            ```
             
-            ### Exemplo de requisição para atualizar os dados:
-            
+            ### Exemplo de requisição:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "id": "6659fbbd3fae4c001fcf6d94",
+                "descricao": "Nova descrição",
+                "dataHora": "2025-06-01T10:00:00",
+                "idUsuario": "6659fbbd3fae4c001fcf6d93",
+                "localizacao": "Nova sala",
+                "idAbrigo": "6659fbbd3fae4c001fcf6e01"
             }
             ```
             
             </remarks>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento no banco de dados.</param>
-            <param name="registroEvento">Objeto contendo os dados completos a serem atualizados.</param>
-            
-            <response code="200">RegistroEvento atualizado com sucesso</response>
+            <response code="200">Registro atualizado com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
             <response code="401">Não autorizado</response>
-            <response code="404">RegistroEvento não encontrado</response>
+            <response code="404">Registro não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:RegistroEventoController.AtualizarParcial(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-                Atualiza parcialmente os dados de um registro do evento existente.
+                Atualiza parcialmente os dados de um registro de evento existente.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento a ser atualizado.</param>
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d94">ID do registro a ser atualizado.</param>
             <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
             
             <remarks>
             
-            ## Atualização Parcial de um  RegistroEvento
+            ## Atualização Parcial de um Registro de Evento
             
-            Use este endpoint quando for necessário atualizar apenas **alguns campos** do registro do evento,
-            sem a necessidade de enviar todos os dados já cadastrados.
-            Somente os campos incluídos no corpo da requisição serão modificados.
+            Use este endpoint para atualizar apenas alguns campos, sem enviar todos os dados.
+            Somente os campos incluídos na requisição serão modificados.
             
-            ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-            - **id**: O ID do registro do evento não pode ser alterado.
+            ⚠️ Campos que **não podem ser atualizados**:
+            - **id**
             
             ### Exemplo de requisição:
-            
-            Requisição via rota:
             ```http
             PATCH http://localhost:3001/api/RegistroEvento/AtualizarParcial/{id}
             ```
-            ```http
-            Content-Type: application/json
-            ```
             
             ### Campos que podem ser atualizados:
-            - **descricao** (string): Descrição do registro do evento (Ex: "Administrador", "Comum")
+            - **descricao**
+            - **dataHora**
+            - **idUsuario**
+            - **localizacao**
+            - **idAbrigo**
             
-            ### Exemplo de requisição:
+            ### Exemplo de body:
             ```json
             {
-                "descricao": "Administrador"
+                "descricao": "Descrição atualizada",
+                "localizacao": "Auditório"
             }
             ```
             
             ### Exemplo de resposta:
             ```json
             {
-                "id": "6659fbbd3fae4c001fcf6d93",
-                "descricao": "Administrador"
+                "id": "6659fbbd3fae4c001fcf6d94",
+                "descricao": "Descrição atualizada",
+                "dataHora": "2025-05-30T14:00:00",
+                "idUsuario": "6659fbbd3fae4c001fcf6d93",
+                "localizacao": "Auditório",
+                "idAbrigo": "6659fbbd3fae4c001fcf6e01"
             }
             ```
             
             </remarks>
             
-            <response code="200">RegistroEvento atualizado com sucesso</response>
+            <response code="200">Registro atualizado com sucesso</response>
             <response code="400">Dados inválidos fornecidos</response>
-            <response code="404">RegistroEvento não encontrado</response>
+            <response code="404">Registro não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:RegistroEventoController.ExcluirRegistroEvento(System.String)">
             <summary>
-                Exclui um registro do evento do banco de dados.
+                Exclui um registro de evento do banco de dados.
             </summary>
             
-            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento a ser excluído.</param>
+            <param name="id" type="string" example="6659fbbd3fae4c001fcf6d94">ID do registro a ser excluído.</param>
             
             <remarks>
             
-            ## Excluir um  RegistroEvento do banco de dados
+            ## Excluir um registro do banco de dados
             
-            Use este endpoint para remover permanentemente um registro do evento da base de dados.
-            ⚠️ **A exclusão é irreversível.**
+            Use este endpoint para remover permanentemente um registro.
+            ⚠️ Exclusão é irreversível.
             
-            ### Exemplo de requisição:
+            Requisição via rota:
             ```http
             DELETE http://localhost:3001/api/RegistroEvento/ExcluirRegistroEvento/{id}
             ```
@@ -1946,15 +2025,15 @@
             ### Exemplo de resposta:
             ```json
             {
-                "message": "RegistroEvento excluído com sucesso."
+                "message": "Registro excluído com sucesso."
             }
             ```
             
             </remarks>
             
-            <response code="200">RegistroEvento excluído com sucesso</response>
+            <response code="200">Registro excluído com sucesso</response>
             <response code="400">ID inválido fornecido</response>
-            <response code="404">RegistroEvento não encontrado</response>
+            <response code="404">Registro não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <member name="M:TipoUsuarioController.CadastrarTipoUsuario(Project.Models.TipoUsuario)">
