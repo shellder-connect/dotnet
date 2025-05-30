@@ -13,6 +13,8 @@ namespace Project.Domain
             public string FeedbackCollectionName { get; set; } = null!;
             public string TipoUsuarioCollectionName { get; set; } = null!;
             public string CategoriaCollectionName { get; set; } = null!;
+            public string AbrigoCollectionName { get; set; } = null!;
+            public string DoacaoCollectionName { get; set; } = null!;
 
         public static implicit operator ConfigMongoDb(MongoDbContext v)
         {

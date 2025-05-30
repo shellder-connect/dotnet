@@ -1,6 +1,5 @@
-using Project.Models;
+
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 [Route("DadosCadastrais")]
 public class DadosCadastraisController : Controller

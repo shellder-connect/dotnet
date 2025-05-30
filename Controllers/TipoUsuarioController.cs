@@ -1,7 +1,5 @@
 using Project.Infrastructure.Interfaces;
 using Project.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/TipoUsuario")]
@@ -15,14 +13,14 @@ public class TipoUsuarioController : Controller
     }
 
     /// <summary>
-    ///     Cria um novo tipo de tipo de usuário.
+    ///     Cria um novo tipo de usuário.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Cadastrar novo tipo de tipo de usuário no banco de dados
+    /// ## Cadastrar novo tipo de usuário no banco de dados
     /// 
-    /// Use este endpoint para cadastrar um tipo de tipo de usuário no sistema. O tipo de tipo de usuário define o perfil e permissões do tipo de usuário dentro da plataforma.
+    /// Use este endpoint para cadastrar um tipo de usuário no sistema. O tipo de usuário define o perfil e permissões do tipo de usuário dentro da plataforma.
     /// 
     /// Requisição via rota:
     /// ```http
@@ -33,8 +31,8 @@ public class TipoUsuarioController : Controller
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que devem ser utilizados para criar um novo tipo de tipo de usuário:
-    /// - **descricao** (string): Descrição do tipo de tipo de usuário (Ex: "Comum", "Administrador", etc.)
+    /// ### Campos que devem ser utilizados para criar um novo tipo de usuário:
+    /// - **descricao** (string): Descrição do tipo de usuário (Ex: "Comum", "Administrador", etc.)
     /// 
     /// ### Campos que não devem ser enviados:
     /// - **id**: Gerado automaticamente pelo banco de dados
@@ -57,7 +55,7 @@ public class TipoUsuarioController : Controller
     /// </remarks>
     /// 
     /// <response code="200">Requisição realizada com sucesso</response>
-    /// <response code="201">Tipo de tipo de usuário criado com sucesso</response>
+    /// <response code="201">Tipo de usuário criado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPost("CadastrarTipoUsuario")]
@@ -85,7 +83,7 @@ public class TipoUsuarioController : Controller
     /// 
     /// ## Consultar todos os registros de tipos de tipo de usuários do banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os tipos de tipo de usuários armazenados no banco de dados. O tipo de tipo de usuário define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+    /// Use este endpoint para recuperar todos os tipos de tipo de usuários armazenados no banco de dados. O tipo de usuário define o perfil e as permissões dos tipo de usuários dentro da plataforma.
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -98,8 +96,8 @@ public class TipoUsuarioController : Controller
     /// ```
     /// 
     /// ### Campos disponíveis na resposta:
-    /// - **id** (string): Identificador único do tipo de tipo de usuário (gerado automaticamente pelo banco)
-    /// - **descricao** (string): Descrição do tipo de tipo de usuário (Ex: "Comum", "Administrador", etc.)
+    /// - **id** (string): Identificador único do tipo de usuário (gerado automaticamente pelo banco)
+    /// - **descricao** (string): Descrição do tipo de usuário (Ex: "Comum", "Administrador", etc.)
     /// 
     /// ### Exemplo de resposta:
     /// ```json
@@ -128,17 +126,17 @@ public class TipoUsuarioController : Controller
     }
 
     /// <summary>
-    ///     Consultar um único registro de tipo de tipo de usuário.
+    ///     Consultar um único registro de tipo de usuário.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar um único tipo de tipo de usuário pelo ID
+    /// ## Consultar um único tipo de usuário pelo ID
     /// 
-    /// Use este endpoint quando precisar recuperar os dados de um tipo de tipo de usuário específico, informando o ID armazenado no banco de dados.
+    /// Use este endpoint quando precisar recuperar os dados de um tipo de usuário específico, informando o ID armazenado no banco de dados.
     /// 
     /// ### Parâmetro necessário:
-    /// - **id** (string): ID do tipo de tipo de usuário (gerado automaticamente pelo MongoDB)
+    /// - **id** (string): ID do tipo de usuário (gerado automaticamente pelo MongoDB)
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -157,9 +155,9 @@ public class TipoUsuarioController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Tipo de tipo de usuário consultado com sucesso</response>
+    /// <response code="200">Tipo de usuário consultado com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Tipo de tipo de usuário não encontrado</response>
+    /// <response code="404">Tipo de usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpGet("ConsultarTipoUsuarioId/{id}")]
     [Produces("application/json")]
@@ -172,21 +170,21 @@ public class TipoUsuarioController : Controller
 
         if (tipoUsuario == null)
         {
-            return NotFound(new { message = "Tipo de tipo de usuário não encontrado." });
+            return NotFound(new { message = "Tipo de usuário não encontrado." });
         }
 
         return Ok(tipoUsuario);
     }
 
     /// <summary>
-    ///     Atualiza todos os dados do tipo de tipo de usuário com base no ID.
+    ///     Atualiza todos os dados do tipo de usuário com base no ID.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar todas as informações de um tipo de tipo de usuário no banco de dados
+    /// ## Atualizar todas as informações de um tipo de usuário no banco de dados
     /// 
-    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um tipo de tipo de usuário.
+    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um tipo de usuário.
     /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
     /// 
     /// ### Todos os campos devem ser preenchidos:
@@ -213,13 +211,13 @@ public class TipoUsuarioController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de tipo de usuário no banco de dados.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de usuário no banco de dados.</param>
     /// <param name="tipoUsuario">Objeto contendo os dados completos a serem atualizados.</param>
     /// 
-    /// <response code="200">Tipo de tipo de usuário atualizado com sucesso</response>
+    /// <response code="200">Tipo de usuário atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="401">Não autorizado</response>
-    /// <response code="404">Tipo de tipo de usuário não encontrado</response>
+    /// <response code="404">Tipo de usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPut("AtualizarTipoUsuario/{id}")]
     [Produces("application/json")]
@@ -247,22 +245,22 @@ public class TipoUsuarioController : Controller
     }
 
     /// <summary>
-    ///     Atualiza parcialmente os dados de um tipo de tipo de usuário existente.
+    ///     Atualiza parcialmente os dados de um tipo de usuário existente.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de tipo de usuário a ser atualizado.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de usuário a ser atualizado.</param>
     /// <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
     /// 
     /// <remarks>
     /// 
     /// ## Atualização Parcial de um Tipo de Tipo de Usuário
     /// 
-    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do tipo de tipo de usuário,
+    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do tipo de usuário,
     /// sem a necessidade de enviar todos os dados já cadastrados.
     /// Somente os campos incluídos no corpo da requisição serão modificados.
     /// 
     /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-    /// - **id**: O ID do tipo de tipo de usuário não pode ser alterado.
+    /// - **id**: O ID do tipo de usuário não pode ser alterado.
     /// 
     /// ### Exemplo de requisição:
     /// 
@@ -275,7 +273,7 @@ public class TipoUsuarioController : Controller
     /// ```
     /// 
     /// ### Campos que podem ser atualizados:
-    /// - **descricao** (string): Descrição do tipo de tipo de usuário (Ex: "Administrador", "Comum")
+    /// - **descricao** (string): Descrição do tipo de usuário (Ex: "Administrador", "Comum")
     /// 
     /// ### Exemplo de requisição:
     /// ```json
@@ -294,9 +292,9 @@ public class TipoUsuarioController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Tipo de tipo de usuário atualizado com sucesso</response>
+    /// <response code="200">Tipo de usuário atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="404">Tipo de tipo de usuário não encontrado</response>
+    /// <response code="404">Tipo de usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPatch("AtualizarParcial/{id}")]
     [Produces("application/json")]
@@ -322,16 +320,16 @@ public class TipoUsuarioController : Controller
     }
 
     /// <summary>
-    ///     Exclui um tipo de tipo de usuário do banco de dados.
+    ///     Exclui um tipo de usuário do banco de dados.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de tipo de usuário a ser excluído.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do tipo de usuário a ser excluído.</param>
     /// 
     /// <remarks>
     /// 
     /// ## Excluir um Tipo de Tipo de Usuário do banco de dados
     /// 
-    /// Use este endpoint para remover permanentemente um tipo de tipo de usuário da base de dados.
+    /// Use este endpoint para remover permanentemente um tipo de usuário da base de dados.
     /// ⚠️ **A exclusão é irreversível.**
     /// 
     /// ### Exemplo de requisição:
@@ -342,15 +340,15 @@ public class TipoUsuarioController : Controller
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "message": "Tipo de tipo de usuário excluído com sucesso."
+    ///     "message": "Tipo de usuário excluído com sucesso."
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Tipo de tipo de usuário excluído com sucesso</response>
+    /// <response code="200">Tipo de usuário excluído com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Tipo de tipo de usuário não encontrado</response>
+    /// <response code="404">Tipo de usuário não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpDelete("ExcluirTipoUsuario/{id}")]
     [Produces("application/json")]
@@ -365,6 +363,6 @@ public class TipoUsuarioController : Controller
 
         await _tipoUsuarioService.Excluir(id);
 
-        return Ok(new { message = "Tipo de tipo de usuário excluído com sucesso." });  
+        return Ok(new { message = "Tipo de usuário excluído com sucesso." });  
     }
 }

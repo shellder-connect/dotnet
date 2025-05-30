@@ -40,6 +40,8 @@ builder.Services.Configure<ConfigMongoDb>(options =>
     options.FeedbackCollectionName = builder.Configuration["ConfigMongoDb:FeedbackCollectionName"] ?? throw new Exception("FeedbackCollectionName is not configured in ConfigMongoDb.");
     options.TipoUsuarioCollectionName = builder.Configuration["ConfigMongoDb:TipoUsuarioCollectionName"] ?? throw new Exception("TipoUsuarioCollectionName is not configured in ConfigMongoDb.");
     options.CategoriaCollectionName = builder.Configuration["ConfigMongoDb:CategoriaCollectionName"] ?? throw new Exception("CategoriaCollectionName is not configured in ConfigMongoDb.");
+    options.AbrigoCollectionName = builder.Configuration["ConfigMongoDb:AbrigoCollectionName"] ?? throw new Exception("AbrigoCollectionName is not configured in ConfigMongoDb.");
+    options.DoacaoCollectionName = builder.Configuration["ConfigMongoDb:DoacaoCollectionName"] ?? throw new Exception("DoacaoCollectionName is not configured in ConfigMongoDb.");
 });
 
 builder.Services.AddTransient<IMongoClient>(_ =>
@@ -79,6 +81,14 @@ builder.Services.AddTransient<IDadosCadastraisRepository, DadosCadastraisReposit
 // Categoria
 builder.Services.AddTransient<ICategoriaService, CategoriaService>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+
+// Abrigo
+builder.Services.AddTransient<IAbrigoService, AbrigoService>();
+builder.Services.AddTransient<IAbrigoRepository, AbrigoRepository>();
+
+// Doação
+builder.Services.AddTransient<IDoacaoService, DoacaoService>();
+builder.Services.AddTransient<IDoacaoRepository, DoacaoRepository>();
 
 // Análise de sentimento
 builder.Services.AddTransient<ISentimentAnalysisService, SentimentAnalysisService>();
