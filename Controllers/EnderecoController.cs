@@ -333,70 +333,6 @@ public class EnderecoController : Controller
     }
 
 
-    [HttpGet("Atualizar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Atualizar()
-    {
-        var userIdString = User.Claims.FirstOrDefault(c => c.Type == "IdUsuario")?.Value;
-
-        if (string.IsNullOrEmpty(userIdString))
-        {
-            return RedirectToAction("Error");
-        }
-
-        var endereco = await _enderecoService.ConsultarPorUsuarioId(userIdString);
-        if (endereco == null)
-        {
-            return NotFound();
-        }
-
-        return View(endereco);
-    }
-
-    [HttpPost("Atualizar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Atualizar(Endereco endereco)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(endereco);
-        }
-
-        var userIdString = User.Claims.FirstOrDefault(c => c.Type == "IdUsuario")?.Value;
-
-        if (string.IsNullOrEmpty(userIdString))
-        {
-            return RedirectToAction("Error");
-        }
-
-        //var enderecoExistente = await _enderecoService.ConsultarPorUsuarioId
-        var enderecoExistente = await _enderecoService.ConsultarId(userIdString);
-
-        if (enderecoExistente == null)
-        {
-            return NotFound();
-        }
-
-        enderecoExistente.CEP = endereco.CEP;
-        enderecoExistente.Estado = endereco.Estado;
-        enderecoExistente.Cidade = endereco.Cidade;
-        enderecoExistente.Bairro = endereco.Bairro;
-        enderecoExistente.Rua = endereco.Rua;
-
-        await _enderecoService.Atualizar(enderecoExistente);
-
-        TempData["SuccessMessage"] = "Usuário atualizado com sucesso!";
-        //return RedirectToAction("MensagemAtualizacao");
-        return View(enderecoExistente);
-    }
-
-    [HttpGet("MensagemAtualizacao")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult MensagemAtualizacao()
-    {
-        return View();
-    }
-
     /// <summary>
     ///     Atualiza o endereço completo existente do usuário, com base no ID do usuário e ID do banco de dados.
     /// </summary>
@@ -467,20 +403,6 @@ public class EnderecoController : Controller
         await _enderecoService.Atualizar(enderecoExistente);
 
         return Ok(enderecoExistente);
-    }
-
-    [HttpGet("ConfirmarExcluir/{id}")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> ConfirmarExcluir(string id)
-    {
-        var endereco = await _enderecoService.ConsultarPorUsuarioId(id);
-        
-        if (endereco == null)
-        {
-            return NotFound();
-        }
-
-        return View(endereco);
     }
 
     /// <summary>

@@ -19,4 +19,4 @@ namespace Project.Models;
         public string? Bairro { get; set; }
         public string? Rua { get; set; }
 
-    }
+}
