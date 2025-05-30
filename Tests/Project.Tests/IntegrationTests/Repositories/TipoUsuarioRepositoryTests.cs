@@ -32,9 +32,9 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var settings = new ConfigMongoDb
                 {
-                    ConnectionString = "inserir a string de conexão aqui",
+                    ConnectionString = "mongodb://localhost:27017",
                     DatabaseName = "TestsDb",
-                    TipoUsuarioCollectionName = "t_tipoUsuario"
+                    TipoUsuarioCollectionName = "t_tipo_usuario"
                 };
 
                 var optionsConfig = Options.Create(settings);
@@ -88,9 +88,9 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var settings = new ConfigMongoDb
                 {
-                    ConnectionString = "inserir a string de conexão aqui",
+                    ConnectionString = "mongodb://localhost:27017",
                     DatabaseName = "TestsDb",
-                    TipoUsuarioCollectionName = "t_tipoUsuario"
+                    TipoUsuarioCollectionName = "t_tipo_usuario"
                 };
 
                 var optionsConfig = Options.Create(settings);
@@ -133,9 +133,9 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var settings = new ConfigMongoDb
                 {
-                    ConnectionString = "inserir a string de conexão aqui",
+                    ConnectionString = "mongodb://localhost:27017",
                     DatabaseName = "TestsDb",
-                    TipoUsuarioCollectionName = "t_tipoUsuario"
+                    TipoUsuarioCollectionName = "t_tipo_usuario"
                 };
 
                 var optionsConfig = Options.Create(settings);
@@ -144,7 +144,7 @@ namespace Project.Tests.UnitTests.Repositories
                 var repository = new TipoUsuarioRepository(optionsConfig);
 
                 // ID do TipoUsuario que será consultado
-                string tipoUsuarioId = "6802d91a7c1790dc372551af";
+                string tipoUsuarioId = "683a38db856176cd35e61a0f";
 
                 // Executa o método que consulta o TipoUsuario pelo ID
                 var tipoUsuarioConsultado = await repository.ConsultarId(tipoUsuarioId);
@@ -183,9 +183,9 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var settings = new ConfigMongoDb
                 {
-                    ConnectionString = "inserir a string de conexão aqui",
+                    ConnectionString = "mongodb://localhost:27017",
                     DatabaseName = "TestsDb",
-                    TipoUsuarioCollectionName = "t_tipoUsuario"
+                    TipoUsuarioCollectionName = "t_tipo_usuario"
                 };
 
                 var optionsConfig = Options.Create(settings);
@@ -194,13 +194,13 @@ namespace Project.Tests.UnitTests.Repositories
                 var repository = new TipoUsuarioRepository(optionsConfig);
 
                 // ID do TipoUsuario que será atualizado
-                string tipoUsuarioId = "6802d91a7c1790dc372551af";
+                string tipoUsuarioId = "683a38db856176cd35e61a0f";
 
                 // Dados atualizados do TipoUsuario
                 var tipoUsuarioAtualizada = new TipoUsuario 
                 { 
                     Id = tipoUsuarioId,
-                    Descricao = "Aliemento", 
+                    Descricao = "Alimento", 
                    
                 };
 
@@ -249,9 +249,9 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var settings = new ConfigMongoDb
                 {
-                    ConnectionString = "inserir a string de conexão aqui",
+                    ConnectionString = "mongodb://localhost:27017",
                     DatabaseName = "TestsDb",
-                    TipoUsuarioCollectionName = "t_tipoUsuario"
+                    TipoUsuarioCollectionName = "t_tipo_usuario"
                 };
 
                 var optionsConfig = Options.Create(settings);
@@ -259,13 +259,12 @@ namespace Project.Tests.UnitTests.Repositories
                 var repository = new TipoUsuarioRepository(optionsConfig);
 
                 // ID do TipoUsuario que será atualizado
-                string tipoUsuarioId = "6802d91a7c1790dc372551af";
+                string tipoUsuarioId = "683a38db856176cd35e61a0f";
 
                 // Campos para atualização parcial
                 var camposParaAtualizar = new Dictionary<string, object>
                 {
-                    { "Descricao", "Claudio Parcialmente Atualizado" },
-                    { "email", "claudio_parcial@test.com" }
+                    { "Descricao", "teste realizado" }
                 };
 
                 // Executa o método que atualiza parcialmente o TipoUsuario
@@ -310,9 +309,9 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var settings = new ConfigMongoDb
                 {
-                    ConnectionString = "inserir a string de conexão aqui",
+                    ConnectionString = "mongodb://localhost:27017",
                     DatabaseName = "TestsDb",
-                    TipoUsuarioCollectionName = "t_tipoUsuario"
+                    TipoUsuarioCollectionName = "t_tipo_usuario"
                 };
 
                 var optionsConfig = Options.Create(settings);

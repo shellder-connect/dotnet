@@ -70,7 +70,7 @@ namespace Project.Tests.IntegrationTests.Controllers
                 var result = await _controller.CadastrarTipoUsuario(tipoUsuario);
 
                 var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
-                Assert.Equal("ConsultarTodosTipoUsuarios", createdAtActionResult.ActionName);
+                Assert.Equal("ConsultarTodosTiposUsuario", createdAtActionResult.ActionName);
                 Assert.NotNull(createdAtActionResult.RouteValues);
                 Assert.Equal(tipoUsuario.Id, createdAtActionResult.RouteValues["id"]);
                 Assert.Equal(tipoUsuario, createdAtActionResult.Value);

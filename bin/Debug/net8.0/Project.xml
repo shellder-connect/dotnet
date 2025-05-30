@@ -792,8 +792,10 @@
             ```json
             {
                 "id": "665afa483fae4c001fcf6d19",
+                "idDoacao": "665af8b13fae4c001fcf6d12",
                 "quantidadeDestinada": 20,
                 "dataDestinada": "2025-06-01T10:00:00",
+                "idPessoaAtendida": "665af9a03fae4c001fcf6d15"
             }
             ```
             
@@ -1062,7 +1064,9 @@
             ```json
             {
                 "id": "665c1f983fae4c001fcf6d88",
+                "idAbrigo": "665c1e9c3fae4c001fcf6d87",
                 "descricao": "Doação de roupas",
+                "idCategoria": "665c1ea83fae4c001fcf6d89",
                 "quantidade": 100
             }
             ```

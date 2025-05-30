@@ -45,3 +45,17 @@ O projeto simula um cenário real de negócios, com ênfase na criação de solu
 ## Problema que o projeto pretende resolver:
 
 ## Nosso objetivo
+
+## Execução dos Testes
+
+**Execute este passo a passo no terminal para realizar os testes**
+
+***Criar a variavel de ambiente no terminal***
+```bash
+    $env:MONGODB_CONNECTION_STRING = "mongodb://localhost:27017"   
+```
+
+*** Se você quer executar os testes de uma classe específica***
+```bash
+    dotnet test
+```
