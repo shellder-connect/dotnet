@@ -4,37 +4,37 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/Abrigo")]
-public class AbrigoController : Controller
+[Route("api/RegistroEvento")]
+public class RegistroEventoController : Controller
 {
-    private readonly IAbrigoService _abrigoService;
+    private readonly IRegistroEventoService _registroEventoService;
 
-    public AbrigoController(IAbrigoService abrigoService)
+    public RegistroEventoController(IRegistroEventoService registroEventoService)
     {
-        _abrigoService = abrigoService;
+        _registroEventoService = registroEventoService;
     }
 
     /// <summary>
-    ///     Cria um novo abrigo.
+    ///     Cria um novo registro do evento.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Cadastrar novo abrigo no banco de dados
+    /// ## Cadastrar novo registro do evento no banco de dados
     /// 
-    /// Use este endpoint para cadastrar um abrigo no sistema.
+    /// Use este endpoint para cadastrar um registro do evento no sistema.
     /// 
     /// Requisição via rota:
     /// ```http
-    /// POST http://localhost:3001/api/Abrigo/CadastrarAbrigo
+    /// POST http://localhost:3001/api/RegistroEvento/CadastrarRegistroEvento
     /// ```
     /// 
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que devem ser utilizados para criar um novo abrigo:
-    /// - **descricao** (string): Descrição do abrigo (Ex: "Comum", "Administrador", etc.)
+    /// ### Campos que devem ser utilizados para criar um novo registro do evento:
+    /// - **descricao** (string): Descrição do registro do evento (Ex: "Comum", "Administrador", etc.)
     /// 
     /// ### Campos que não devem ser enviados:
     /// - **id**: Gerado automaticamente pelo banco de dados
@@ -57,49 +57,49 @@ public class AbrigoController : Controller
     /// </remarks>
     /// 
     /// <response code="200">Requisição realizada com sucesso</response>
-    /// <response code="201">Abrigo criado com sucesso</response>
+    /// <response code="201">RegistroEvento criado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpPost("CadastrarAbrigo")]
+    [HttpPost("CadastrarRegistroEvento")]
     [Produces("application/json")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task<IActionResult> CadastrarAbrigo([FromBody] Abrigo abrigo)
+    public async Task<IActionResult> CadastrarRegistroEvento([FromBody] RegistroEvento registroEvento)
     {
         if (ModelState.IsValid)
         {
-            await _abrigoService.Criar(abrigo);
-            return CreatedAtAction(nameof(ConsultarTodosAbrigo), new { id = abrigo.Id }, abrigo); 
+            await _registroEventoService.Criar(registroEvento);
+            return CreatedAtAction(nameof(ConsultarTodosRegistroEvento), new { id = registroEvento.Id }, registroEvento); 
         }
         return BadRequest(ModelState); 
     }
 
     /// <summary>
-    ///     Consultar a lista com todos os abrigoss.
+    ///     Consultar a lista com todos os tipos de registro do eventos.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar todos os registros de abrigoss do banco de dados
+    /// ## Consultar todos os registros de tipos de registro do eventos do banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os abrigoss armazenados no banco de dados. O abrigo define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+    /// Use este endpoint para recuperar todos os tipos de registro do eventos armazenados no banco de dados. O registro do evento define o perfil e as permissões dos registro do eventos dentro da plataforma.
     /// 
     /// ### Exemplo de requisição:
     /// 
     /// Requisição via rota:
     /// ```http
-    /// GET http://localhost:3001/api/Abrigo/ConsultarTodosAbrigo
+    /// GET http://localhost:3001/api/RegistroEvento/ConsultarTodosRegistroEvento
     /// ```
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
     /// ### Campos disponíveis na resposta:
-    /// - **id** (string): Identificador único do abrigo (gerado automaticamente pelo banco)
-    /// - **descricao** (string): Descrição do abrigo (Ex: "Comum", "Administrador", etc.)
+    /// - **id** (string): Identificador único do registro do evento (gerado automaticamente pelo banco)
+    /// - **descricao** (string): Descrição do registro do evento (Ex: "Comum", "Administrador", etc.)
     /// 
     /// ### Exemplo de resposta:
     /// ```json
@@ -117,34 +117,34 @@ public class AbrigoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Lista de abrigoss retornada com sucesso</response>
+    /// <response code="200">Lista de tipos de registro do eventos retornada com sucesso</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpGet("ConsultarTodosAbrigo")]
+    [HttpGet("ConsultarTodosRegistroEvento")]
     [Produces("application/json")]
-    public async Task<IActionResult> ConsultarTodosAbrigo()
+    public async Task<IActionResult> ConsultarTodosRegistroEvento()
     {
-        var abrigos = await _abrigoService.ConsultarTodos();
-        return Ok(abrigos);
+        var registroEventos = await _registroEventoService.ConsultarTodos();
+        return Ok(registroEventos);
     }
 
     /// <summary>
-    ///     Consultar um único registro de abrigo.
+    ///     Consultar um único registro de registro do evento.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar um único abrigo pelo ID
+    /// ## Consultar um único registro do evento pelo ID
     /// 
-    /// Use este endpoint quando precisar recuperar os dados de um abrigo específico, informando o ID armazenado no banco de dados.
+    /// Use este endpoint quando precisar recuperar os dados de um registro do evento específico, informando o ID armazenado no banco de dados.
     /// 
     /// ### Parâmetro necessário:
-    /// - **id** (string): ID do abrigo (gerado automaticamente pelo MongoDB)
+    /// - **id** (string): ID do registro do evento (gerado automaticamente pelo MongoDB)
     /// 
     /// ### Exemplo de requisição:
     /// 
     /// Requisição via rota:
     /// ```http
-    /// GET http://localhost:3001/api/Abrigo/ConsultarAbrigoId/{id}
+    /// GET http://localhost:3001/api/RegistroEvento/ConsultarRegistroEventoId/{id}
     /// ```
     /// 
     /// ### Exemplo de resposta:
@@ -157,36 +157,36 @@ public class AbrigoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Abrigo consultado com sucesso</response>
+    /// <response code="200">RegistroEvento consultado com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Abrigo não encontrado</response>
+    /// <response code="404">RegistroEvento não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpGet("ConsultarAbrigoId/{id}")]
+    [HttpGet("ConsultarRegistroEventoId/{id}")]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> ConsultarAbrigoId(string id)
+    public async Task<IActionResult> ConsultarRegistroEventoId(string id)
     {
-        var abrigo = await _abrigoService.ConsultarId(id);
+        var registroEvento = await _registroEventoService.ConsultarId(id);
 
-        if (abrigo == null)
+        if (registroEvento == null)
         {
-            return NotFound(new { message = "Abrigo não encontrado." });
+            return NotFound(new { message = "RegistroEvento não encontrado." });
         }
 
-        return Ok(abrigo);
+        return Ok(registroEvento);
     }
 
     /// <summary>
-    ///     Atualiza todos os dados do abrigo com base no ID.
+    ///     Atualiza todos os dados do registro do evento com base no ID.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar todas as informações de um abrigo no banco de dados
+    /// ## Atualizar todas as informações de um registro do evento no banco de dados
     /// 
-    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um abrigo.
+    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um registro do evento.
     /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
     /// 
     /// ### Todos os campos devem ser preenchidos:
@@ -196,7 +196,7 @@ public class AbrigoController : Controller
     /// 
     /// Requisição via rota:
     /// ```http
-    /// PUT http://localhost:3001/api/Abrigo/AtualizarAbrigo/{id}
+    /// PUT http://localhost:3001/api/RegistroEvento/AtualizarRegistroEvento/{id}
     /// ```
     /// ```http
     /// Content-Type: application/json
@@ -213,69 +213,72 @@ public class AbrigoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do abrigo no banco de dados.</param>
-    /// <param name="abrigo">Objeto contendo os dados completos a serem atualizados.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento no banco de dados.</param>
+    /// <param name="registroEvento">Objeto contendo os dados completos a serem atualizados.</param>
     /// 
-    /// <response code="200">Abrigo atualizado com sucesso</response>
+    /// <response code="200">RegistroEvento atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="401">Não autorizado</response>
-    /// <response code="404">Abrigo não encontrado</response>
+    /// <response code="404">RegistroEvento não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpPut("AtualizarAbrigo/{id}")]
+    [HttpPut("AtualizarRegistroEvento/{id}")]
     [Produces("application/json")]
-    public async Task<IActionResult> AtualizarAbrigo(string id, [FromBody] Abrigo abrigo)
+    public async Task<IActionResult> AtualizarRegistroEvento(string id, [FromBody] RegistroEvento registroEvento)
     {
-        if (string.IsNullOrEmpty(id) || abrigo == null || id != abrigo.Id)
+        if (string.IsNullOrEmpty(id) || registroEvento == null || id != registroEvento.Id)
         {
             return BadRequest("Id não corresponde ao fornecido.");
         }
 
-        var abrigoExistente = await _abrigoService.ConsultarId(id);
+        var registroEventoExistente = await _registroEventoService.ConsultarId(id);
 
-        if (abrigoExistente == null)
+        if (registroEventoExistente == null)
         {
             return NotFound();
         }
 
 
-        abrigoExistente.Descricao = abrigo.Descricao;
-      
+        registroEventoExistente.Descricao = registroEvento.Descricao;
+        registroEventoExistente.DataHora = registroEvento.DataHora;
+        registroEventoExistente.IdUsuario = registroEvento.IdUsuario;
+        registroEventoExistente.Localizacao = registroEvento.Localizacao;
+        registroEventoExistente.IdAbrigo = registroEvento.IdAbrigo;
 
-        await _abrigoService.Atualizar(abrigoExistente);
+        await _registroEventoService.Atualizar(registroEventoExistente);
 
-        return Ok(abrigoExistente); 
+        return Ok(registroEventoExistente); 
     }
 
     /// <summary>
-    ///     Atualiza parcialmente os dados de um abrigo existente.
+    ///     Atualiza parcialmente os dados de um registro do evento existente.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do abrigo a ser atualizado.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento a ser atualizado.</param>
     /// <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualização Parcial de um  Abrigo
+    /// ## Atualização Parcial de um  RegistroEvento
     /// 
-    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do abrigo,
+    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do registro do evento,
     /// sem a necessidade de enviar todos os dados já cadastrados.
     /// Somente os campos incluídos no corpo da requisição serão modificados.
     /// 
     /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-    /// - **id**: O ID do abrigo não pode ser alterado.
+    /// - **id**: O ID do registro do evento não pode ser alterado.
     /// 
     /// ### Exemplo de requisição:
     /// 
     /// Requisição via rota:
     /// ```http
-    /// PATCH http://localhost:3001/api/Abrigo/AtualizarParcial/{id}
+    /// PATCH http://localhost:3001/api/RegistroEvento/AtualizarParcial/{id}
     /// ```
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
     /// ### Campos que podem ser atualizados:
-    /// - **descricao** (string): Descrição do abrigo (Ex: "Administrador", "Comum")
+    /// - **descricao** (string): Descrição do registro do evento (Ex: "Administrador", "Comum")
     /// 
     /// ### Exemplo de requisição:
     /// ```json
@@ -294,9 +297,9 @@ public class AbrigoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Abrigo atualizado com sucesso</response>
+    /// <response code="200">RegistroEvento atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="404">Abrigo não encontrado</response>
+    /// <response code="404">RegistroEvento não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPatch("AtualizarParcial/{id}")]
     [Produces("application/json")]
@@ -311,60 +314,60 @@ public class AbrigoController : Controller
             return BadRequest("Id dos campos     ///  atualização são necessários.");
         }
 
-        var abrigoAtualizado = await _abrigoService.AtualizarParcial(id, camposParaAtualizar);
+        var registroEventoAtualizado = await _registroEventoService.AtualizarParcial(id, camposParaAtualizar);
 
-        if (abrigoAtualizado == null)
+        if (registroEventoAtualizado == null)
         {
-            return NotFound(" Abrigo não encontrado.");
+            return NotFound(" RegistroEvento não encontrado.");
         }
 
-        return Ok(abrigoAtualizado);
+        return Ok(registroEventoAtualizado);
     }
 
     /// <summary>
-    ///     Exclui um abrigo do banco de dados.
+    ///     Exclui um registro do evento do banco de dados.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do abrigo a ser excluído.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do registro do evento a ser excluído.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um  Abrigo do banco de dados
+    /// ## Excluir um  RegistroEvento do banco de dados
     /// 
-    /// Use este endpoint para remover permanentemente um abrigo da base de dados.
+    /// Use este endpoint para remover permanentemente um registro do evento da base de dados.
     /// ⚠️ **A exclusão é irreversível.**
     /// 
     /// ### Exemplo de requisição:
     /// ```http
-    /// DELETE http://localhost:3001/api/Abrigo/ExcluirAbrigo/{id}
+    /// DELETE http://localhost:3001/api/RegistroEvento/ExcluirRegistroEvento/{id}
     /// ```
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "message": "Abrigo excluído com sucesso."
+    ///     "message": "RegistroEvento excluído com sucesso."
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Abrigo excluído com sucesso</response>
+    /// <response code="200">RegistroEvento excluído com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Abrigo não encontrado</response>
+    /// <response code="404">RegistroEvento não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpDelete("ExcluirAbrigo/{id}")]
+    [HttpDelete("ExcluirRegistroEvento/{id}")]
     [Produces("application/json")]
-    public async Task<IActionResult> ExcluirAbrigo(string id)
+    public async Task<IActionResult> ExcluirRegistroEvento(string id)
     {
-        var abrigo = await _abrigoService.ConsultarId(id);
+        var registroEvento = await _registroEventoService.ConsultarId(id);
         
-        if (abrigo == null)
+        if (registroEvento == null)
         {
             return NotFound();
         }
 
-        await _abrigoService.Excluir(id);
+        await _registroEventoService.Excluir(id);
 
-        return Ok(new { message = "Abrigo excluído com sucesso." });  
+        return Ok(new { message = "RegistroEvento excluído com sucesso." });  
     }
 }

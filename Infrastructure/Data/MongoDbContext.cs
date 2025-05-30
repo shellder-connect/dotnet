@@ -22,5 +22,7 @@ namespace Project.Infrastructure
         public IMongoCollection<Categoria> Categoria => _database.GetCollection<Categoria>("t_categoria");
         public IMongoCollection<Abrigo> Abrigo => _database.GetCollection<Abrigo>("t_abrigo");
         public IMongoCollection<Doacao> Doacao => _database.GetCollection<Doacao>("t_doacao");
+        public IMongoCollection<Distribuicao> Distribuicao => _database.GetCollection<Distribuicao>("t_distribuicao");
+        public IMongoCollection<RegistroEvento> RegistroEvento => _database.GetCollection<RegistroEvento>("t_registro_evento");
     }
 }

@@ -1,38 +1,40 @@
 using Project.Infrastructure.Interfaces;
 using Project.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/Doacao")]
-public class DoacaoController : Controller
+[Route("api/Distribuicao")]
+public class DistribuicaoController : Controller
 {
-    private readonly IDoacaoService _doacaoService;
+    private readonly IDistribuicaoService _distribuicaoService;
 
-    public DoacaoController(IDoacaoService doacaoService)
+    public DistribuicaoController(IDistribuicaoService distribuicaoService)
     {
-        _doacaoService = doacaoService;
+        _distribuicaoService = distribuicaoService;
     }
 
     /// <summary>
-    ///     Cria um novo doação.
+    ///     Cria um novo distribuicao.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Cadastrar novo doação no banco de dados
+    /// ## Cadastrar novo distribuicao no banco de dados
     /// 
-    /// Use este endpoint para cadastrar um doação no sistema.
+    /// Use este endpoint para cadastrar um distribuicao no sistema.
     /// 
     /// Requisição via rota:
     /// ```http
-    /// POST http://localhost:3001/api/Doacao/CadastrarDoacao
+    /// POST http://localhost:3001/api/Distribuicao/CadastrarDistribuicao
     /// ```
     /// 
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
-    /// ### Campos que devem ser utilizados para criar um novo doação:
-    /// - **descricao** (string): Descrição do doação (Ex: "Comum", "Administrador", etc.)
+    /// ### Campos que devem ser utilizados para criar um novo distribuicao:
+    /// - **descricao** (string): Descrição do distribuicao (Ex: "Comum", "Administrador", etc.)
     /// 
     /// ### Campos que não devem ser enviados:
     /// - **id**: Gerado automaticamente pelo banco de dados
@@ -55,49 +57,49 @@ public class DoacaoController : Controller
     /// </remarks>
     /// 
     /// <response code="200">Requisição realizada com sucesso</response>
-    /// <response code="201">Doacao criado com sucesso</response>
+    /// <response code="201">Distribuicao criado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpPost("CadastrarDoacao")]
+    [HttpPost("CadastrarDistribuicao")]
     [Produces("application/json")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task<IActionResult> CadastrarDoacao([FromBody] Doacao doacao)
+    public async Task<IActionResult> CadastrarDistribuicao([FromBody] Distribuicao distribuicao)
     {
         if (ModelState.IsValid)
         {
-            await _doacaoService.Criar(doacao);
-            return CreatedAtAction(nameof(ConsultarTodosDoacao), new { id = doacao.Id }, doacao); 
+            await _distribuicaoService.Criar(distribuicao);
+            return CreatedAtAction(nameof(ConsultarTodosDistribuicao), new { id = distribuicao.Id }, distribuicao); 
         }
         return BadRequest(ModelState); 
     }
 
     /// <summary>
-    ///     Consultar a lista com todos os doações.
+    ///     Consultar a lista com todos os distribuições.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar todos os registros de doações do banco de dados
+    /// ## Consultar todos os registros de distribuições do banco de dados
     /// 
-    /// Use este endpoint para recuperar todos os doações armazenados no banco de dados. O doação define o perfil e as permissões dos tipo de usuários dentro da plataforma.
+    /// Use este endpoint para recuperar todos os distribuições armazenados no banco de dados. O distribuicao define o perfil e as permissões dos tipo de usuários dentro da plataforma.
     /// 
     /// ### Exemplo de requisição:
     /// 
     /// Requisição via rota:
     /// ```http
-    /// GET http://localhost:3001/api/Doacao/ConsultarTodosDoacao
+    /// GET http://localhost:3001/api/Distribuicao/ConsultarTodosDistribuicao
     /// ```
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
     /// ### Campos disponíveis na resposta:
-    /// - **id** (string): Identificador único do doação (gerado automaticamente pelo banco)
-    /// - **descricao** (string): Descrição do doação (Ex: "Comum", "Administrador", etc.)
+    /// - **id** (string): Identificador único do distribuicao (gerado automaticamente pelo banco)
+    /// - **descricao** (string): Descrição do distribuicao (Ex: "Comum", "Administrador", etc.)
     /// 
     /// ### Exemplo de resposta:
     /// ```json
@@ -115,34 +117,34 @@ public class DoacaoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Lista de doações retornada com sucesso</response>
+    /// <response code="200">Lista de distribuições retornada com sucesso</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpGet("ConsultarTodosDoacao")]
+    [HttpGet("ConsultarTodosDistribuicao")]
     [Produces("application/json")]
-    public async Task<IActionResult> ConsultarTodosDoacao()
+    public async Task<IActionResult> ConsultarTodosDistribuicao()
     {
-        var doacaos = await _doacaoService.ConsultarTodos();
-        return Ok(doacaos);
+        var distribuicaos = await _distribuicaoService.ConsultarTodos();
+        return Ok(distribuicaos);
     }
 
     /// <summary>
-    ///     Consultar um único registro de doação.
+    ///     Consultar um único registro de distribuicao.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Consultar um único doação pelo ID
+    /// ## Consultar um único distribuicao pelo ID
     /// 
-    /// Use este endpoint quando precisar recuperar os dados de um doação específico, informando o ID armazenado no banco de dados.
+    /// Use este endpoint quando precisar recuperar os dados de um distribuicao específico, informando o ID armazenado no banco de dados.
     /// 
     /// ### Parâmetro necessário:
-    /// - **id** (string): ID do doação (gerado automaticamente pelo MongoDB)
+    /// - **id** (string): ID do distribuicao (gerado automaticamente pelo MongoDB)
     /// 
     /// ### Exemplo de requisição:
     /// 
     /// Requisição via rota:
     /// ```http
-    /// GET http://localhost:3001/api/Doacao/ConsultarDoacaoId/{id}
+    /// GET http://localhost:3001/api/Distribuicao/ConsultarDistribuicaoId/{id}
     /// ```
     /// 
     /// ### Exemplo de resposta:
@@ -155,36 +157,36 @@ public class DoacaoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Doacao consultado com sucesso</response>
+    /// <response code="200">Distribuicao consultado com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Distribuicao não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpGet("ConsultarDoacaoId/{id}")]
+    [HttpGet("ConsultarDistribuicaoId/{id}")]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> ConsultarDoacaoId(string id)
+    public async Task<IActionResult> ConsultarDistribuicaoId(string id)
     {
-        var doacao = await _doacaoService.ConsultarId(id);
+        var distribuicao = await _distribuicaoService.ConsultarId(id);
 
-        if (doacao == null)
+        if (distribuicao == null)
         {
-            return NotFound(new { message = "Doacao não encontrado." });
+            return NotFound(new { message = "Distribuicao não encontrado." });
         }
 
-        return Ok(doacao);
+        return Ok(distribuicao);
     }
 
     /// <summary>
-    ///     Atualiza todos os dados do doação com base no ID.
+    ///     Atualiza todos os dados do distribuicao com base no ID.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar todas as informações de um doação no banco de dados
+    /// ## Atualizar todas as informações de um distribuicao no banco de dados
     /// 
-    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um doação.
+    /// Use este endpoint para sobrescrever **todos os campos** do cadastro de um distribuicao.
     /// ⚠️ Se for necessário atualizar apenas alguns campos, utilize o endpoint de **atualização parcial (PATCH)**.
     /// 
     /// ### Todos os campos devem ser preenchidos:
@@ -194,7 +196,7 @@ public class DoacaoController : Controller
     /// 
     /// Requisição via rota:
     /// ```http
-    /// PUT http://localhost:3001/api/Doacao/AtualizarDoacao/{id}
+    /// PUT http://localhost:3001/api/Distribuicao/AtualizarDistribuicao/{id}
     /// ```
     /// ```http
     /// Content-Type: application/json
@@ -211,69 +213,71 @@ public class DoacaoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação no banco de dados.</param>
-    /// <param name="doacao">Objeto contendo os dados completos a serem atualizados.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do distribuicao no banco de dados.</param>
+    /// <param name="distribuicao">Objeto contendo os dados completos a serem atualizados.</param>
     /// 
-    /// <response code="200">Doacao atualizado com sucesso</response>
+    /// <response code="200">Distribuicao atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
     /// <response code="401">Não autorizado</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Distribuicao não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpPut("AtualizarDoacao/{id}")]
+    [HttpPut("AtualizarDistribuicao/{id}")]
     [Produces("application/json")]
-    public async Task<IActionResult> AtualizarDoacao(string id, [FromBody] Doacao doacao)
+    public async Task<IActionResult> AtualizarDistribuicao(string id, [FromBody] Distribuicao distribuicao)
     {
-        if (string.IsNullOrEmpty(id) || doacao == null || id != doacao.Id)
+        if (string.IsNullOrEmpty(id) || distribuicao == null || id != distribuicao.Id)
         {
             return BadRequest("Id não corresponde ao fornecido.");
         }
 
-        var doacaoExistente = await _doacaoService.ConsultarId(id);
+        var distribuicaoExistente = await _distribuicaoService.ConsultarId(id);
 
-        if (doacaoExistente == null)
+        if (distribuicaoExistente == null)
         {
             return NotFound();
         }
 
 
-        doacaoExistente.Descricao = doacao.Descricao;
-      
+        distribuicaoExistente.IdDoacao = distribuicao.IdDoacao;
+        distribuicaoExistente.QuantidadeDestinada = distribuicao.QuantidadeDestinada;
+        distribuicaoExistente.DataDestinada = distribuicao.DataDestinada;
+        distribuicaoExistente.IdPessoaAtendida = distribuicao.IdPessoaAtendida;
 
-        await _doacaoService.Atualizar(doacaoExistente);
+        await _distribuicaoService.Atualizar(distribuicaoExistente);
 
-        return Ok(doacaoExistente); 
+        return Ok(distribuicaoExistente); 
     }
 
     /// <summary>
-    ///     Atualiza parcialmente os dados de um doação existente.
+    ///     Atualiza parcialmente os dados de um distribuicao existente.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação a ser atualizado.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do distribuicao a ser atualizado.</param>
     /// <param name="camposParaAtualizar">Objeto contendo os campos que devem ser atualizados.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualização Parcial de um  Doacao
+    /// ## Atualização Parcial de um  Distribuicao
     /// 
-    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do doação,
+    /// Use este endpoint quando for necessário atualizar apenas **alguns campos** do distribuicao,
     /// sem a necessidade de enviar todos os dados já cadastrados.
     /// Somente os campos incluídos no corpo da requisição serão modificados.
     /// 
     /// ⚠️ Campos que **não podem ser atualizados** por este endpoint:
-    /// - **id**: O ID do doação não pode ser alterado.
+    /// - **id**: O ID do distribuicao não pode ser alterado.
     /// 
     /// ### Exemplo de requisição:
     /// 
     /// Requisição via rota:
     /// ```http
-    /// PATCH http://localhost:3001/api/Doacao/AtualizarParcial/{id}
+    /// PATCH http://localhost:3001/api/Distribuicao/AtualizarParcial/{id}
     /// ```
     /// ```http
     /// Content-Type: application/json
     /// ```
     /// 
     /// ### Campos que podem ser atualizados:
-    /// - **descricao** (string): Descrição do doação (Ex: "Administrador", "Comum")
+    /// - **descricao** (string): Descrição do distribuicao (Ex: "Administrador", "Comum")
     /// 
     /// ### Exemplo de requisição:
     /// ```json
@@ -292,9 +296,9 @@ public class DoacaoController : Controller
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Doacao atualizado com sucesso</response>
+    /// <response code="200">Distribuicao atualizado com sucesso</response>
     /// <response code="400">Dados inválidos fornecidos</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Distribuicao não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpPatch("AtualizarParcial/{id}")]
     [Produces("application/json")]
@@ -309,60 +313,60 @@ public class DoacaoController : Controller
             return BadRequest("Id dos campos     ///  atualização são necessários.");
         }
 
-        var doacaoAtualizado = await _doacaoService.AtualizarParcial(id, camposParaAtualizar);
+        var distribuicaoAtualizado = await _distribuicaoService.AtualizarParcial(id, camposParaAtualizar);
 
-        if (doacaoAtualizado == null)
+        if (distribuicaoAtualizado == null)
         {
-            return NotFound(" Doacao não encontrado.");
+            return NotFound(" Distribuicao não encontrado.");
         }
 
-        return Ok(doacaoAtualizado);
+        return Ok(distribuicaoAtualizado);
     }
 
     /// <summary>
-    ///     Exclui um doação do banco de dados.
+    ///     Exclui um distribuicao do banco de dados.
     /// </summary>
     /// 
-    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do doação a ser excluído.</param>
+    /// <param name="id" type="string" example="6659fbbd3fae4c001fcf6d93">ID do distribuicao a ser excluído.</param>
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um  Doacao do banco de dados
+    /// ## Excluir um  Distribuicao do banco de dados
     /// 
-    /// Use este endpoint para remover permanentemente um doação da base de dados.
+    /// Use este endpoint para remover permanentemente um distribuicao da base de dados.
     /// ⚠️ **A exclusão é irreversível.**
     /// 
     /// ### Exemplo de requisição:
     /// ```http
-    /// DELETE http://localhost:3001/api/Doacao/ExcluirDoacao/{id}
+    /// DELETE http://localhost:3001/api/Distribuicao/ExcluirDistribuicao/{id}
     /// ```
     /// 
     /// ### Exemplo de resposta:
     /// ```json
     /// {
-    ///     "message": "Doacao excluído com sucesso."
+    ///     "message": "Distribuicao excluído com sucesso."
     /// }
     /// ```
     /// 
     /// </remarks>
     /// 
-    /// <response code="200">Doacao excluído com sucesso</response>
+    /// <response code="200">Distribuicao excluído com sucesso</response>
     /// <response code="400">ID inválido fornecido</response>
-    /// <response code="404">Doacao não encontrado</response>
+    /// <response code="404">Distribuicao não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
-    [HttpDelete("ExcluirDoacao/{id}")]
+    [HttpDelete("ExcluirDistribuicao/{id}")]
     [Produces("application/json")]
-    public async Task<IActionResult> ExcluirDoacao(string id)
+    public async Task<IActionResult> ExcluirDistribuicao(string id)
     {
-        var doacao = await _doacaoService.ConsultarId(id);
+        var distribuicao = await _distribuicaoService.ConsultarId(id);
         
-        if (doacao == null)
+        if (distribuicao == null)
         {
             return NotFound();
         }
 
-        await _doacaoService.Excluir(id);
+        await _distribuicaoService.Excluir(id);
 
-        return Ok(new { message = "Doacao excluído com sucesso." });  
+        return Ok(new { message = "Distribuicao excluído com sucesso." });  
     }
 }
