@@ -1783,6 +1783,7 @@
             ## Treinar modelo de predição de necessidades por região
             
             Use este endpoint para treinar o modelo de Machine Learning com base nos dados históricos de eventos, abrigos, doações e distribuições armazenados no banco de dados.
+            Se não houver dados suficientes no banco, o sistema automaticamente gerará 1000 registros sintéticos para treinamento.
             
             Requisição via rota:
             ```http
@@ -1795,6 +1796,7 @@
             
             ### O que acontece no treinamento:
             - O sistema coleta dados históricos de todas as tabelas (eventos, abrigos, doações, distribuições)
+            - Se dados insuficientes, gera automaticamente dados sintéticos realistas
             - Treina 3 modelos separados para prever: alimentos, medicamentos e cobertores
             - Atualiza os modelos em memória para uso nas predições
             
@@ -1818,6 +1820,83 @@
             
             <response code="200">Modelo treinado com sucesso</response>
             <response code="400">Não há dados suficientes para treinamento</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:MLController.TreinarComDadosSinteticos">
+            <summary>
+                Treina o modelo de Machine Learning com dados sintéticos.
+            </summary>
+            
+            <remarks>
+            
+            ## Treinar modelo com dados sintéticos (1000 registros)
+            
+            Use este endpoint para forçar o treinamento do modelo com dados sintéticos, ignorando os dados do banco.
+            Útil para testes ou quando há problemas com os dados históricos.
+            
+            Requisição via rota:
+            ```http
+            POST http://localhost:3001/api/ML/TreinarComDadosSinteticos
+            ```
+            
+            ### O que acontece:
+            - Gera 1000 registros sintéticos com correlações realistas
+            - Treina 3 modelos separados para prever: alimentos, medicamentos e cobertores
+            - Dados incluem sazonalidade e variações por região
+            
+            ### Exemplo de resposta:
+            ```json
+            {
+                "message": "Modelo treinado com dados sintéticos!",
+                "registros": 1000,
+                "timestamp": "2025-05-31T10:30:00Z"
+            }
+            ```
+            
+            </remarks>
+            
+            <response code="200">Modelo treinado com sucesso</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:MLController.TreinarComCSV(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+                Treina o modelo de Machine Learning com upload de arquivo CSV.
+            </summary>
+            
+            <remarks>
+            
+            ## Treinar modelo com arquivo CSV customizado
+            
+            Use este endpoint para treinar o modelo enviando um arquivo CSV com dados de treinamento.
+            
+            ### Formato do CSV esperado:
+            ```csv
+            Localizacao,QuantidadeEventos,CapacidadeAbrigo,OcupacaoAtual,MesAno,AlimentosNecessarios,MedicamentosNecessarios,CobertoresNecessarios
+            São Paulo,5,150,120,1,75,25,15
+            Rio de Janeiro,3,200,180,1,54,18,9
+            ```
+            
+            ### Requisição via formulário:
+            ```http
+            POST http://localhost:3001/api/ML/TreinarComCSV
+            Content-Type: multipart/form-data
+            ```
+            
+            ### Exemplo de resposta:
+            ```json
+            {
+                "message": "Modelo treinado com CSV!",
+                "registros": 500,
+                "timestamp": "2025-05-31T10:30:00Z"
+            }
+            ```
+            
+            </remarks>
+            
+            <param name="arquivo">Arquivo CSV com dados de treinamento</param>
+            
+            <response code="200">Modelo treinado com sucesso</response>
+            <response code="400">Arquivo inválido ou formato incorreto</response>
             <response code="500">Erro interno do servidor</response>
         </member>
         <!-- Badly formed XML comment ignored for member "M:MLController.Prever(System.String,System.Int32,System.Int32,System.Int32)" -->

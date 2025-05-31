@@ -2,7 +2,7 @@
 namespace Project.Models;
 public class DadosTreinamento
 {
-    public string Localizacao { get; set; }
+    public string Localizacao { get; set; } = string.Empty;
     public float QuantidadeEventos { get; set; }
     public float CapacidadeAbrigo { get; set; }
     public float OcupacaoAtual { get; set; }

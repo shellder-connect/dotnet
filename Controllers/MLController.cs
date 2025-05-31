@@ -21,6 +21,7 @@ public class MLController : Controller
     /// ## Treinar modelo de predição de necessidades por região
     /// 
     /// Use este endpoint para treinar o modelo de Machine Learning com base nos dados históricos de eventos, abrigos, doações e distribuições armazenados no banco de dados.
+    /// Se não houver dados suficientes no banco, o sistema automaticamente gerará 1000 registros sintéticos para treinamento.
     /// 
     /// Requisição via rota:
     /// ```http
@@ -33,6 +34,7 @@ public class MLController : Controller
     /// 
     /// ### O que acontece no treinamento:
     /// - O sistema coleta dados históricos de todas as tabelas (eventos, abrigos, doações, distribuições)
+    /// - Se dados insuficientes, gera automaticamente dados sintéticos realistas
     /// - Treina 3 modelos separados para prever: alimentos, medicamentos e cobertores
     /// - Atualiza os modelos em memória para uso nas predições
     /// 
@@ -73,6 +75,158 @@ public class MLController : Controller
         }
         
         return BadRequest(new { message = "Não há dados suficientes para treinamento.", timestamp = DateTime.Now });
+    }
+
+    /// <summary>
+    ///     Treina o modelo de Machine Learning com dados sintéticos.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// 
+    /// ## Treinar modelo com dados sintéticos (1000 registros)
+    /// 
+    /// Use este endpoint para forçar o treinamento do modelo com dados sintéticos, ignorando os dados do banco.
+    /// Útil para testes ou quando há problemas com os dados históricos.
+    /// 
+    /// Requisição via rota:
+    /// ```http
+    /// POST http://localhost:3001/api/ML/TreinarComDadosSinteticos
+    /// ```
+    /// 
+    /// ### O que acontece:
+    /// - Gera 1000 registros sintéticos com correlações realistas
+    /// - Treina 3 modelos separados para prever: alimentos, medicamentos e cobertores
+    /// - Dados incluem sazonalidade e variações por região
+    /// 
+    /// ### Exemplo de resposta:
+    /// ```json
+    /// {
+    ///     "message": "Modelo treinado com dados sintéticos!",
+    ///     "registros": 1000,
+    ///     "timestamp": "2025-05-31T10:30:00Z"
+    /// }
+    /// ```
+    /// 
+    /// </remarks>
+    /// 
+    /// <response code="200">Modelo treinado com sucesso</response>
+    /// <response code="500">Erro interno do servidor</response>
+    [HttpPost("TreinarComDadosSinteticos")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> TreinarComDadosSinteticos()
+    {
+        try
+        {
+            var sucesso = await _mlService.TreinarModeloComCSV(); // Sem CSV = dados sintéticos
+            
+            if (sucesso)
+            {
+                return Ok(new { 
+                    message = "Modelo treinado com dados sintéticos!", 
+                    registros = 1000,
+                    timestamp = DateTime.Now 
+                });
+            }
+            
+            return StatusCode(500, new { message = "Erro ao treinar modelo.", timestamp = DateTime.Now });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = ex.Message, timestamp = DateTime.Now });
+        }
+    }
+
+    /// <summary>
+    ///     Treina o modelo de Machine Learning com upload de arquivo CSV.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// 
+    /// ## Treinar modelo com arquivo CSV customizado
+    /// 
+    /// Use este endpoint para treinar o modelo enviando um arquivo CSV com dados de treinamento.
+    /// 
+    /// ### Formato do CSV esperado:
+    /// ```csv
+    /// Localizacao,QuantidadeEventos,CapacidadeAbrigo,OcupacaoAtual,MesAno,AlimentosNecessarios,MedicamentosNecessarios,CobertoresNecessarios
+    /// São Paulo,5,150,120,1,75,25,15
+    /// Rio de Janeiro,3,200,180,1,54,18,9
+    /// ```
+    /// 
+    /// ### Requisição via formulário:
+    /// ```http
+    /// POST http://localhost:3001/api/ML/TreinarComCSV
+    /// Content-Type: multipart/form-data
+    /// ```
+    /// 
+    /// ### Exemplo de resposta:
+    /// ```json
+    /// {
+    ///     "message": "Modelo treinado com CSV!",
+    ///     "registros": 500,
+    ///     "timestamp": "2025-05-31T10:30:00Z"
+    /// }
+    /// ```
+    /// 
+    /// </remarks>
+    /// 
+    /// <param name="arquivo">Arquivo CSV com dados de treinamento</param>
+    /// 
+    /// <response code="200">Modelo treinado com sucesso</response>
+    /// <response code="400">Arquivo inválido ou formato incorreto</response>
+    /// <response code="500">Erro interno do servidor</response>
+    [HttpPost("TreinarComCSV")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> TreinarComCSV(IFormFile arquivo)
+    {
+        if (arquivo == null || arquivo.Length == 0)
+        {
+            return BadRequest(new { message = "Arquivo CSV é obrigatório.", timestamp = DateTime.Now });
+        }
+
+        if (!arquivo.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+        {
+            return BadRequest(new { message = "Apenas arquivos CSV são aceitos.", timestamp = DateTime.Now });
+        }
+
+        try
+        {
+            // Salvar arquivo temporariamente
+            var caminhoTemp = Path.GetTempFileName();
+            using (var stream = new FileStream(caminhoTemp, FileMode.Create))
+            {
+                await arquivo.CopyToAsync(stream);
+            }
+
+            // Treinar com o CSV
+            var sucesso = await _mlService.TreinarModeloComCSV(caminhoTemp);
+
+            // Limpar arquivo temporário
+            if (System.IO.File.Exists(caminhoTemp))
+            {
+                System.IO.File.Delete(caminhoTemp);
+            }
+
+            if (sucesso)
+            {
+                return Ok(new { 
+                    message = "Modelo treinado com CSV!", 
+                    arquivo = arquivo.FileName,
+                    timestamp = DateTime.Now 
+                });
+            }
+            
+            return StatusCode(500, new { message = "Erro ao treinar modelo com CSV.", timestamp = DateTime.Now });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = ex.Message, timestamp = DateTime.Now });
+        }
     }
 
     /// <summary>

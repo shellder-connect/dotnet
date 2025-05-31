@@ -1,0 +1,61 @@
+Localizacao,QuantidadeEventos,CapacidadeAbrigo,OcupacaoAtual,MesAno,AlimentosNecessarios,MedicamentosNecessarios,CobertoresNecessarios
+São Paulo,5,150,120,1,75,25,15
+Rio de Janeiro,3,200,180,1,54,18,9
+Belo Horizonte,2,100,75,1,30,10,6
+Salvador,4,180,160,2,64,21,13
+Curitiba,6,120,90,2,72,24,14
+São Paulo,8,150,140,3,112,37,22
+Rio de Janeiro,4,200,170,3,68,23,14
+Belo Horizonte,3,100,85,3,51,17,10
+Salvador,7,180,170,4,119,40,24
+Curitiba,5,120,100,4,75,25,15
+São Paulo,9,150,130,5,117,39,23
+Rio de Janeiro,6,200,190,5,114,38,23
+Belo Horizonte,4,100,90,5,72,24,14
+Salvador,8,180,160,6,128,43,26
+Curitiba,7,120,110,6,105,35,21
+São Paulo,12,150,145,7,156,52,31
+Rio de Janeiro,8,200,185,7,136,45,27
+Belo Horizonte,5,100,95,7,95,32,19
+Salvador,10,180,175,8,170,57,34
+Curitiba,9,120,115,8,135,45,27
+São Paulo,6,150,125,9,81,27,16
+Rio de Janeiro,5,200,175,9,75,25,15
+Belo Horizonte,3,100,80,9,36,12,7
+Salvador,5,180,155,10,75,25,15
+Curitiba,4,120,95,10,60,20,12
+São Paulo,7,150,135,11,94,31,19
+Rio de Janeiro,9,200,195,11,144,48,29
+Belo Horizonte,6,100,90,11,90,30,18
+Salvador,11,180,170,12,187,62,37
+Curitiba,8,120,105,12,120,40,24
+São Paulo,15,250,200,1,225,75,45
+Rio de Janeiro,12,300,250,1,180,60,36
+Belo Horizonte,8,150,120,1,96,32,19
+Salvador,13,220,190,2,195,65,39
+Curitiba,10,180,150,2,120,40,24
+São Paulo,18,250,220,3,270,90,54
+Rio de Janeiro,14,300,280,3,252,84,50
+Belo Horizonte,9,150,135,3,135,45,27
+Salvador,16,220,200,4,256,85,51
+Curitiba,11,180,160,4,132,44,26
+São Paulo,20,250,230,5,300,100,60
+Rio de Janeiro,16,300,270,5,288,96,58
+Belo Horizonte,12,150,140,5,180,60,36
+Salvador,18,220,210,6,324,108,65
+Curitiba,14,180,170,6,210,70,42
+São Paulo,22,250,240,7,330,110,66
+Rio de Janeiro,19,300,290,7,361,120,72
+Belo Horizonte,13,150,145,7,195,65,39
+Salvador,21,220,215,8,378,126,76
+Curitiba,15,180,175,8,225,75,45
+São Paulo,17,250,210,9,255,85,51
+Rio de Janeiro,13,300,260,9,234,78,47
+Belo Horizonte,10,150,125,9,150,50,30
+Salvador,14,220,180,10,210,70,42
+Curitiba,12,180,155,10,180,60,36
+São Paulo,19,250,225,11,285,95,57
+Rio de Janeiro,21,300,285,11,399,133,80
+Belo Horizonte,14,150,135,11,210,70,42
+Salvador,23,220,205,12,414,138,83
+Curitiba,16,180,165,12,240,80,48

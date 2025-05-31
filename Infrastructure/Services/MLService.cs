@@ -1,8 +1,8 @@
+using System.IO;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using Project.Infrastructure.Interfaces;
 using Project.Models;
-using System.Globalization;
 
 namespace Project.Application.Services
 {
@@ -20,21 +20,45 @@ namespace Project.Application.Services
             _mlContext = new MLContext(seed: 0);
         }
 
-        // Método original (mantido para compatibilidade)
         public async Task<bool> TreinarModelo()
         {
             try
             {
-                var dadosTreinamento = await _mlRepository.ObterDadosParaTreinamento();
-                Console.WriteLine($"[MLService] Dados obtidos do banco: {dadosTreinamento.Count}");
+                // Tentar carregar CSV da raiz primeiro
+                var baseDir = AppContext.BaseDirectory;
+                var projectRoot = Path.GetFullPath(Path.Combine(baseDir, "..", "..", ".."));
+                var csvPath = Path.Combine(projectRoot, "ml_training_data.csv");
 
-                if (dadosTreinamento.Count < 10) // Aumentei o mínimo
+                List<DadosTreinamento> dadosTreinamento;
+
+                if (File.Exists(csvPath))
                 {
-                    Console.WriteLine("[MLService] Dados insuficientes do banco, tentando CSV...");
-                    return await TreinarModeloComCSV();
+                    Console.WriteLine($"[MLService] Carregando dados do CSV: {csvPath}");
+                    dadosTreinamento = CarregarDadosDoCSV(csvPath);
+                    Console.WriteLine($"[MLService] {dadosTreinamento.Count} registros carregados do CSV");
+                }
+                else
+                {
+                    Console.WriteLine("[MLService] CSV não encontrado, tentando banco de dados...");
+                    dadosTreinamento = await _mlRepository.ObterDadosParaTreinamento();
+                    Console.WriteLine($"[MLService] {dadosTreinamento.Count} registros obtidos do banco");
+
+                    if (dadosTreinamento.Count < 10)
+                    {
+                        Console.WriteLine("[MLService] Dados insuficientes, gerando dados sintéticos...");
+                        dadosTreinamento = GerarDadosSinteticos();
+                        Console.WriteLine($"[MLService] {dadosTreinamento.Count} registros sintéticos gerados");
+                    }
                 }
 
-                return TreinarComDados(dadosTreinamento);
+                if (!dadosTreinamento.Any())
+                {
+                    Console.WriteLine("[MLService] Nenhum dado disponível para treinamento");
+                    return false;
+                }
+
+                return TreinarModelos(dadosTreinamento);
+                //return Task.FromResult(TreinarModelos(dadosTreinamento));
             }
             catch (Exception ex)
             {
@@ -43,106 +67,121 @@ namespace Project.Application.Services
             }
         }
 
-        // Novo método para treinar com CSV
-        public async Task<bool> TreinarModeloComCSV(string? caminhoCSV = null)
+        public Task<bool> TreinarModeloComCSV(string? caminhoCSV = null)
         {
             try
             {
-                var dadosTreinamento = caminhoCSV != null 
-                    ? LerDadosDoCSV(caminhoCSV)
-                    : GerarDadosExemplo(); // Fallback para dados sintéticos
+                List<DadosTreinamento> dadosTreinamento;
 
-                Console.WriteLine($"[MLService] Dados de treinamento gerados: {dadosTreinamento.Count}");
+                if (!string.IsNullOrEmpty(caminhoCSV) && File.Exists(caminhoCSV))
+                {
+                    Console.WriteLine($"[MLService] Carregando CSV customizado: {caminhoCSV}");
+                    dadosTreinamento = CarregarDadosDoCSV(caminhoCSV);
+                }
+                else
+                {
+                    Console.WriteLine("[MLService] Gerando dados sintéticos para treinamento");
+                    dadosTreinamento = GerarDadosSinteticos();
+                }
+
+                Console.WriteLine($"[MLService] {dadosTreinamento.Count} registros carregados");
 
                 if (!dadosTreinamento.Any())
                 {
-                    return false;
+                    //return false;
+                    return Task.FromResult(false);
                 }
 
-                return TreinarComDados(dadosTreinamento);
+                //return TreinarModelos(dadosTreinamento);
+                return Task.FromResult(TreinarModelos(dadosTreinamento));
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"[MLService] Erro no treinamento com CSV: {ex.Message}");
-                return false;
+                //return false;
+                return Task.FromResult(false);
             }
         }
 
-        private bool TreinarComDados(List<DadosTreinamento> dadosTreinamento)
-        {
-            var dataView = _mlContext.Data.LoadFromEnumerable(dadosTreinamento);
-
-            var pipeline = _mlContext.Transforms.Categorical.OneHotEncoding("LocalizacaoEncoded", "Localizacao")
-                .Append(_mlContext.Transforms.Concatenate("Features", 
-                    "LocalizacaoEncoded", "QuantidadeEventos", "CapacidadeAbrigo", "OcupacaoAtual", "MesAno"))
-                .Append(_mlContext.Transforms.NormalizeMinMax("Features"));
-
-            // Treinar modelo para Alimentos
-            var pipelineAlimentos = pipeline
-                .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "AlimentosNecessarios", maximumNumberOfIterations: 100));
-            _modeloAlimentos = pipelineAlimentos.Fit(dataView);
-
-            // Treinar modelo para Medicamentos  
-            var pipelineMedicamentos = pipeline
-                .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "MedicamentosNecessarios", maximumNumberOfIterations: 100));
-            _modeloMedicamentos = pipelineMedicamentos.Fit(dataView);
-
-            // Treinar modelo para Cobertores
-            var pipelineCobertores = pipeline
-                .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "CobertoresNecessarios", maximumNumberOfIterations: 100));
-            _modeloCobertores = pipelineCobertores.Fit(dataView);
-
-            Console.WriteLine("[MLService] Modelos treinados com sucesso!");
-            return true;
-        }
-
-        private List<DadosTreinamento> LerDadosDoCSV(string caminhoCSV)
+        private List<DadosTreinamento> CarregarDadosDoCSV(string caminhoCSV)
         {
             var dados = new List<DadosTreinamento>();
 
             try
             {
-                var linhas = File.ReadAllLines(caminhoCSV);
-                
-                // Pular cabeçalho se existir
-                var linhasDados = linhas.Skip(1);
+                // Usar ML.NET para carregar CSV (similar ao SentimentAnalysis)
+                var dataView = _mlContext.Data.LoadFromTextFile<MLTrainingInput>(
+                    caminhoCSV,
+                    separatorChar: ',',
+                    hasHeader: true);
 
-                foreach (var linha in linhasDados)
+                // Converter para nossa estrutura
+                var inputData = _mlContext.Data.CreateEnumerable<MLTrainingInput>(dataView, reuseRowObject: false);
+
+                foreach (var input in inputData)
                 {
-                    var campos = linha.Split(',');
-                    
-                    if (campos.Length >= 7) // Verificar se tem campos suficientes
+                    dados.Add(new DadosTreinamento
                     {
-                        dados.Add(new DadosTreinamento
-                        {
-                            Localizacao = campos[0].Trim(),
-                            QuantidadeEventos = int.Parse(campos[1]),
-                            CapacidadeAbrigo = int.Parse(campos[2]),
-                            OcupacaoAtual = int.Parse(campos[3]),
-                            MesAno = float.Parse(campos[4], CultureInfo.InvariantCulture),
-                            AlimentosNecessarios = float.Parse(campos[5], CultureInfo.InvariantCulture),
-                            MedicamentosNecessarios = float.Parse(campos[6], CultureInfo.InvariantCulture),
-                            CobertoresNecessarios = campos.Length > 7 ? float.Parse(campos[7], CultureInfo.InvariantCulture) : 0
-                        });
-                    }
+                        Localizacao = input.Localizacao ?? "Desconhecido",
+                        QuantidadeEventos = input.QuantidadeEventos,
+                        CapacidadeAbrigo = input.CapacidadeAbrigo,
+                        OcupacaoAtual = input.OcupacaoAtual,
+                        MesAno = input.MesAno,
+                        AlimentosNecessarios = input.AlimentosNecessarios,
+                        MedicamentosNecessarios = input.MedicamentosNecessarios,
+                        CobertoresNecessarios = input.CobertoresNecessarios
+                    });
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[MLService] Erro ao ler CSV: {ex.Message}");
+                Console.WriteLine($"[MLService] Erro ao carregar CSV: {ex.Message}");
             }
 
             return dados;
         }
 
-        // Método para gerar dados sintéticos (fallback)
-        private List<DadosTreinamento> GerarDadosExemplo()
+        private bool TreinarModelos(List<DadosTreinamento> dadosTreinamento)
+        {
+            try
+            {
+                var dataView = _mlContext.Data.LoadFromEnumerable(dadosTreinamento);
+
+                var pipeline = _mlContext.Transforms.Categorical.OneHotEncoding("LocalizacaoEncoded", "Localizacao")
+                    .Append(_mlContext.Transforms.Concatenate("Features", 
+                        "LocalizacaoEncoded", "QuantidadeEventos", "CapacidadeAbrigo", "OcupacaoAtual", "MesAno"))
+                    .Append(_mlContext.Transforms.NormalizeMinMax("Features"));
+
+                // Treinar modelo para Alimentos
+                var pipelineAlimentos = pipeline
+                    .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "AlimentosNecessarios", maximumNumberOfIterations: 100));
+                _modeloAlimentos = pipelineAlimentos.Fit(dataView);
+
+                // Treinar modelo para Medicamentos  
+                var pipelineMedicamentos = pipeline
+                    .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "MedicamentosNecessarios", maximumNumberOfIterations: 100));
+                _modeloMedicamentos = pipelineMedicamentos.Fit(dataView);
+
+                // Treinar modelo para Cobertores
+                var pipelineCobertores = pipeline
+                    .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "CobertoresNecessarios", maximumNumberOfIterations: 100));
+                _modeloCobertores = pipelineCobertores.Fit(dataView);
+
+                Console.WriteLine("[MLService] Modelos treinados com sucesso!");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[MLService] Erro ao treinar modelos: {ex.Message}");
+                return false;
+            }
+        }
+
+        private List<DadosTreinamento> GerarDadosSinteticos()
         {
             var dados = new List<DadosTreinamento>();
             var random = new Random(42);
             var localizacoes = new[] { "São Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador", "Curitiba" };
-
-            Console.WriteLine("[MLService] Gerando 1000 registros sintéticos para treinamento...");
 
             for (int i = 0; i < 1000; i++)
             {
@@ -152,9 +191,9 @@ namespace Project.Application.Services
                 var ocupacaoAtual = random.Next(20, capacidadeAbrigo);
                 var mesAno = random.Next(1, 13);
 
-                // Fórmulas realistas baseadas em correlações
+                // Fórmulas realistas com correlações
                 var fatorBase = quantidadeEventos * (ocupacaoAtual / (float)capacidadeAbrigo);
-                var fatorSazonalidade = mesAno >= 6 && mesAno <= 8 ? 1.3f : 1.0f; // Inverno = mais necessidades
+                var fatorSazonalidade = mesAno >= 6 && mesAno <= 8 ? 1.3f : 1.0f; // Inverno
 
                 var alimentos = fatorBase * 15 * fatorSazonalidade + random.Next(-5, 15);
                 var medicamentos = fatorBase * 5 * fatorSazonalidade + random.Next(-2, 8);
@@ -229,6 +268,34 @@ namespace Project.Application.Services
         {
             return await _mlRepository.ObterLocalizacoesAtivas();
         }
+    }
+
+    // Classe para carregar dados do CSV (similar ao FeedbackInput)
+    public class MLTrainingInput
+    {
+        [LoadColumn(0)]
+        public string? Localizacao { get; set; }
+
+        [LoadColumn(1)]
+        public int QuantidadeEventos { get; set; }
+
+        [LoadColumn(2)]
+        public int CapacidadeAbrigo { get; set; }
+
+        [LoadColumn(3)]
+        public int OcupacaoAtual { get; set; }
+
+        [LoadColumn(4)]
+        public float MesAno { get; set; }
+
+        [LoadColumn(5)]
+        public float AlimentosNecessarios { get; set; }
+
+        [LoadColumn(6)]
+        public float MedicamentosNecessarios { get; set; }
+
+        [LoadColumn(7)]
+        public float CobertoresNecessarios { get; set; }
     }
 
     public class PredicaoML
