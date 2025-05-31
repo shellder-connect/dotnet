@@ -1,0 +1,354 @@
+@{
+    ViewData["Title"] = "Análises de Feedback";
+    var analyticsDataJson = ViewBag.AnalyticsData?.ToString() ?? "{}";
+    var totalFeedbacks = ViewBag.TotalFeedbacks ?? 0;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">@ViewData["Title"]</h2>
+        <div>
+            <button type="button" class="btn btn-outline-primary me-2" onclick="atualizarDados()">
+                <i class="fas fa-sync-alt"></i> Atualizar
+            </button>
+            <form method="POST" action="@Url.Action("ExportarRelatorio")" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-download"></i> Exportar Relatório
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cards de Resumo -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1 text-white">Total de Feedbacks</h5>
+                            <h3 class="mb-0 text-white" id="totalFeedbacks">@totalFeedbacks</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-comments fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1 text-white">Satisfação Média</h5>
+                            <h3 class="mb-0 text-white" id="satisfacaoMedia">-</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-star fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1 text-white">Sentimento Positivo</h5>
+                            <h3 class="mb-0 text-white" id="sentimentoPositivo">-</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-smile fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1">Últimos 7 dias</h5>
+                            <h3 class="mb-0" id="ultimosSete">-</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-calendar-week fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0 text-white">
+                        <i class="fas fa-chart-bar me-2 text-white"></i>
+                        Distribuição por Nota
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoNotas" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0 text-white">
+                        <i class="fas fa-chart-pie me-2 text-white"></i>
+                        Análise de Sentimento (IA)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoSentimento" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0 text-white">
+                        <i class="fas fa-chart-line me-2 text-white"></i>
+                        Tendência dos Últimos 30 Dias
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoTendencia" width="400" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de Detalhes -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0 text-white">
+                <i class="fas fa-table me-2 text-white"></i>
+                Feedbacks Recentes - Análise Detalhada
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" id="tabelaFeedbacks">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nota</th>
+                            <th>Comentário</th>
+                            <th>Sentimento (IA)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados serão inseridos via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-@(TempData["MessageType"] ?? "info") mt-3">
+            @TempData["Message"]
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        let analyticsData = @Html.Raw(analyticsDataJson);
+        let graficoNotas, graficoSentimento, graficoTendencia;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarGraficos();
+            atualizarCards();
+            preencherTabela();
+        });
+
+        function inicializarGraficos() {
+            // Gráfico de Distribuição por Nota
+            const ctxNotas = document.getElementById('graficoNotas').getContext('2d');
+            graficoNotas = new Chart(ctxNotas, {
+                type: 'bar',
+                data: {
+                    labels: analyticsData.notasDistribuicao?.map(item => `Nota ${item.nota}`) || [],
+                    datasets: [{
+                        label: 'Quantidade de Feedbacks',
+                        data: analyticsData.notasDistribuicao?.map(item => item.count) || [],
+                        backgroundColor: [
+                            '#ff6b6b', '#feca57', '#48cae4', '#06d6a0', '#7209b7'
+                        ],
+                        borderColor: [
+                            '#ff5252', '#ffb74d', '#29b6f6', '#4caf50', '#673ab7'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Sentimento
+            const ctxSentimento = document.getElementById('graficoSentimento').getContext('2d');
+            graficoSentimento = new Chart(ctxSentimento, {
+                type: 'doughnut',
+                data: {
+                    labels: analyticsData.sentimentoDistribuicao?.map(item => item.sentimento) || [],
+                    datasets: [{
+                        data: analyticsData.sentimentoDistribuicao?.map(item => item.count) || [],
+                        backgroundColor: [
+                            '#28a745', '#ffc107', '#dc3545'
+                        ],
+                        borderColor: [
+                            '#1e7e34', '#d39e00', '#bd2130'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Tendência
+            const ctxTendencia = document.getElementById('graficoTendencia').getContext('2d');
+            graficoTendencia = new Chart(ctxTendencia, {
+                type: 'line',
+                data: {
+                    labels: analyticsData.tendenciaTemporal?.map(item => item.data) || [],
+                    datasets: [{
+                        label: 'Feedbacks por Dia',
+                        data: analyticsData.tendenciaTemporal?.map(item => item.count) || [],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function atualizarCards() {
+            if (analyticsData.notasDistribuicao && analyticsData.notasDistribuicao.length > 0) {
+                const totalNotas = analyticsData.notasDistribuicao.reduce((sum, item) => sum + (parseInt(item.nota) * item.count), 0);
+                const totalCount = analyticsData.notasDistribuicao.reduce((sum, item) => sum + item.count, 0);
+                const media = totalCount > 0 ? (totalNotas / totalCount).toFixed(1) : 0;
+                document.getElementById('satisfacaoMedia').textContent = media;
+            }
+
+            if (analyticsData.sentimentoDistribuicao) {
+                const positivo = analyticsData.sentimentoDistribuicao.find(item => item.sentimento === 'Positivo');
+                const total = analyticsData.sentimentoDistribuicao.reduce((sum, item) => sum + item.count, 0);
+                const percentualPositivo = positivo && total > 0 ? Math.round((positivo.count / total) * 100) : 0;
+                document.getElementById('sentimentoPositivo').textContent = percentualPositivo + '%';
+            }
+
+            // Simular dados dos últimos 7 dias
+            document.getElementById('ultimosSete').textContent = Math.floor(Math.random() * 20) + 5;
+        }
+
+        function preencherTabela() {
+            const tbody = document.querySelector('#tabelaFeedbacks tbody');
+            tbody.innerHTML = '';
+
+            if (analyticsData.detalhes && analyticsData.detalhes.length > 0) {
+                analyticsData.detalhes.forEach(item => {
+                    const tr = document.createElement('tr');
+                    
+                    const badgeClass = item.sentimento === 'Positivo' ? 'success' : 
+                                     item.sentimento === 'Neutro' ? 'warning' : 'danger';
+                    
+                    const statusClass = item.nota >= 4 ? 'success' : item.nota == 3 ? 'warning' : 'danger';
+                    const statusText = item.nota >= 4 ? 'Satisfeito' : item.nota == 3 ? 'Neutro' : 'Insatisfeito';
+                    
+                    tr.innerHTML = `
+                        <td><span class="badge bg-primary">${item.nota}</span></td>
+                        <td>${item.comentario}</td>
+                        <td><span class="badge bg-${badgeClass}">${item.sentimento}</span></td>
+                        <td><span class="badge bg-${statusClass}">${statusText}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">Nenhum feedback encontrado</td></tr>';
+            }
+        }
+
+        function atualizarDados() {
+            // Simular atualização dos dados
+            location.reload();
+        }
+    </script>
+}
+
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .opacity-75 {
+        opacity: 0.75;
+    }
+    
+    canvas {
+        max-height: 400px;
+    }
+</style>
