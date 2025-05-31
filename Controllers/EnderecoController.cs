@@ -60,51 +60,7 @@ public class EnderecoController : Controller
         return Ok(endereco);
     }
 
-    [AllowAnonymous]
-    [HttpGet("Criar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Criar()
-    {
-        return View();
-    }
 
-    [AllowAnonymous]
-    [HttpPost("Criar")]
-    [ValidateAntiForgeryToken]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Criar(EnderecoDTO enderecoDTO)
-    {
-
-        if (ModelState.IsValid)
-        {
-
-            var idUsuario = User.Claims.FirstOrDefault(c => c.Type == "IdUsuario")?.Value;
-            if (string.IsNullOrEmpty(idUsuario))
-                return Unauthorized("Usuário não logado.");
-
-            var endereco = new Endereco
-            {
-                CEP = enderecoDTO.CEP,
-                Estado = enderecoDTO.Estado,
-                Cidade = enderecoDTO.Cidade,
-                Bairro = enderecoDTO.Bairro,
-                Rua = enderecoDTO.Rua,
-                IdUsuario = idUsuario
-            };
-
-            await _enderecoService.Criar(endereco);
-
-            TempData["SuccessMessage"] = "Endereco cadastrado com sucesso!";
-        }
-        return View(enderecoDTO);
-    }
-
-    [HttpGet("Mensagem")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Mensagem()
-    {
-        return View();
-    }
 
     /// <summary>
     ///     Cadastra um novo endereço de preferência para o usuário.
@@ -505,13 +461,6 @@ public class EnderecoController : Controller
 
         TempData["ErrorMessage"] = "Endereco não encontrado.";
         return RedirectToAction(nameof(Index));
-    }
-
-    [HttpGet("MensagemExclusao")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult MensagemExclusao()
-    {
-        return View();
     }
 
     /// <summary>

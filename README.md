@@ -92,6 +92,8 @@ dotnet restore
 
 ## 📋 Documentação dos Endpoints
 
+Aqui teremos apenas uma breve explicação, o detalhamento da documentação com endpoints completos, estão disponíveis no Swagger.
+
 ### 🏠 Abrigos (`/api/abrigos`)
 
 | Método | Endpoint | Descrição | Auth |
@@ -121,6 +123,96 @@ dotnet restore
     "ocupacaoAtual": 25
 }
 ```
+
+### 👤 Usuário (/api/Usuario)
+| Método   | Endpoint                                    | Descrição                                | Auth |
+| -------- | ------------------------------------------- | ---------------------------------------- | ---- |
+| `POST`   | `/api/Usuario/CadastrarUsuario`             | Cadastra novo usuário                    | ❌    |
+| `GET`    | `/api/Usuario/ConsultarTodosUsuarios`       | Lista todos os usuários                  | ❌    |
+| `GET`    | `/api/Usuario/ConsultarUsuarioId/{id}`      | Consulta usuário específico por ID       | ❌    |
+| `PUT`    | `/api/Usuario/AtualizarUsuario/{id}`        | Atualiza todas as informações do usuário | ✅    |
+| `PATCH`  | `/api/Usuario/AtualizarParcialUsuario/{id}` | Atualiza parcialmente dados do usuário   | ✅    |
+| `DELETE` | `/api/Usuario/ExcluirUsuario/{id}`          | Remove usuário permanentemente           | ✅    |
+
+## 🔑 TipoUsuario (/api/TipoUsuario)
+
+| Método   | Endpoint                                       | Descrição                                           | Auth |
+| -------- | ---------------------------------------------- | --------------------------------------------------- | ---- |
+| `POST`   | `/api/TipoUsuario/CadastrarTipoUsuario`        | Cadastra um novo tipo de usuário                    | ❌    |
+| `GET`    | `/api/TipoUsuario/ConsultarTodosTiposUsuario`  | Consulta todos os tipos de usuários                 | ❌    |
+| `GET`    | `/api/TipoUsuario/ConsultarTipoUsuarioId/{id}` | Consulta um tipo de usuário específico por ID       | ❌    |
+| `PUT`    | `/api/TipoUsuario/AtualizarTipoUsuario/{id}`   | Atualiza todas as informações de um tipo de usuário | ✅    |
+| `PATCH`  | `/api/TipoUsuario/AtualizarParcial/{id}`       | Atualiza parcialmente os dados do tipo de usuário   | ✅    |
+| `DELETE` | `/api/TipoUsuario/ExcluirTipoUsuario/{id}`     | Remove um tipo de usuário permanentemente           | ✅    |
+
+
+## 🏷️ Categoria (/api/Categoria)
+
+| Método   | Endpoint                                   | Descrição                                   | Auth |
+| -------- | ------------------------------------------ | ------------------------------------------- | ---- |
+| `POST`   | `/api/Categoria/CadastrarCategoria`        | Cadastra nova categoria                     | ❌    |
+| `GET`    | `/api/Categoria/ConsultarTodasCategorias`  | Lista todas as categorias                   | ❌    |
+| `GET`    | `/api/Categoria/ConsultarCategoriaId/{id}` | Consulta categoria específica por ID        | ❌    |
+| `PUT`    | `/api/Categoria/AtualizarCategoria/{id}`   | Atualiza todas as informações da categoria  | ✅    |
+| `PATCH`  | `/api/Categoria/AtualizarParcial/{id}`     | Atualiza parcialmente os dados da categoria | ✅    |
+| `DELETE` | `/api/Categoria/ExcluirCategoria/{id}`     | Remove categoria permanentemente            | ✅    |
+
+
+## 📦 Distribuição (/api/Distribuicao)
+
+| Método   | Endpoint                                         | Descrição                                     | Auth |
+| -------- | ------------------------------------------------ | --------------------------------------------- | ---- |
+| `POST`   | `/api/Distribuicao/CadastrarDistribuicao`        | Cadastra nova distribuição                    | ❌    |
+| `GET`    | `/api/Distribuicao/ConsultarTodosDistribuicao`   | Lista todas as distribuições                  | ❌    |
+| `GET`    | `/api/Distribuicao/ConsultarDistribuicaoId/{id}` | Consulta distribuição específica por ID       | ❌    |
+| `PUT`    | `/api/Distribuicao/AtualizarDistribuicao/{id}`   | Atualiza todas as informações da distribuição | ✅    |
+| `PATCH`  | `/api/Distribuicao/AtualizarParcial/{id}`        | Atualiza parcialmente dados da distribuição   | ✅    |
+| `DELETE` | `/api/Distribuicao/ExcluirDistribuicao/{id}`     | Remove uma distribuição permanentemente       | ✅    |
+
+## 📦 Doação (/api/Doacao)
+
+| Método   | Endpoint                             | Descrição                               | Auth |
+| -------- | ------------------------------------ | --------------------------------------- | ---- |
+| `POST`   | `/api/Doacao/CadastrarDoacao`        | Cadastra nova doação                    | ❌    |
+| `GET`    | `/api/Doacao/ConsultarTodosDoacao`   | Lista todas as doações                  | ❌    |
+| `GET`    | `/api/Doacao/ConsultarDoacaoId/{id}` | Consulta doação específica por ID       | ❌    |
+| `PUT`    | `/api/Doacao/AtualizarDoacao/{id}`   | Atualiza todas as informações da doação | ✅    |
+| `PATCH`  | `/api/Doacao/AtualizarParcial/{id}`  | Atualiza parcialmente dados da doação   | ✅    |
+| `DELETE` | `/api/Doacao/ExcluirDoacao/{id}`     | Remove uma doação permanentemente       | ✅    |
+
+## 📍 Endereço (/api/Endereco)
+
+| Método   | Endpoint                                 | Descrição                                 | Auth |
+| -------- | ---------------------------------------- | ----------------------------------------- | ---- |
+| `POST`   | `/api/Endereco/CadastrarEndereco`        | Cadastra novo endereço                    | ❌    |
+| `GET`    | `/api/Endereco/ConsultarTodosEndereco`   | Lista todos os endereços                  | ❌    |
+| `GET`    | `/api/Endereco/ConsultarEnderecoId/{id}` | Consulta endereço específico por ID       | ❌    |
+| `PUT`    | `/api/Endereco/AtualizarEndereco/{id}`   | Atualiza todas as informações do endereço | ✅    |
+| `PATCH`  | `/api/Endereco/AtualizarParcial/{id}`    | Atualiza parcialmente dados do endereço   | ✅    |
+| `DELETE` | `/api/Endereco/ExcluirEndereco/{id}`     | Remove um endereço permanentemente        | ✅    |
+
+## ⭐ Feedback (/api/Feedback)
+
+| Método   | Endpoint                                 | Descrição                                  | Auth |
+| -------- | ---------------------------------------- | ------------------------------------------ | ---- |
+| `POST`   | `/api/Feedback/CadastrarFeedback`        | Cadastra um novo feedback                  | ❌    |
+| `GET`    | `/api/Feedback/ConsultarTodosFeedbacks`  | Lista todos os feedbacks                   | ❌    |
+| `GET`    | `/api/Feedback/ConsultarFeedbackId/{id}` | Consulta um feedback específico por ID     | ❌    |
+| `PUT`    | `/api/Feedback/AtualizarFeedback/{id}`   | Atualiza todas as informações do feedback  | ✅    |
+| `PATCH`  | `/api/Feedback/AtualizarParcial/{id}`    | Atualiza parcialmente os dados do feedback | ✅    |
+| `DELETE` | `/api/Feedback/ExcluirFeedback/{id}`     | Remove um feedback permanentemente         | ✅    |
+
+## 📑 Documentação dos Endpoints — RegistroEvento
+
+| Método   | Endpoint                                             | Descrição                                            | Auth |
+| -------- | ---------------------------------------------------- | ---------------------------------------------------- | ---- |
+| `POST`   | `/api/RegistroEvento/CadastrarRegistroEvento`        | Cadastra um novo registro de evento                  | ❌    |
+| `GET`    | `/api/RegistroEvento/ConsultarTodosRegistroEvento`   | Lista todos os registros de evento                   | ❌    |
+| `GET`    | `/api/RegistroEvento/ConsultarRegistroEventoId/{id}` | Consulta um registro de evento específico por ID     | ❌    |
+| `PUT`    | `/api/RegistroEvento/AtualizarRegistroEvento/{id}`   | Atualiza todas as informações do registro de evento  | ✅    |
+| `PATCH`  | `/api/RegistroEvento/AtualizarParcial/{id}`          | Atualiza parcialmente os dados do registro de evento | ✅    |
+| `DELETE` | `/api/RegistroEvento/ExcluirRegistroEvento/{id}`     | Remove um registro de evento permanentemente         | ✅    |
+
 
 ## 🧪 Instruções de Testes
 

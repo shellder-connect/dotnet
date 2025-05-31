@@ -14,36 +14,6 @@ public class FeedbackController : Controller
         _feedbackService = feedbackService;
     }
 
-    [AllowAnonymous]
-    [HttpGet("Criar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Criar()
-    {
-        return View();
-    }
-
-    [AllowAnonymous]
-    [HttpPost("Criar")]
-    [ValidateAntiForgeryToken]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Criar(Feedback feedback)
-    {
-        if (ModelState.IsValid)
-        {
-            await _feedbackService.Criar(feedback);
-            TempData["SuccessMessage"] = "Feedback cadastrado com sucesso!";
-            return RedirectToAction("Mensagem");
-        }
-        return View(feedback);
-    }
-
-    [HttpGet("Mensagem")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult Mensagem()
-    {
-        return View();
-    }
-
     /// <summary>
     ///     Cria um novo Feedback.
     /// </summary>
@@ -111,13 +81,6 @@ public class FeedbackController : Controller
         return BadRequest(ModelState); 
     }
 
-    [HttpGet("Consultar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Consultar()
-    {
-        var feedbacks = await _feedbackService.ConsultarTodos(); 
-        return View(feedbacks); 
-    }
 
     /// <summary>
     ///     Consultar a lista com todos os Feedbacks.
@@ -219,64 +182,6 @@ public class FeedbackController : Controller
         return Ok(feedback);
     }
 
-    [HttpGet("Atualizar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Atualizar()
-    {
-        var userIdString = User.Claims.FirstOrDefault(c => c.Type == "IdUsuario")?.Value;
-
-        if (string.IsNullOrEmpty(userIdString))
-        {
-            return RedirectToAction("Error");
-        }
-
-        var feedback = await _feedbackService.ConsultarId(userIdString);
-        if (feedback == null)
-        {
-            return NotFound();
-        }
-
-        return View(feedback);
-    }
-
-    [HttpPost("Atualizar")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Atualizar(Feedback feedback)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(feedback);
-        }
-
-        var userIdString = User.Claims.FirstOrDefault(c => c.Type == "IdUsuario")?.Value;
-
-        if (string.IsNullOrEmpty(userIdString))
-        {
-            return RedirectToAction("Error");
-        }
-
-        var feedbackExistente = await _feedbackService.ConsultarId(userIdString);
-
-        if (feedbackExistente == null)
-        {
-            return NotFound();
-        }
-
-        feedbackExistente.Nota = feedback.Nota;
-        feedbackExistente.Comentario = feedback.Comentario;
-
-        await _feedbackService.Atualizar(feedbackExistente);
-
-        TempData["SuccessMessage"] = "Feedback atualizado com sucesso!";
-        return RedirectToAction("MensagemAtualizacao");
-    }
-
-    [HttpGet("MensagemAtualizacao")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult MensagemAtualizacao()
-    {
-        return View();
-    }
 
     /// <summary>
     ///     Atualiza os dados completos existentes do Feedback, com base no ID do banco de dados.
@@ -337,20 +242,6 @@ public class FeedbackController : Controller
         return Ok(feedbackExistente); 
     }
 
-
-    [HttpGet("ConfirmarExcluir/{id}")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> ConfirmarExcluir(string id)
-    {
-        var feedback = await _feedbackService.ConsultarId(id);
-        
-        if (feedback == null)
-        {
-            return NotFound();
-        }
-
-        return View(feedback);
-    }
 
     /// <summary>
     ///     Atualiza parcialmente os dados de um Feedback existente.
@@ -448,12 +339,6 @@ public class FeedbackController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpGet("MensagemExclusao")]
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult MensagemExclusao()
-    {
-        return View();
-    }
 
     /// <summary>
     ///     Excluir um Feedback do banco de dados.
