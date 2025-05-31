@@ -34,41 +34,31 @@ Democratizar o acesso à ajuda humanitária através da tecnologia, garantindo q
 - **Minimal APIs** - APIs leves e performáticas
 - **RESTful Design** - Padrões REST para comunicação
 
-### Banco de Dados e Mensageria
+### Banco de Dados
 - **MongoDb** - Banco de dados principal
 
 ### 🤖 Machine Learning Features
 
 - **ML.NET** - Machine Learning para:
     
-    *** Predição de Necessidades por Região ***
+    **Predição de Necessidades por Região**
     -  Tecnologia: Python (Scikit-learn/PyTorch)
     -  Inputs: Dados de dos registros de eventos que são solicitados pelos usuários
     -  Output: Previsão de recursos necessários (alimentos, medicamentos, cobertores) por região
 
-    *** Análise de sentimentos em mensagens de feedback e das mensagens no Registro do Evento *** 
+    **Análise de sentimentos em mensagens de feedback e das mensagens no Registro do Evento**
     -   Tecnologia: ML.NET (C#)
     -   Aplicação: Mensagens de feedback dos usuários
     -   Registros textuais de eventos críticos
     -   Modelo: Classificação binária (Positivo/Negativo)
     -   Saída: Dashboard com indicadores de satisfação
     
-    *** Otimização de rotas para distribuição de recursos ***
+    **Otimização de rotas para distribuição de recursos**
     -   Tecnologia: Python
     -   Parâmetros: Localização dos abrigos e Suporte
     -   Disponibilidade de itens
     -   Prioridade de entregas
     -   Resultado: Rotas otimizadas em tempo real
-
-### Fluxo de Dados
-
-graph TD
-    A[Coleta de Dados] --> B[Pré-processamento]
-    B --> C[Modelos Python]
-    B --> D[Modelos ML.NET]
-    C --> E[Predições]
-    D --> F[Análises]
-    E & F --> G[Dashboard]
 
 ### Testes e Qualidade
 - **xUnit** - Framework de testes unitários
