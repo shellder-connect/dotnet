@@ -85,8 +85,8 @@ dotnet restore
 ```
 
 ### 5. Acesso à Aplicação
-- **API**: https://localhost:7001
-- **Swagger UI**: https://localhost:7001/swagger
+- **API**: https://localhost:3001
+- **Swagger UI**: http://localhost:3001/swagger/index.html
 
 ---
 
@@ -96,72 +96,31 @@ dotnet restore
 
 | Método | Endpoint | Descrição | Auth |
 |--------|----------|-----------|------|
-| `GET` | `/api/abrigos` | Lista todos os abrigos disponíveis | ❌ |
-| `GET` | `/api/abrigos/{id}` | Busca abrigo específico | ❌ |
-| `GET` | `/api/abrigos/proximos` | Abrigos próximos (por geolocalização) | ❌ |
-| `POST` | `/api/abrigos` | Cadastra novo abrigo | ✅ |
-| `PUT` | `/api/abrigos/{id}` | Atualiza informações do abrigo | ✅ |
-| `DELETE` | `/api/abrigos/{id}` | Remove abrigo | ✅ |
+| `POST` | `/api/Abrigo/CadastrarAbrigo`        | Cadastra novo abrigo                      | ❌ |
+| `GET` | `/api/Abrigo/ConsultarTodosAbrigo`    | Lista todos os abrigos disponíveis        | ❌ |
+| `GET` | `/api/Abrigo/ConsultarAbrigoId/{id}`  | Busca abrigo específico por ID            | ❌ |
+| `PUT` | `/api/Abrigo/AtualizarAbrigo/{id}`    | Atualiza todas as informações do abrigo   | ✅ |
+| `PATCH` | `/api/Abrigo/AtualizarParcial/{id}` | Atualiza parcialmente dados do abrigo     | ✅ |
+| `DELETE` | `/api/Abrigo/ExcluirAbrigo/{id}`   | Remove abrigo permanentemente             | ✅ |
+
+**Exemplo de Request (POST/PUT)**
+```json
+{
+  "descricao": "Abrigo Central",
+  "capacidadeTotal": 100,
+  "ocupacaoAtual": 25
+}
+```
 
 **Exemplo de Response:**
 ```json
 {
-  "id": "123e4567-e89b-12d3-a456-426614174000",
-  "nome": "Abrigo Municipal Centro",
-  "endereco": {
-    "rua": "Rua das Flores, 123",
-    "cidade": "São Paulo",
-    "cep": "01234-567",
-    "coordenadas": {
-      "latitude": -23.5505,
-      "longitude": -46.6333
-    }
-  },
-  "capacidade": {
-    "total": 200,
-    "ocupada": 45,
-    "disponivel": 155
-  },
-  "recursos": ["alimentacao", "roupas", "medicamentos", "psicologico"],
-  "contato": "(11) 98765-4321",
-  "status": "ativo",
-  "_links": {
-    "self": "/api/abrigos/123e4567-e89b-12d3-a456-426614174000",
-    "edit": "/api/abrigos/123e4567-e89b-12d3-a456-426614174000",
-    "recursos": "/api/abrigos/123e4567-e89b-12d3-a456-426614174000/recursos"
-  }
+    "id": "6659fbbd3fae4c001fcf6d93",
+    "descricao": "Abrigo Central",
+    "capacidadeTotal": 100,
+    "ocupacaoAtual": 25
 }
 ```
-
-### 🩺 Profissionais de Saúde (`/api/profissionais`)
-
-| Método | Endpoint | Descrição | Auth |
-|--------|----------|-----------|------|
-| `GET` | `/api/profissionais` | Lista profissionais disponíveis | ❌ |
-| `GET` | `/api/profissionais/{id}` | Busca profissional específico | ❌ |
-| `GET` | `/api/profissionais/especialidade/{tipo}` | Filtra por especialidade | ❌ |
-| `POST` | `/api/profissionais` | Cadastra novo profissional | ✅ |
-| `PUT` | `/api/profissionais/{id}` | Atualiza dados do profissional | ✅ |
-| `POST` | `/api/profissionais/{id}/atendimentos` | Agenda atendimento | ✅ |
-
-### 🆘 Solicitações de Socorro (`/api/socorro`)
-
-| Método | Endpoint | Descrição | Auth |
-|--------|----------|-----------|------|
-| `POST` | `/api/socorro` | Cria nova solicitação de socorro | ❌ |
-| `GET` | `/api/socorro/{id}` | Acompanha status da solicitação | ❌ |
-| `PUT` | `/api/socorro/{id}/status` | Atualiza status (profissionais) | ✅ |
-| `GET` | `/api/socorro/urgentes` | Lista casos urgentes | ✅ |
-
-### 🤖 Inteligência Artificial (`/api/ia`)
-
-| Método | Endpoint | Descrição | Auth |
-|--------|----------|-----------|------|
-| `POST` | `/api/ia/analisar-necessidade` | Analisa texto e prediz necessidades | ❌ |
-| `POST` | `/api/ia/otimizar-rota` | Otimiza rota de distribuição | ✅ |
-| `GET` | `/api/ia/predicoes/regiao/{id}` | Predições para uma região | ✅ |
-
----
 
 ## 🧪 Instruções de Testes
 
