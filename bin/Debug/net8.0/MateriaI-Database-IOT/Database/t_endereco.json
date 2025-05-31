@@ -1,0 +1,82 @@
+[
+  {
+    "idUsuario": "683b08b14d65892ae33c3b3d",
+    "rua": "Rua das Flores",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01001000"
+  },
+  {
+    "idUsuario": "683b08be4d65892ae33c3b3e",
+    "rua": "Avenida Brasil",
+    "bairro": "Copacabana",
+    "cidade": "Rio de Janeiro",
+    "estado": "RJ",
+    "cep": "22010000"
+  },
+  {
+    "idUsuario": "683b0bcb4d65892ae33c3b45",
+    "rua": "Rua da Paz",
+    "bairro": "Savassi",
+    "cidade": "Belo Horizonte",
+    "estado": "MG",
+    "cep": "30140000"
+  },
+  {
+    "idUsuario": "683b0bd14d65892ae33c3b46",
+    "rua": "Rua dos Pinheiros",
+    "bairro": "Pinheiros",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "05422000"
+  },
+  {
+    "idUsuario": "683b0bd54d65892ae33c3b47",
+    "rua": "Avenida Paulista",
+    "bairro": "Bela Vista",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01310000"
+  },
+  {
+    "idUsuario": "683b0bdf4d65892ae33c3b49",
+    "rua": "Rua XV de Novembro",
+    "bairro": "Centro",
+    "cidade": "Curitiba",
+    "estado": "PR",
+    "cep": "80020310"
+  },
+  {
+    "idUsuario": "683b0be34d65892ae33c3b4a",
+    "rua": "Avenida Independência",
+    "bairro": "Independência",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "cep": "90035071"
+  },
+  {
+    "idUsuario": "683b0be74d65892ae33c3b4b",
+    "rua": "Rua das Acácias",
+    "bairro": "Jardim Botânico",
+    "cidade": "Brasília",
+    "estado": "DF",
+    "cep": "70297400"
+  },
+  {
+    "idUsuario": "683b0bec4d65892ae33c3b4c",
+    "rua": "Rua dos Andradas",
+    "bairro": "Centro",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "cep": "90020005"
+  },
+  {
+    "idUsuario": "683b0bec4d65892ae33c3b4c",
+    "rua": "Avenida Boa Viagem",
+    "bairro": "Boa Viagem",
+    "cidade": "Recife",
+    "estado": "PE",
+    "cep": "51011000"
+  }
+]

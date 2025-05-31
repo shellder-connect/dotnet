@@ -9,10 +9,9 @@ namespace Project.Models;
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string? IdUsuario { get; set; }
         
+        [BsonElement("idUsuario")]
+        public string? IdUsuario { get; set; }
         public string? CEP { get; set; }
         public string? Estado { get; set; }
         public string? Cidade { get; set; }

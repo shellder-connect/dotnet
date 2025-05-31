@@ -10,7 +10,7 @@ namespace Project.Models;
         public string? Id { get; set; }
 
         [Required]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("idUsuario")]
         public string? IdUsuario { get; set; }
 
         [Required(ErrorMessage = "O CEP é obrigatório")]

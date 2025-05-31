@@ -1,0 +1,152 @@
+[
+  {
+    "capacidadeTotal": 50,
+    "ocupacaoAtual": 35,
+    "descricao": "Abrigo central para famílias em situação de rua"
+  },
+  {
+    "capacidadeTotal": 30,
+    "ocupacaoAtual": 20,
+    "descricao": "Abrigo para mulheres em situação de vulnerabilidade"
+  },
+  {
+    "capacidadeTotal": 40,
+    "ocupacaoAtual": 38,
+    "descricao": "Abrigo para jovens e adolescentes"
+  },
+  {
+    "capacidadeTotal": 25,
+    "ocupacaoAtual": 15,
+    "descricao": "Abrigo para idosos em situação de abandono"
+  },
+  {
+    "capacidadeTotal": 60,
+    "ocupacaoAtual": 45,
+    "descricao": "Abrigo com atendimento médico especializado"
+  },
+  {
+    "capacidadeTotal": 20,
+    "ocupacaoAtual": 18,
+    "descricao": "Abrigo para pessoas com deficiência"
+  },
+  {
+    "capacidadeTotal": 35,
+    "ocupacaoAtual": 30,
+    "descricao": "Abrigo emergencial para desabrigados"
+  },
+  {
+    "capacidadeTotal": 45,
+    "ocupacaoAtual": 40,
+    "descricao": "Abrigo para vítimas de violência doméstica"
+  },
+  {
+    "capacidadeTotal": 55,
+    "ocupacaoAtual": 50,
+    "descricao": "Abrigo para refugiados e imigrantes"
+  },
+  {
+    "capacidadeTotal": 70,
+    "ocupacaoAtual": 60,
+    "descricao": "Abrigo com programas de reintegração social"
+  },
+  {
+    "capacidadeTotal": 80,
+    "ocupacaoAtual": 65,
+    "descricao": "Abrigo municipal São Paulo - Zona Norte"
+  },
+  {
+    "capacidadeTotal": 42,
+    "ocupacaoAtual": 38,
+    "descricao": "Abrigo temporário para emergências climáticas"
+  },
+  {
+    "capacidadeTotal": 38,
+    "ocupacaoAtual": 32,
+    "descricao": "Abrigo especializado em saúde mental"
+  },
+  {
+    "capacidadeTotal": 65,
+    "ocupacaoAtual": 58,
+    "descricao": "Abrigo comunitário Rio de Janeiro"
+  },
+  {
+    "capacidadeTotal": 28,
+    "ocupacaoAtual": 25,
+    "descricao": "Abrigo para gestantes em vulnerabilidade"
+  },
+  {
+    "capacidadeTotal": 90,
+    "ocupacaoAtual": 75,
+    "descricao": "Abrigo regional Belo Horizonte"
+  },
+  {
+    "capacidadeTotal": 33,
+    "ocupacaoAtual": 29,
+    "descricao": "Abrigo para pessoas LGBTQIA+"
+  },
+  {
+    "capacidadeTotal": 52,
+    "ocupacaoAtual": 47,
+    "descricao": "Abrigo com capacitação profissional"
+  },
+  {
+    "capacidadeTotal": 75,
+    "ocupacaoAtual": 68,
+    "descricao": "Abrigo municipal Salvador"
+  },
+  {
+    "capacidadeTotal": 26,
+    "ocupacaoAtual": 22,
+    "descricao": "Abrigo para dependentes químicos"
+  },
+  {
+    "capacidadeTotal": 48,
+    "ocupacaoAtual": 41,
+    "descricao": "Abrigo emergencial Curitiba"
+  },
+  {
+    "capacidadeTotal": 85,
+    "ocupacaoAtual": 80,
+    "descricao": "Abrigo central com atendimento 24h"
+  },
+  {
+    "capacidadeTotal": 39,
+    "ocupacaoAtual": 33,
+    "descricao": "Abrigo para ex-presidiários em ressocialização"
+  },
+  {
+    "capacidadeTotal": 67,
+    "ocupacaoAtual": 59,
+    "descricao": "Abrigo familiar com apartamentos"
+  },
+  {
+    "capacidadeTotal": 31,
+    "ocupacaoAtual": 28,
+    "descricao": "Abrigo para mães solo com filhos"
+  },
+  {
+    "capacidadeTotal": 56,
+    "ocupacaoAtual": 51,
+    "descricao": "Abrigo com escola e creche integradas"
+  },
+  {
+    "capacidadeTotal": 44,
+    "ocupacaoAtual": 39,
+    "descricao": "Abrigo para trabalhadores rurais"
+  },
+  {
+    "capacidadeTotal": 72,
+    "ocupacaoAtual": 66,
+    "descricao": "Abrigo com atendimento psicossocial"
+  },
+  {
+    "capacidadeTotal": 29,
+    "ocupacaoAtual": 24,
+    "descricao": "Abrigo para pessoas em situação de rua crônica"
+  },
+  {
+    "capacidadeTotal": 95,
+    "ocupacaoAtual": 88,
+    "descricao": "Complexo de abrigos integrados"
+  }
+]

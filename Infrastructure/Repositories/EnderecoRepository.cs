@@ -39,7 +39,20 @@ namespace Project.Repositories
 
         public async Task<List<Endereco>> ConsultarTodos()
         {
-            return await _enderecoCollection.Find(_ => true).ToListAsync();
+            //return await _enderecoCollection.Find(_ => true).ToListAsync();
+
+            try
+                {
+                    // Filtrar apenas documentos que tenham a estrutura esperada
+                    var filtro = Builders<Endereco>.Filter.Exists(e => e.Id);
+                    return await _enderecoCollection.Find(filtro).ToListAsync();
+                }
+                catch (Exception ex)
+                {
+                    // Log do erro para investigação
+                    Console.WriteLine($"Erro ao consultar endereços: {ex.Message}");
+                    throw;
+                }
         }
 
         public async Task<Endereco?> Atualizar(Endereco endereco)

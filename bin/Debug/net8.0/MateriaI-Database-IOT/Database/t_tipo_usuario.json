@@ -1,0 +1,32 @@
+[
+  {
+    "descricao": "Administrador"
+  },
+  {
+    "descricao": "Cliente"
+  },
+  {
+    "descricao": "Fornecedor"
+  },
+  {
+    "descricao": "Comum"
+  },
+  {
+    "descricao": "Pessoa Atendida"
+  },
+  {
+    "descricao": "Supervisor"
+  },
+  {
+    "descricao": "Operador"
+  },
+  {
+    "descricao": "Desenvolvedor"
+  },
+  {
+    "descricao": "Financeiro"
+  },
+  {
+    "descricao": "Suporte Técnico"
+  }
+]

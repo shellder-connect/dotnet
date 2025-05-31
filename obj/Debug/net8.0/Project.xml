@@ -1773,6 +1773,95 @@
              <response code="400">Dados inválidos fornecidos</response>
              <response code="500">Erro interno do servidor</response>
         </member>
+        <member name="M:MLController.TreinarModelo">
+            <summary>
+                Treina o modelo de Machine Learning com dados históricos.
+            </summary>
+            
+            <remarks>
+            
+            ## Treinar modelo de predição de necessidades por região
+            
+            Use este endpoint para treinar o modelo de Machine Learning com base nos dados históricos de eventos, abrigos, doações e distribuições armazenados no banco de dados.
+            
+            Requisição via rota:
+            ```http
+            POST http://localhost:3001/api/ML/TreinarModelo
+            ```
+            
+            ```http
+            Content-Type: application/json
+            ```
+            
+            ### O que acontece no treinamento:
+            - O sistema coleta dados históricos de todas as tabelas (eventos, abrigos, doações, distribuições)
+            - Treina 3 modelos separados para prever: alimentos, medicamentos e cobertores
+            - Atualiza os modelos em memória para uso nas predições
+            
+            ### Exemplo de resposta ao treinar com sucesso:
+            ```json
+            {
+                "message": "Modelo treinado com sucesso!",
+                "timestamp": "2025-05-31T10:30:00Z"
+            }
+            ```
+            
+            ### Exemplo de resposta em caso de erro:
+            ```json
+            {
+                "message": "Não há dados suficientes para treinamento.",
+                "timestamp": "2025-05-31T10:30:00Z"
+            }
+            ```
+            
+            </remarks>
+            
+            <response code="200">Modelo treinado com sucesso</response>
+            <response code="400">Não há dados suficientes para treinamento</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MLController.Prever(System.String,System.Int32,System.Int32,System.Int32)" -->
+        <member name="M:MLController.ConsultarLocalizacoes">
+            <summary>
+                Consulta todas as localizações disponíveis para predição.
+            </summary>
+            
+            <remarks>
+            
+            ## Consultar todas as localizações com dados disponíveis
+            
+            Use este endpoint para recuperar uma lista de todas as regiões/localizações que possuem dados históricos no sistema e podem ser usadas para fazer predições.
+            
+            ### Exemplo de requisição:
+            
+            Requisição via rota:
+            ```http
+            GET http://localhost:3001/api/ML/ConsultarLocalizacoes
+            ```
+            ```http
+            Content-Type: application/json
+            ```
+            
+            ### Exemplo de resposta:
+            ```json
+            [
+                "São Paulo",
+                "Rio de Janeiro", 
+                "Belo Horizonte",
+                "Salvador",
+                "Curitiba"
+            ]
+            ```
+            
+            ### Como usar a resposta:
+            - Use qualquer uma dessas localizações no endpoint de predição
+            - Localizações que não estão na lista podem não ter dados suficientes para predições precisas
+            
+            </remarks>
+            
+            <response code="200">Lista de localizações retornada com sucesso</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
         <member name="M:RegistroEventoController.CadastrarRegistroEvento(Project.Models.RegistroEvento)">
             <summary>
                 Cria um novo registro de evento.

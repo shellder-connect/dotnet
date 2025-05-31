@@ -1,0 +1,183 @@
+[
+  {
+    "idAbrigo": "683b095e4d65892ae33c3b40",
+    "descricao": "Cobertores para inverno",
+    "idCategoria": "683b057c4d65892ae33c3b21",
+    "quantidade": 20
+  },
+  {
+    "idAbrigo": "683b09634d65892ae33c3b41",
+    "descricao": "Roupas infantis variadas",
+    "idCategoria": "683b057c4d65892ae33c3b21",
+    "quantidade": 50
+  },
+  {
+    "idAbrigo": "683b09694d65892ae33c3b42",
+    "descricao": "Alimentos não perecíveis",
+    "idCategoria": "683b05824d65892ae33c3b22",
+    "quantidade": 100
+  },
+  {
+    "idAbrigo": "683b09a44d65892ae33c3b43",
+    "descricao": "Produtos de higiene pessoal",
+    "idCategoria": "683b05824d65892ae33c3b22",
+    "quantidade": 75
+  },
+  {
+    "idAbrigo": "683b09a94d65892ae33c3b44",
+    "descricao": "Medicamentos básicos",
+    "idCategoria": "683b05864d65892ae33c3b23",
+    "quantidade": 30
+  },
+  {
+    "idAbrigo": "683b09634d65892ae33c3b41",
+    "descricao": "Brinquedos para crianças",
+    "idCategoria": "683b05864d65892ae33c3b23",
+    "quantidade": 40
+  },
+  {
+    "idAbrigo": "683b09694d65892ae33c3b42",
+    "descricao": "Agasalhos e casacos",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 25
+  },
+  {
+    "idAbrigo": "683b09a94d65892ae33c3b44",
+    "descricao": "Cestas básicas com alimentos",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 35
+  },
+  {
+    "idAbrigo": "683b09a94d65892ae33c3b44",
+    "descricao": "Remédios para gripe e resfriado",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 60
+  },
+  {
+    "idAbrigo": "683b09a94d65892ae33c3b44",
+    "descricao": "Cobertores térmicos",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 15
+  },
+
+  {
+    "idAbrigo": "683b055a4d65892ae33c3b1e",
+    "descricao": "Cestas básicas com alimentos variados",
+    "idCategoria": "683b057c4d65892ae33c3b21",
+    "quantidade": 45
+  },
+  {
+    "idAbrigo": "683b055f4d65892ae33c3b1f",
+    "descricao": "Medicamentos para gripe e dor",
+    "idCategoria": "683b05824d65892ae33c3b22",
+    "quantidade": 80
+  },
+  {
+    "idAbrigo": "683b05644d65892ae33c3b20",
+    "descricao": "Cobertores térmicos de inverno",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 35
+  },
+  {
+    "idAbrigo": "683b09594d65892ae33c3b3f",
+    "descricao": "Roupas infantis e adultas",
+    "idCategoria": "683b05864d65892ae33c3b23",
+    "quantidade": 60
+  },
+  {
+    "idAbrigo": "683b095e4d65892ae33c3b40",
+    "descricao": "Produtos de higiene pessoal",
+    "idCategoria": "683b10f22018ad353acceb9e",
+    "quantidade": 90
+  },
+  {
+    "idAbrigo": "683b055a4d65892ae33c3b1e",
+    "descricao": "Alimentos não perecíveis diversos",
+    "idCategoria": "683b057c4d65892ae33c3b21",
+    "quantidade": 70
+  },
+  {
+    "idAbrigo": "683b055f4d65892ae33c3b1f",
+    "descricao": "Remédios para pressão e diabetes",
+    "idCategoria": "683b05824d65892ae33c3b22",
+    "quantidade": 55
+  },
+  {
+    "idAbrigo": "683b05644d65892ae33c3b20",
+    "descricao": "Agasalhos e casacos de frio",
+    "idCategoria": "683b05864d65892ae33c3b23",
+    "quantidade": 40
+  },
+  {
+    "idAbrigo": "683b09594d65892ae33c3b3f",
+    "descricao": "Mantas e cobertores hospitalares",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 25
+  },
+  {
+    "idAbrigo": "683b095e4d65892ae33c3b40",
+    "descricao": "Brinquedos educativos para crianças",
+    "idCategoria": "683b10f82018ad353acceba0",
+    "quantidade": 30
+  },
+  {
+    "idAbrigo": "683b055a4d65892ae33c3b1e",
+    "descricao": "Água mineral e bebidas",
+    "idCategoria": "683b057c4d65892ae33c3b21",
+    "quantidade": 120
+  },
+  {
+    "idAbrigo": "683b055f4d65892ae33c3b1f",
+    "descricao": "Medicamentos para crianças",
+    "idCategoria": "683b05824d65892ae33c3b22",
+    "quantidade": 65
+  },
+  {
+    "idAbrigo": "683b05644d65892ae33c3b20",
+    "descricao": "Roupas de cama e travesseiros",
+    "idCategoria": "683b05864d65892ae33c3b23",
+    "quantidade": 85
+  },
+  {
+    "idAbrigo": "683b09594d65892ae33c3b3f",
+    "descricao": "Cobertores de lã e edredons",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 50
+  },
+  {
+    "idAbrigo": "683b095e4d65892ae33c3b40",
+    "descricao": "Material escolar completo",
+    "idCategoria": "683b11022018ad353acceba3",
+    "quantidade": 95
+  },
+  {
+    "idAbrigo": "683b055a4d65892ae33c3b1e",
+    "descricao": "Comida pronta e marmitas",
+    "idCategoria": "683b057c4d65892ae33c3b21",
+    "quantidade": 110
+  },
+  {
+    "idAbrigo": "683b055f4d65892ae33c3b1f",
+    "descricao": "Remédios de primeiros socorros",
+    "idCategoria": "683b05824d65892ae33c3b22",
+    "quantidade": 75
+  },
+  {
+    "idAbrigo": "683b05644d65892ae33c3b20",
+    "descricao": "Calçados diversos e meias",
+    "idCategoria": "683b05864d65892ae33c3b23",
+    "quantidade": 45
+  },
+  {
+    "idAbrigo": "683b09594d65892ae33c3b3f",
+    "descricao": "Agasalhos térmicos especiais",
+    "idCategoria": "683b058c4d65892ae33c3b24",
+    "quantidade": 38
+  },
+  {
+    "idAbrigo": "683b095e4d65892ae33c3b40",
+    "descricao": "Produtos de limpeza e desinfetantes",
+    "idCategoria": "683b10f52018ad353acceb9f",
+    "quantidade": 60
+  }
+]
