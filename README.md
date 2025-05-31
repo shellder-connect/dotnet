@@ -37,11 +37,38 @@ Democratizar o acesso à ajuda humanitária através da tecnologia, garantindo q
 ### Banco de Dados e Mensageria
 - **MongoDb** - Banco de dados principal
 
-### Inteligência Artificial
+### 🤖 Machine Learning Features
+
 - **ML.NET** - Machine Learning para:
-  - Predição de necessidades por região
-  - Análise de sentimentos em mensagens de feedback e das mensagens no Registro do Evento. Este processo será feito via Python.
-  - Otimização de rotas para distribuição de recursos -- Processo será realizado via Python
+    
+    *** Predição de Necessidades por Região ***
+    -  Tecnologia: Python (Scikit-learn/PyTorch)
+    -  Inputs: Dados de dos registros de eventos que são solicitados pelos usuários
+    -  Output: Previsão de recursos necessários (alimentos, medicamentos, cobertores) por região
+
+    *** Análise de sentimentos em mensagens de feedback e das mensagens no Registro do Evento *** 
+    -   Tecnologia: ML.NET (C#)
+    -   Aplicação: Mensagens de feedback dos usuários
+    -   Registros textuais de eventos críticos
+    -   Modelo: Classificação binária (Positivo/Negativo)
+    -   Saída: Dashboard com indicadores de satisfação
+    
+    *** Otimização de rotas para distribuição de recursos ***
+    -   Tecnologia: Python
+    -   Parâmetros: Localização dos abrigos e Suporte
+    -   Disponibilidade de itens
+    -   Prioridade de entregas
+    -   Resultado: Rotas otimizadas em tempo real
+
+### Fluxo de Dados
+
+graph TD
+    A[Coleta de Dados] --> B[Pré-processamento]
+    B --> C[Modelos Python]
+    B --> D[Modelos ML.NET]
+    C --> E[Predições]
+    D --> F[Análises]
+    E & F --> G[Dashboard]
 
 ### Testes e Qualidade
 - **xUnit** - Framework de testes unitários
@@ -253,28 +280,6 @@ Aqui teremos apenas uma breve explicação, o detalhamento da documentação com
 
 ### Cobertura de Testes
 O projeto mantém uma cobertura mínima de **100%** para garantir qualidade e confiabilidade.
-
----
-
-
-## 🤖 Machine Learning Features
-
-### Modelos Implementados
-
-#### 1. Predição de Demanda por Recursos
-- **Algoritmo**: Regressão Linear
-- **Input**: Histórico de solicitações, dados climáticos, população
-- **Output**: Previsão de demanda por tipo de recurso
-
-#### 2. Análise de Sentimentos
-- **Algoritmo**: Classificação Binária
-- **Input**: Mensagens de socorro
-- **Output**: Urgência (Alta/Média/Baixa)
-
-#### 3. Otimização de Rotas
-- **Algoritmo**: Clustering K-Means
-- **Input**: Localização de recursos e necessidades
-- **Output**: Rotas otimizadas para distribuição
 
 ---
 
