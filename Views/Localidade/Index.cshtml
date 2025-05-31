@@ -1,0 +1,447 @@
+@model List<Project.Models.Localidade>
+@{
+    ViewData["Title"] = "Localidades - Usuários e Abrigos";
+    var totalLocalidades = Model?.Count ?? 0;
+    var totalUsuarios = Model?.Select(l => l.IdUsuario).Distinct().Count() ?? 0;
+    var totalAbrigos = Model?.Select(l => l.IdAbrigo).Distinct().Count() ?? 0;
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">@ViewData["Title"]</h2>
+        <div>
+            <button type="button" class="btn btn-outline-primary me-2" onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i> Atualizar
+            </button>
+        </div>
+    </div>
+
+    <!-- Cards de Resumo -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1 text-white">Total de Localidades</h5>
+                            <h3 class="mb-0 text-white">@totalLocalidades</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-map-marker-alt fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1 text-white">Usuários</h5>
+                            <h3 class="mb-0 text-white">@totalUsuarios</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-users fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1 text-white">Abrigos</h5>
+                            <h3 class="mb-0 text-white">@totalAbrigos</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-home fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-1 text-white">Com Distância</h5>
+                            <h3 class="mb-0 text-white">@(Model?.Where(l => !string.IsNullOrEmpty(l.Distancia)).Count() ?? 0)</h3>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-route fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mapa -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0 text-white">
+                        <i class="fas fa-map me-2 text-white"></i>
+                        Mapa de Localidades
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="map" style="height: 400px; border-radius: 5px;"></div>
+                    <div class="mt-3">
+                        <button class="btn btn-sm btn-outline-primary me-2" onclick="mostrarTodos()">
+                            <i class="fas fa-globe"></i> Mostrar Todos
+                        </button>
+                        <button class="btn btn-sm btn-outline-info me-2" onclick="calcularRotas()">
+                            <i class="fas fa-route"></i> Calcular Rotas
+                        </button>
+                        <span class="text-muted">Clique em uma localidade na tabela para ver no mapa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0 text-white">
+                <i class="fas fa-filter me-2 text-white"></i>
+                Filtros
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="filtroUsuario" class="form-label">Filtrar por Nome</label>
+                    <input type="text" class="form-control" id="filtroUsuario" placeholder="Nome do usuário..." onkeyup="filtrarTabela()">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="filtroCepUsuario" class="form-label">CEP do Usuário</label>
+                    <input type="text" class="form-control" id="filtroCepUsuario" placeholder="CEP..." onkeyup="filtrarTabela()">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="filtroCepAbrigo" class="form-label">CEP do Abrigo</label>
+                    <input type="text" class="form-control" id="filtroCepAbrigo" placeholder="CEP..." onkeyup="filtrarTabela()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela Principal -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0 text-white">
+                <i class="fas fa-table me-2 text-white"></i>
+                Localidades Cadastradas
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" id="tabelaLocalidades">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CEP Usuário</th>
+                            <th>CEP Abrigo</th>
+                            <th>Distância</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var localidade in Model)
+                            {
+                                <tr data-id="@localidade.Id" class="localidade-row" style="cursor: pointer;" onclick="selecionarLocalidade('@localidade.Id', '@localidade.CEPUsuario', '@localidade.CEPAbrigo')">
+                                    <td>
+                                        <small class="text-muted">@(localidade.Id?.Substring(0, 8) ?? "N/A")...</small>
+                                    </td>
+                                    <td>
+                                        <strong>@localidade.Nome</strong>
+                                        <br>
+                                        <small class="text-muted">Usuário ID: @(localidade.IdUsuario?.Substring(0, 8) ?? "N/A")...</small>
+                                    </td>
+                                    <td>
+                                        <code>@FormatarCep(localidade.CEPUsuario)</code>
+                                    </td>
+                                    <td>
+                                        <code>@FormatarCep(localidade.CEPAbrigo)</code>
+                                        <br>
+                                        <small class="text-muted">Abrigo ID: @(localidade.IdAbrigo?.Substring(0, 8) ?? "N/A")...</small>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(localidade.Distancia))
+                                        {
+                                            <span class="badge bg-success">@localidade.Distancia</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Não calculado</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button type="button" class="btn btn-outline-primary" onclick="event.stopPropagation(); calcularDistancia('@localidade.Id')" title="Calcular Distância">
+                                                <i class="fas fa-calculator"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-info" onclick="event.stopPropagation(); verNoMapa('@localidade.CEPUsuario', '@localidade.CEPAbrigo')" title="Ver no Google Maps">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    <div class="py-4">
+                                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                        <h5 class="text-muted">Nenhuma localidade encontrada</h5>
+                                        <p class="text-muted">Verifique se existem localidades cadastradas.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-@(TempData["MessageType"] ?? "info") mt-3">
+            @TempData["Message"]
+        </div>
+    }
+</div>
+
+@functions {
+    public string FormatarCep(string cep)
+    {
+        if (string.IsNullOrEmpty(cep) || cep.Length != 8)
+            return cep ?? "N/A";
+            
+        return $"{cep.Substring(0, 5)}-{cep.Substring(5, 3)}";
+    }
+}
+
+@section Scripts {
+    <!-- Leaflet CSS e JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        let map;
+        let markers = [];
+        let selectedLocalidade = null;
+
+        // Inicializar mapa
+        function initMap() {
+            map = L.map('map').setView([-23.5505, -46.6333], 10); // São Paulo como centro
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        }
+
+        // Filtrar tabela
+        function filtrarTabela() {
+            const filtroUsuario = document.getElementById('filtroUsuario').value.toLowerCase();
+            const filtroCepUsuario = document.getElementById('filtroCepUsuario').value.toLowerCase();
+            const filtroCepAbrigo = document.getElementById('filtroCepAbrigo').value.toLowerCase();
+            
+            const tabela = document.getElementById('tabelaLocalidades');
+            const linhas = tabela.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            for (let i = 0; i < linhas.length; i++) {
+                const linha = linhas[i];
+                const colunas = linha.getElementsByTagName('td');
+                
+                if (colunas.length > 0) {
+                    const nome = colunas[1].textContent.toLowerCase();
+                    const cepUsuario = colunas[2].textContent.toLowerCase();
+                    const cepAbrigo = colunas[3].textContent.toLowerCase();
+                    
+                    const mostrar = 
+                        (filtroUsuario === '' || nome.includes(filtroUsuario)) &&
+                        (filtroCepUsuario === '' || cepUsuario.includes(filtroCepUsuario)) &&
+                        (filtroCepAbrigo === '' || cepAbrigo.includes(filtroCepAbrigo));
+                    
+                    linha.style.display = mostrar ? '' : 'none';
+                }
+            }
+        }
+
+        // Selecionar localidade e mostrar no mapa
+        function selecionarLocalidade(id, cepUsuario, cepAbrigo) {
+            selectedLocalidade = id;
+            
+            // Limpar marcadores anteriores
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+            
+            // Destacar linha selecionada
+            document.querySelectorAll('.localidade-row').forEach(row => {
+                row.classList.remove('table-warning');
+            });
+            document.querySelector(`[data-id="${id}"]`).classList.add('table-warning');
+            
+            // Buscar coordenadas dos CEPs e adicionar marcadores
+            Promise.all([
+                buscarCoordenadas(cepUsuario),
+                buscarCoordenadas(cepAbrigo)
+            ]).then(([coordUsuario, coordAbrigo]) => {
+                if (coordUsuario) {
+                    const markerUsuario = L.marker([coordUsuario.lat, coordUsuario.lon])
+                        .addTo(map)
+                        .bindPopup(`<b>Usuário</b><br>CEP: ${cepUsuario}`)
+                        .openPopup();
+                    markers.push(markerUsuario);
+                }
+                
+                if (coordAbrigo) {
+                    const markerAbrigo = L.marker([coordAbrigo.lat, coordAbrigo.lon])
+                        .addTo(map)
+                        .bindPopup(`<b>Abrigo</b><br>CEP: ${cepAbrigo}`);
+                    markers.push(markerAbrigo);
+                }
+                
+                // Desenhar linha entre os pontos
+                if (coordUsuario && coordAbrigo) {
+                    const linha = L.polyline([
+                        [coordUsuario.lat, coordUsuario.lon],
+                        [coordAbrigo.lat, coordAbrigo.lon]
+                    ], {color: 'red', weight: 3}).addTo(map);
+                    markers.push(linha);
+                    
+                    // Ajustar zoom para mostrar ambos os pontos
+                    const group = new L.featureGroup([markerUsuario, markerAbrigo]);
+                    map.fitBounds(group.getBounds().pad(0.1));
+                    
+                    // Calcular distância
+                    const distancia = calcularDistanciaHaversine(
+                        coordUsuario.lat, coordUsuario.lon,
+                        coordAbrigo.lat, coordAbrigo.lon
+                    );
+                    
+                    linha.bindPopup(`<b>Distância:</b> ${distancia.toFixed(2)} km`);
+                }
+            });
+        }
+
+        // Buscar coordenadas por CEP (usando API gratuita)
+        async function buscarCoordenadas(cep) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${cep}&country=BR&format=json&limit=1`);
+                const data = await response.json();
+                
+                if (data && data.length > 0) {
+                    return {
+                        lat: parseFloat(data[0].lat),
+                        lon: parseFloat(data[0].lon)
+                    };
+                }
+            } catch (error) {
+                console.error('Erro ao buscar coordenadas:', error);
+            }
+            return null;
+        }
+
+        // Calcular distância usando fórmula de Haversine
+        function calcularDistanciaHaversine(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Raio da Terra em km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // Mostrar todos os pontos no mapa
+        function mostrarTodos() {
+            // Implementar lógica para mostrar todas as localidades
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        // Calcular rotas
+        function calcularRotas() {
+            alert('Funcionalidade de cálculo de rotas em desenvolvimento');
+        }
+
+        // Calcular distância específica
+        function calcularDistancia(id) {
+            alert(`Calculando distância para localidade: ${id.substring(0, 8)}...`);
+            // Implementar chamada AJAX para calcular distância
+        }
+
+        // Ver no Google Maps
+        function verNoMapa(cepUsuario, cepAbrigo) {
+            const url = `https://www.google.com/maps/dir/${cepUsuario.replace('-', '')}/${cepAbrigo.replace('-', '')}`;
+            window.open(url, '_blank');
+        }
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+}
+
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .card-header {
+        background-color: #343a40;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        color: white;
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .opacity-75 {
+        opacity: 0.75;
+    }
+    
+    code {
+        background-color: #f8f9fa;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-size: 0.9em;
+    }
+
+    .btn-group-sm .btn {
+        font-size: 0.75rem;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .localidade-row:hover {
+        background-color: rgba(0, 123, 255, 0.1) !important;
+    }
+
+    .table-warning {
+        background-color: rgba(255, 193, 7, 0.2) !important;
+    }
+
+    #map {
+        border: 1px solid #ddd;
+    }
+</style>

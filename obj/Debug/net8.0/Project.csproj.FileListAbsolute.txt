@@ -2948,3 +2948,4 @@ C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Documentos\dotnet\dotnet\bin\
 C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Documentos\dotnet\dotnet\bin\Debug\net8.0\MateriaI-Database-IOT\Database\t_registro_evento.json
 C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Documentos\dotnet\dotnet\bin\Debug\net8.0\MateriaI-Database-IOT\Database\t_tipo_usuario.json
 C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Documentos\dotnet\dotnet\bin\Debug\net8.0\MateriaI-Database-IOT\Database\t_usuario.json
+C:\Users\claudio.bispo\OneDrive - Ezze Seguros S.A\Documentos\dotnet\dotnet\bin\Debug\net8.0\MateriaI-Database-IOT\Database\t_endereco_abrigo.json

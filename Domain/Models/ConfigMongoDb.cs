@@ -17,6 +17,7 @@ namespace Project.Domain
             public string DoacaoCollectionName { get; set; } = null!;
             public string DistribuicaoCollectionName { get; set; } = null!;
             public string RegistroEventoCollectionName { get; set; } = null!;
+            public string LocalidadeCollectionName { get; set; } = null!;
 
         public static implicit operator ConfigMongoDb(MongoDbContext v)
         {
