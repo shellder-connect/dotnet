@@ -84,7 +84,6 @@ namespace Project.Repositories
                     case "IdPessoaAtendida":
                         updateDefinitions.Add(updateDefinitionBuilder.Set(c => c.IdPessoaAtendida, campo.Value.ToString()));
                         break;
-                  
                 }
             }
 
