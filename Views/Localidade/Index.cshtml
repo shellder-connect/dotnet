@@ -168,10 +168,10 @@
                                         <small class="text-muted">Usuário ID: @(localidade.IdUsuario?.Substring(0, 8) ?? "N/A")...</small>
                                     </td>
                                     <td>
-                                        <code>@FormatarCep(localidade.CEPUsuario)</code>
+                                        <code>@FormatarCep(localidade.CEPUsuario ?? "")</code>
                                     </td>
                                     <td>
-                                        <code>@FormatarCep(localidade.CEPAbrigo)</code>
+                                        <code>@FormatarCep(localidade.CEPAbrigo ?? "")</code>
                                         <br>
                                         <small class="text-muted">Abrigo ID: @(localidade.IdAbrigo?.Substring(0, 8) ?? "N/A")...</small>
                                     </td>

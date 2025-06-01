@@ -249,7 +249,7 @@ public class MLController : Controller
     /// 
     /// Requisição via rota:
     /// ```http
-    /// GET http://localhost:3001/api/ML/Prever?localizacao=São Paulo&quantidadeEventos=5&capacidadeAbrigo=200&ocupacaoAtual=150
+    /// GET http://localhost:3001/api/ML/Prever?localizacao=São Paulo&amp;quantidadeEventos=5&amp;capacidadeAbrigo=200&amp;ocupacaoAtual=150
     /// ```
     /// 
     /// ### Exemplo de resposta:

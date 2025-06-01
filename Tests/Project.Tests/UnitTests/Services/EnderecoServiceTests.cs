@@ -4,8 +4,6 @@ using Project.Infrastructure.Interfaces;
 using Project.Models;
 using Xunit;
 using Xunit.Abstractions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Project.Tests.UnitTests.Services
 {

@@ -41,7 +41,7 @@ namespace Project.Tests.UnitTests.Repositories
                 var enderecoAbrigo = new EnderecoAbrigo
                 {
                     IdAbrigo = "60a1b2c3d4e5f6789012345a",
-                    CEP = "01234-567"
+                    CEP = "01234567"
                 };
 
                 _output.WriteLine($"👤 EnderecoAbrigo criado para inserção: {System.Text.Json.JsonSerializer.Serialize(enderecoAbrigo)}\n");
@@ -115,7 +115,7 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var repository = new EnderecoAbrigoRepository(optionsConfig);
 
-                string enderecoAbrigoId = "683c34898c427f6cd3f7d0e2";
+                string enderecoAbrigoId = "683c3ccb5a59cb66d3037992";
 
                 var enderecoAbrigoConsultado = await repository.ConsultarId(enderecoAbrigoId);
 
@@ -153,13 +153,13 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var repository = new EnderecoAbrigoRepository(optionsConfig);
 
-                string enderecoAbrigoId = "683c34898c427f6cd3f7d0e2";
+                string enderecoAbrigoId = "683c3ccb5a59cb66d3037992";
 
                 var enderecoAbrigoAtualizado = new EnderecoAbrigo
                 {
                     Id = enderecoAbrigoId,
-                    IdAbrigo = "60a1b2c3d4e5f6789012345b",
-                    CEP = "09876-543"
+                    IdAbrigo = "60a1b2c3d4e5f6789012345a",
+                    CEP = "09876543"
                 };
 
                 var resultado = await repository.Atualizar(enderecoAbrigoAtualizado);
@@ -206,12 +206,12 @@ namespace Project.Tests.UnitTests.Repositories
 
                 var repository = new EnderecoAbrigoRepository(optionsConfig);
 
-                string enderecoAbrigoId = "683c34b9a51c4949f7b62d26";
+                string enderecoAbrigoId = "683c3ccb5a59cb66d3037992";
 
                 var camposParaAtualizar = new Dictionary<string, object>
                 {
-                    { "IdAbrigo", "60a1b2c3d4e5f6789012345c" },
-                    { "CEP", "12345-678" }
+                    { "IdAbrigo", "60a1b2c3d4e5f6789012345a" },
+                    { "CEP", "12345678" }
                 };
 
                 var resultado = await repository.AtualizarParcial(enderecoAbrigoId, camposParaAtualizar);
