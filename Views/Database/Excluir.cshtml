@@ -10,18 +10,14 @@
 </head>
 <body>
     <h2>Excluir Documento</h2>
-    <form method="POST">
+    <form method="POST" id="excluir-form">
         @Html.AntiForgeryToken()
         
         <label for="collection_excluir">Coleção:</label>
         <select name="collection_excluir" id="collection_excluir" required>
-            <option value="t_cliente">Cliente</option>
-            <option value="t_clinica">Clínica</option>
-            <option value="t_consulta">Consulta</option>
-            <option value="t_dentista">Dentista</option>
-            <option value="t_feedback">Feedback</option>
-            <option value="t_sinistro">Sinistro</option>
-            <option value="t_notificacao">Notificação</option>
+            <option value="t_usuario">Usuário</option>
+            <option value="t_tipo_usuario">Tipo de Usuário</option>
+            <option value="t_categoria">Consulta</option>
         </select><br><br>
         
         <label for="id_excluir">ID do Documento:</label>
@@ -29,6 +25,17 @@
         
         <button type="submit">Excluir</button>
     </form>
+    
+    @if (TempData["Message"] != null)
+    {
+        <p style="color: green; font-weight: bold;">@TempData["Message"]</p>
+        <script>
+            // Limpar formulário após sucesso
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('excluir-form').reset();
+            });
+        </script>
+    }
     
     @if (ViewBag.Message != null)
     {

@@ -1,0 +1,32 @@
+
+[
+    {
+    "idUsuario": "683b08b14d65892ae33c3b3d",
+    "nome": "Maria Silva Santos",
+    "idEndereco": "683b06334d65892ae33c3b2d",
+    "cepUsuario": "01001000",
+    "idAbrigo": "683b055a4d65892ae33c3b1e",
+    "cepAbrigo": "01310100",
+    "distancia": "2.5 km"
+    },
+
+    {
+        "idUsuario": "683b08be4d65892ae33c3b3e",
+        "nome": "João Carlos Oliveira",
+        "idEndereco": "507f1f77bcf86cd799439012",
+        "cepUsuario": "22010000",
+        "idAbrigo": "683b055f4d65892ae33c3b1f",
+        "cepAbrigo": "04038001",
+        "distancia": "7.8 km"
+    },
+
+    {
+        "idUsuario": "683b0bcb4d65892ae33c3b45",
+        "nome": "Ana Paula Rodrigues",
+        "idEndereco": "683b06ad4d65892ae33c3b2f",
+        "cepUsuario": "30140000",
+        "idAbrigo": "683b05644d65892ae33c3b20",
+        "cepAbrigo": "05407002",
+        "distancia": "1.2 km"
+    }
+]

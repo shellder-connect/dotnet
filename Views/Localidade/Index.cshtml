@@ -146,8 +146,10 @@
                     <thead class="table-dark">
                         <tr>
                             <th>ID</th>
+                            <th>Id Usuario</th>
                             <th>Nome</th>
                             <th>CEP Usuário</th>
+                            <th>Id Abrigo</th>
                             <th>CEP Abrigo</th>
                             <th>Distância</th>
                             <th>Ações</th>
@@ -163,17 +165,19 @@
                                         <small class="text-muted">@(localidade.Id?.Substring(0, 8) ?? "N/A")...</small>
                                     </td>
                                     <td>
+                                        <strong>@localidade.IdUsuario</strong>
+                                    </td>
+                                     <td>
                                         <strong>@localidade.Nome</strong>
-                                        <br>
-                                        <small class="text-muted">Usuário ID: @(localidade.IdUsuario?.Substring(0, 8) ?? "N/A")...</small>
                                     </td>
                                     <td>
                                         <code>@FormatarCep(localidade.CEPUsuario ?? "")</code>
                                     </td>
                                     <td>
+                                        <code>@FormatarCep(localidade.IdAbrigo ?? "")</code>
+                                    </td>
+                                    <td>
                                         <code>@FormatarCep(localidade.CEPAbrigo ?? "")</code>
-                                        <br>
-                                        <small class="text-muted">Abrigo ID: @(localidade.IdAbrigo?.Substring(0, 8) ?? "N/A")...</small>
                                     </td>
                                     <td>
                                         @if (!string.IsNullOrEmpty(localidade.Distancia))

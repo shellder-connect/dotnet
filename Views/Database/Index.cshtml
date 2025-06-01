@@ -6,16 +6,210 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .card-hover {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border: 2px solid #007bff;
+        }
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #3C8377 0%, #004034 100%);
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bem-vindo ao Gerenciador de Dados</h1>
-    <ul>
-        <li><a href="@Url.Action("Importar", "Database")">Importar JSON</a></li>
-        <li><a href="@Url.Action("Consultar", "Database")">Consultar Coleção</a></li>
-        <li><a href="@Url.Action("Excluir", "Database")">Excluir Documento</a></li>
-        <li><a href="@Url.Action("Editar", "Database")">Editar Documento</a></li>
-        <li><a href="@Url.Action("ExportarDataset", "Database")">Exportar Dataset</a></li>
-    </ul>
+    <div class="container mt-5">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <div class="gradient-bg text-white p-4 rounded-3 shadow-lg">
+                <h1 class="display-4 mb-2">
+                    <i class="fas fa-database me-3 text-white"></i>
+                    Gerenciador de Dados
+                </h1>
+                <p class="lead mb-0">Sistema completo para gerenciamento do MongoDB</p>
+            </div>
+        </div>
+
+        <!-- Cards de Opções -->
+        <div class="row g-4">
+            <!-- Importar JSON -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-hover h-100 text-center border-0 shadow">
+                    <div class="card-body p-4">
+                        <div class="card-icon text-primary">
+                            <i class="fas fa-file-upload"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Importar JSON</h5>
+                        <p class="card-text text-muted">
+                            Faça upload de arquivos JSON para popular suas coleções no MongoDB
+                        </p>
+                        <a href="@Url.Action("Importar", "Database")" class="btn btn-primary btn-lg">
+                            <i class="fas fa-upload me-2"></i>
+                            Importar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consultar Coleção -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-hover h-100 text-center border-0 shadow">
+                    <div class="card-body p-4">
+                        <div class="card-icon text-info">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Consultar Coleção</h5>
+                        <p class="card-text text-muted">
+                            Visualize e explore os documentos armazenados em suas coleções
+                        </p>
+                        <a href="@Url.Action("Consultar", "Database")" class="btn btn-info btn-lg text-white">
+                            <i class="fas fa-eye me-2"></i>
+                            Consultar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Excluir Documento -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-hover h-100 text-center border-0 shadow">
+                    <div class="card-body p-4">
+                        <div class="card-icon text-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Excluir Documento</h5>
+                        <p class="card-text text-muted">
+                            Remova documentos específicos de suas coleções permanentemente
+                        </p>
+                        <a href="@Url.Action("Excluir", "Database")" class="btn btn-danger btn-lg">
+                            <i class="fas fa-times me-2"></i>
+                            Excluir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editar Documento -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-hover h-100 text-center border-0 shadow">
+                    <div class="card-body p-4">
+                        <div class="card-icon text-warning">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Editar Documento</h5>
+                        <p class="card-text text-muted">
+                            Modifique e atualize campos de documentos existentes
+                        </p>
+                        <a href="@Url.Action("Editar", "Database")" class="btn btn-warning btn-lg text-white">
+                            <i class="fas fa-pencil-alt me-2"></i>
+                            Editar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exportar Dataset -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-hover h-100 text-center border-0 shadow">
+                    <div class="card-body p-4">
+                        <div class="card-icon text-success">
+                            <i class="fas fa-file-download"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Exportar Dataset</h5>
+                        <p class="card-text text-muted">
+                            Baixe suas coleções em formato JSON para backup ou análise
+                        </p>
+                        <a href="@Url.Action("ExportarDataset", "Database")" class="btn btn-success btn-lg">
+                            <i class="fas fa-download me-2"></i>
+                            Exportar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas (Card adicional) -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-hover h-100 text-center border-0 shadow">
+                    <div class="card-body p-4">
+                        <div class="card-icon text-secondary">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Estatísticas</h5>
+                        <p class="card-text text-muted">
+                            Visualize informações gerais sobre suas coleções e dados
+                        </p>
+                        <button class="btn btn-secondary btn-lg" disabled>
+                            <i class="fas fa-chart-line me-2"></i>
+                            Em Breve
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-5 py-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted mb-2">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Sistema de Gerenciamento de Banco de Dados
+                    </h6>
+                    <p class="text-muted small mb-0">
+                        Gerencie suas coleções MongoDB de forma simples e eficiente
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Adicionar efeito de clique nos cards
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.addEventListener('click', function() {
+                const link = this.querySelector('a');
+                if (link && !link.closest('button[disabled]')) {
+                    window.location.href = link.href;
+                }
+            });
+        });
+
+        // Efeito de entrada suave nos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
 </body>
 </html>
