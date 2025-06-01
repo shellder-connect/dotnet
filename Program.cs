@@ -44,6 +44,7 @@ builder.Services.Configure<ConfigMongoDb>(options =>
     options.DoacaoCollectionName = builder.Configuration["ConfigMongoDb:DoacaoCollectionName"] ?? throw new Exception("DoacaoCollectionName is not configured in ConfigMongoDb.");
     options.DistribuicaoCollectionName = builder.Configuration["ConfigMongoDb:DistribuicaoCollectionName"] ?? throw new Exception("DistribuicaoCollectionName is not configured in ConfigMongoDb.");
     options.RegistroEventoCollectionName = builder.Configuration["ConfigMongoDb:RegistroEventoCollectionName"] ?? throw new Exception("RegistroEventoCollectionName is not configured in ConfigMongoDb.");
+    options.MuralCollectionName = builder.Configuration["ConfigMongoDb:MuralCollectionName"] ?? throw new Exception("MuralCollectionName is not configured in ConfigMongoDb.");
 });
 
 builder.Services.AddTransient<IMongoClient>(_ =>
@@ -110,6 +111,10 @@ builder.Services.AddTransient<IDatabaseService, DatabaseService>();
 // Materio de IOT
 builder.Services.AddTransient<IMLRepository, MLRepository>();
 builder.Services.AddTransient<IMLService, MLService>();
+
+// Mural
+builder.Services.AddTransient<IMuralRepository, MuralRepository>();
+builder.Services.AddTransient<IMuralService, MuralService>();
 
 // Configurar autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

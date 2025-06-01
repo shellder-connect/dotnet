@@ -25,5 +25,6 @@ namespace Project.Infrastructure
         public IMongoCollection<Distribuicao> Distribuicao => _database.GetCollection<Distribuicao>("t_distribuicao");
         public IMongoCollection<RegistroEvento> RegistroEvento => _database.GetCollection<RegistroEvento>("t_registro_evento");
         public IMongoCollection<Localidade> Localidade => _database.GetCollection<Localidade>("t_localidade");
+        public IMongoCollection<Mural> Mural => _database.GetCollection<Mural>("t_mural");
     }
 }
