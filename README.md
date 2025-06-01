@@ -8,7 +8,7 @@ Uma API robusta e compassiva desenvolvida para ser a ponte entre pessoas em situ
 
 ## 🌟 Sobre o Projeto
 
-Em momentos de desastres naturais, emergências ou crises humanitárias, cada segundo conta. O **Socorro Solidário** foi criado para conectar rapidamente pessoas em necessidade com:
+Em momentos de desastres naturais, emergências ou crises humanitárias, cada segundo conta. O **Shellder Connect** foi criado para conectar rapidamente pessoas em necessidade com:
 
 - 🏠 **Abrigos próximos** para proteção e acolhimento
 - 🍲 **Doações de alimentos** para suprir necessidades básicas
@@ -42,7 +42,7 @@ Democratizar o acesso à ajuda humanitária através da tecnologia, garantindo q
 - **ML.NET** - Machine Learning para:
     
     **Predição de Necessidades por Região**
-    -  Tecnologia: Python (Scikit-learn/PyTorch)
+    -  Tecnologia: ML.NET (C#)
     -  Inputs: Dados de dos registros de eventos que são solicitados pelos usuários
     -  Output: Previsão de recursos necessários (alimentos, medicamentos, cobertores) por região
 
@@ -58,7 +58,7 @@ Democratizar o acesso à ajuda humanitária através da tecnologia, garantindo q
     -   Parâmetros: Localização dos abrigos e Suporte
     -   Disponibilidade de itens
     -   Prioridade de entregas
-    -   Resultado: Rotas otimizadas em tempo real
+    -   Resultado: Rotas otimizadas em tempo real com alimentação de um tabela pelo Python e utilizada no front com dotnet, mostrando um mapa.
 
 ### Testes e Qualidade
 - **xUnit** - Framework de testes unitários
@@ -219,7 +219,7 @@ Aqui teremos apenas uma breve explicação, o detalhamento da documentação com
 | `PATCH`  | `/api/Feedback/AtualizarParcial/{id}`    | Atualiza parcialmente os dados do feedback | ✅    |
 | `DELETE` | `/api/Feedback/ExcluirFeedback/{id}`     | Remove um feedback permanentemente         | ✅    |
 
-## 📑 RegistroEvento
+## 📝 RegistroEvento
 
 | Método   | Endpoint                                             | Descrição                                            | Auth |
 | -------- | ---------------------------------------------------- | ---------------------------------------------------- | ---- |
@@ -229,6 +229,30 @@ Aqui teremos apenas uma breve explicação, o detalhamento da documentação com
 | `PUT`    | `/api/RegistroEvento/AtualizarRegistroEvento/{id}`   | Atualiza todas as informações do registro de evento  | ✅    |
 | `PATCH`  | `/api/RegistroEvento/AtualizarParcial/{id}`          | Atualiza parcialmente os dados do registro de evento | ✅    |
 | `DELETE` | `/api/RegistroEvento/ExcluirRegistroEvento/{id}`     | Remove um registro de evento permanentemente         | ✅    |
+
+## 🏠 EnderecoAbrigo
+
+| Método   | Endpoint                                                      | Descrição                                                    | Auth |
+| -------- | ------------------------------------------------------------- | ------------------------------------------------------------ | ---- |
+| `GET`    | `/api/EnderecoAbrigo/consultar-cep/{cep}`                    | Consulta endereço completo a partir de um CEP               | ❌    |
+| `POST`   | `/api/EnderecoAbrigo/CadastrarEnderecoAbrigo`                | Cadastra um novo endereço de preferência para o usuário     | ❌    |
+| `GET`    | `/api/EnderecoAbrigo/ConsultarTodosEnderecoAbrigo`           | Lista todos os endereços de preferência cadastrados         | ✅     |
+| `GET`    | `/api/EnderecoAbrigo/ConsultarEnderecoAbrigoId/{id}`         | Consulta um endereço específico por ID                      | ✅     |
+| `PUT`    | `/api/EnderecoAbrigo/AtualizarEnderecoAbrigo/{id}`           | Atualiza todas as informações do endereço                   | ✅     |
+| `PATCH`  | `/api/EnderecoAbrigo/AtualizarParcial/{id}`                  | Atualiza parcialmente os dados do endereço                  | ✅     |
+| `DELETE` | `/api/EnderecoAbrigo/ExcluirEnderecoAbrigo/{id}`             | Remove um endereço de preferência permanentemente           | ✅     |
+
+
+## 📋 Mural
+
+| Método   | Endpoint                                    | Descrição                                      | Auth |
+| -------- | ------------------------------------------- | ---------------------------------------------- | ---- |
+| `POST`   | `/Mural/CadastrarMural`                     | Cadastra um novo post no mural                | ❌    |
+| `GET`    | `/Mural/ConsultarTodosMurals`               | Lista todos os posts do mural                 | ❌    |
+| `GET`    | `/Mural/ConsultarMuralId/{id}`              | Consulta um post específico por ID            | ✅     |
+| `PUT`    | `/Mural/AtualizarMural/{id}`                | Atualiza todas as informações do post         | ✅     |
+| `PATCH`  | `/Mural/AtualizarParcial/{id}`              | Atualiza parcialmente os dados do post        | ✅     |
+| `DELETE` | `/Mural/ExcluirMural/{id}`                  | Remove um post do mural permanentemente       | ✅     |
 
 
 ## 🧪 Instruções de Testes
@@ -295,10 +319,9 @@ refactor: refatora código sem alterar funcionalidade
 
 ## 📞 Contato
 
-**Equipe Socorro Solidário**
-- 📧 Email: contato@socorrosolidario.org
-- 🐛 Issues: [GitHub Issues](https://github.com/seu-usuario/socorro-solidario-api/issues)
-- 💬 Discussões: [GitHub Discussions](https://github.com/seu-usuario/socorro-solidario-api/discussions)
+**Equipe Shellder Connect**
+- 📧 Email: claudio_cssp@hotmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/shellder-connect)
 
 ---
 
