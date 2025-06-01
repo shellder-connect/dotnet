@@ -233,6 +233,15 @@ Aqui teremos apenas uma breve explicação, o detalhamento da documentação com
 
 ## 🧪 Instruções de Testes
 
+### Criar Variavel de ambiente para os testes
+
+```bash
+    $env:MONGODB_CONNECTION_STRING = "mongodb://localhost:27017"
+```
+
+***Deixei travado para inserir esta variavel, se não vai haver erro no processo de conexão com o mongoDb***
+
+
 ### Executando Todos os Testes
 ```bash
     dotnet test

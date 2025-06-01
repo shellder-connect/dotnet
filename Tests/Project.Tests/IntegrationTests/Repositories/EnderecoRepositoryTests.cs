@@ -26,7 +26,7 @@ namespace Project.Tests
             _mockOptions.Setup(o => o.Value).Returns(new ConfigMongoDb
             {
                 ConnectionString = "mongodb://localhost:27017",
-                DatabaseName = "TestDb",
+                DatabaseName = "TestsDb",
                 EnderecoCollectionName = "t_endereco"
             });
 
