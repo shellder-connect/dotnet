@@ -45,6 +45,9 @@ builder.Services.Configure<ConfigMongoDb>(options =>
     options.DistribuicaoCollectionName = builder.Configuration["ConfigMongoDb:DistribuicaoCollectionName"] ?? throw new Exception("DistribuicaoCollectionName is not configured in ConfigMongoDb.");
     options.RegistroEventoCollectionName = builder.Configuration["ConfigMongoDb:RegistroEventoCollectionName"] ?? throw new Exception("RegistroEventoCollectionName is not configured in ConfigMongoDb.");
     options.MuralCollectionName = builder.Configuration["ConfigMongoDb:MuralCollectionName"] ?? throw new Exception("MuralCollectionName is not configured in ConfigMongoDb.");
+    options.EnderecoAbrigoCollectionName = builder.Configuration["ConfigMongoDb:EnderecoAbrigoCollectionName"] ?? throw new Exception("EnderecoAbrigoCollectionName is not configured in ConfigMongoDb.");
+    
+    
 });
 
 builder.Services.AddTransient<IMongoClient>(_ =>
@@ -115,6 +118,10 @@ builder.Services.AddTransient<IMLService, MLService>();
 // Mural
 builder.Services.AddTransient<IMuralRepository, MuralRepository>();
 builder.Services.AddTransient<IMuralService, MuralService>();
+
+// Endereço Abrigo
+builder.Services.AddTransient<IEnderecoAbrigoRepository, EnderecoAbrigoRepository>();
+builder.Services.AddTransient<IEnderecoAbrigoService, EnderecoAbrigoService>();
 
 // Configurar autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

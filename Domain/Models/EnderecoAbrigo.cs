@@ -11,7 +11,10 @@ namespace Project.Models
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string IdAbrigo { get; set; } = string.Empty;
-
         public string CEP { get; set; } = string.Empty;
+        public string? Estado { get; set; }
+        public string? Cidade { get; set; }
+        public string? Bairro { get; set; }
+        public string? Rua { get; set; }
     }
 }

@@ -26,5 +26,6 @@ namespace Project.Infrastructure
         public IMongoCollection<RegistroEvento> RegistroEvento => _database.GetCollection<RegistroEvento>("t_registro_evento");
         public IMongoCollection<Localidade> Localidade => _database.GetCollection<Localidade>("t_localidade");
         public IMongoCollection<Mural> Mural => _database.GetCollection<Mural>("t_mural");
+        public IMongoCollection<EnderecoAbrigo> EnderecoAbrigo => _database.GetCollection<EnderecoAbrigo>("t_endereco_abrigo");
     }
 }
