@@ -219,7 +219,7 @@ Aqui teremos apenas uma breve explicação, o detalhamento da documentação com
 | `PATCH`  | `/api/Feedback/AtualizarParcial/{id}`    | Atualiza parcialmente os dados do feedback | ✅    |
 | `DELETE` | `/api/Feedback/ExcluirFeedback/{id}`     | Remove um feedback permanentemente         | ✅    |
 
-## 📑 Documentação dos Endpoints — RegistroEvento
+## 📑 RegistroEvento
 
 | Método   | Endpoint                                             | Descrição                                            | Auth |
 | -------- | ---------------------------------------------------- | ---------------------------------------------------- | ---- |
