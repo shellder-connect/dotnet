@@ -174,7 +174,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.WebHost.ConfigureKestrel(options =>
 {
     //options.ListenAnyIP(3001);
-    options.ListenLocalhost(3001);
+    //options.ListenLocalhost(3001);
+    options.ListenAnyIP(3001);
 
 });
 
