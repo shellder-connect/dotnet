@@ -1,0 +1,107 @@
+[
+  {
+    "idUsuario": "683b08b14d65892ae33c3b3d",
+    "titulo": "Doação de roupas infantis",
+    "comentario": "Tenho roupas de criança em bom estado para quem precisar.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T10:00:00.000Z"
+  },
+  {
+    "idUsuario": "683b08be4d65892ae33c3b3e",
+    "titulo": "Preciso de alimentos",
+    "comentario": "Minha família está precisando de alimentos não perecíveis.",
+    "tipoPost": "Pedido",
+    "data": "2025-06-01T11:20:00.000Z"
+  },
+  {
+    "idUsuario": "683b0bcb4d65892ae33c3b45",
+    "titulo": "Camas e colchões",
+    "comentario": "Estamos doando 2 camas de solteiro com colchões.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T12:30:00.000Z"
+  },
+  {
+    "idUsuario": "683b0bd14d65892ae33c3b46",
+    "titulo": "Preciso de roupas de frio",
+    "comentario": "Alguém teria roupas de frio para doar? Tenho duas crianças.",
+    "tipoPost": "Pedido",
+    "data": "2025-06-01T13:45:00.000Z"
+  },
+  {
+    "idUsuario": "683b0bd54d65892ae33c3b47",
+    "titulo": "Doação de alimentos",
+    "comentario": "Cestas básicas disponíveis para quem está precisando.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T14:50:00.000Z"
+  },
+  {
+    "idUsuario": "683b0bda4d65892ae33c3b48",
+    "titulo": "Preciso de fraldas",
+    "comentario": "Alguém pode ajudar com fraldas tamanho G para meu bebê?",
+    "tipoPost": "Pedido",
+    "data": "2025-06-01T15:00:00.000Z"
+  },
+  {
+    "idUsuario": "683b0bdf4d65892ae33c3b49",
+    "titulo": "Ofereço cobertores",
+    "comentario": "Tenho alguns cobertores limpos para doar.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T16:10:00.000Z"
+  },
+  {
+    "idUsuario": "683b0be34d65892ae33c3b4a",
+    "titulo": "Preciso de utensílios de cozinha",
+    "comentario": "Perdi tudo na enchente, preciso de panelas, pratos e talheres.",
+    "tipoPost": "Pedido",
+    "data": "2025-06-01T17:20:00.000Z"
+  },
+  {
+    "idUsuario": "683b0be74d65892ae33c3b4b",
+    "titulo": "Doação de brinquedos",
+    "comentario": "Brinquedos em ótimo estado para alegrar crianças.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T18:00:00.000Z"
+  },
+  {
+    "idUsuario": "683b0bec4d65892ae33c3b4c",
+    "titulo": "Preciso de materiais de higiene",
+    "comentario": "Busco doações de sabonete, papel higiênico e pasta de dente.",
+    "tipoPost": "Pedido",
+    "data": "2025-06-01T18:30:00.000Z"
+  },
+  {
+    "idUsuario": "683b12522018ad353accebbb",
+    "titulo": "Doação de sapatos",
+    "comentario": "Sapatos masculinos e femininos número 38 a 42.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T19:00:00.000Z"
+  },
+  {
+    "idUsuario": "683b12582018ad353accebbc",
+    "titulo": "Preciso de colchão de casal",
+    "comentario": "Se alguém puder ajudar com um colchão de casal, agradeço muito.",
+    "tipoPost": "Pedido",
+    "data": "2025-06-01T19:40:00.000Z"
+  },
+  {
+    "idUsuario": "683b125d2018ad353accebbd",
+    "titulo": "Doação de móveis",
+    "comentario": "Mesa, cadeiras e um armário disponíveis para doação.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T20:10:00.000Z"
+  },
+  {
+    "idUsuario": "use683b12612018ad353accebber14",
+    "titulo": "Preciso de leite",
+    "comentario": "Preciso de leite em pó ou líquido para minhas crianças.",
+    "tipoPost": "Pedido",
+    "data": "2025-06-01T21:00:00.000Z"
+  },
+  {
+    "idUsuario": "683b12642018ad353accebbf",
+    "titulo": "Ofereço roupas femininas",
+    "comentario": "Roupas femininas em ótimo estado para quem estiver precisando.",
+    "tipoPost": "Doação",
+    "data": "2025-06-01T22:00:00.000Z"
+  }
+]

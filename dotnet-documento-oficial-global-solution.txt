@@ -1,0 +1,17 @@
+Grupo:
+Shellder Connection
+
+Alunos:
+Claudio Bispo - RM553472
+Patricia Naomi - RM552981
+
+Link do GitHub com todos os arquivos do projeto:
+https://github.com/shellder-connect/dotnet
+
+Link do vídeo explicando nossa solução:
+
+Link do vídeo da matéria de Dotnet:
+https://youtu.be/Zi1Z6D2Nz34
+
+Link do vídeo mostrando a execução da nossa aplicação Mobile:
+

@@ -1,42 +1,82 @@
 [
   {
     "idAbrigo": "683b055a4d65892ae33c3b1e",
-    "cep": "01310100"
+    "cep": "01310100",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Bela Vista",
+    "rua": "Rua Frei Caneca 100"
   },
   {
-    "idAbrigo": "683b055f4d65892ae33c3b1f", 
-    "cep": "04038001"
+    "idAbrigo": "683b055f4d65892ae33c3b1f",
+    "cep": "04038001",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Vila Mariana",
+    "rua": "Rua Domingos de Morais 200"
   },
   {
     "idAbrigo": "683b05644d65892ae33c3b20",
-    "cep": "05407002"
+    "cep": "05407002",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Pinheiros",
+    "rua": "Rua dos Pinheiros 300"
   },
   {
     "idAbrigo": "683b09594d65892ae33c3b3f",
-    "cep": "03310100"
+    "cep": "03310100",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Tatuapé",
+    "rua": "Rua Coelho Lisboa 400"
   },
   {
     "idAbrigo": "683b095e4d65892ae33c3b40",
-    "cep": "08090284"
+    "cep": "08090284",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Itaquera",
+    "rua": "Rua Augusto Carlos Baumann 500"
   },
   {
     "idAbrigo": "683b09634d65892ae33c3b41",
-    "cep": "02071101"
+    "cep": "02071101",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Vila Gustavo",
+    "rua": "Rua Dona Luiza Tolle 600"
   },
   {
     "idAbrigo": "683b09694d65892ae33c3b42",
-    "cep": "05650000"
+    "cep": "05650000",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Morumbi",
+    "rua": "Avenida Giovanni Gronchi 700"
   },
   {
     "idAbrigo": "683b09a44d65892ae33c3b43",
-    "cep": "09210580"
+    "cep": "09210580",
+    "estado": "São Paulo",
+    "cidade": "Santo André",
+    "bairro": "Centro",
+    "rua": "Rua General Glicério 800"
   },
   {
     "idAbrigo": "683b106c2018ad353acceb83",
-    "cep": "03828000"
+    "cep": "03828000",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Jardim Nordeste",
+    "rua": "Rua Anapurus 900"
   },
   {
     "idAbrigo": "683b10712018ad353acceb84",
-    "cep": "05038001"
+    "cep": "05038001",
+    "estado": "São Paulo",
+    "cidade": "São Paulo",
+    "bairro": "Perdizes",
+    "rua": "Rua Cardoso de Almeida 1000"
   }
 ]

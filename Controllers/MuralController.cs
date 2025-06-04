@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("Mural")]
+[Route("api/Mural")]
 public class MuralController : Controller
 {
     private readonly IMuralService _muralService;
