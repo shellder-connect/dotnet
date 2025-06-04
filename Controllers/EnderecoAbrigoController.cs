@@ -63,17 +63,17 @@ public class EnderecoAbrigoController : Controller
 
 
     /// <summary>
-    ///     Cadastra um novo endereço de preferência para o usuário.
+    ///     Cadastra um novo endereço de preferência para o abrigo.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Cadastrar novo endereço de preferência para o usuário
+    /// ## Cadastrar novo endereço de preferência para o abrigo
     /// 
-    /// Use este endPoint para cadastrar um endereço de peferência para o usuário. Com este endereço, o modelo de IA será capaz de buscar uma  clínica próxima do cliente.
+    /// Use este endPoint para cadastrar um endereço de peferência para o abrigo. Com este endereço, o modelo de IA será capaz de buscar uma  clínica próxima do cliente.
     /// 
     /// ### Campos que devem ser utilizados para criar um novo dia:
-    /// - **idUsuario** : IdAbrigo que deseja registrar o endereço
+    /// - **idAbrigo** : IdAbrigo que deseja registrar o endereço
     /// - **cep** string : CEP de preferência e não de residência
     /// - **estado** string : Estado de preferência e não de residência
     /// - **cidade** string : Cidade de preferência e não de residência
@@ -96,7 +96,7 @@ public class EnderecoAbrigoController : Controller
     ///
     /// ```json
     ///     {   
-    ///         "idUsuario": "67cc95b32811515d372209ce",
+    ///         "idAbrigo": "67cc95b32811515d372209ce",
     ///         "cep": "12345678",
     ///         "estado": "São Paulo",
     ///         "cidade": "São Paulo",
@@ -110,7 +110,7 @@ public class EnderecoAbrigoController : Controller
     /// ```json
     ///     {   
     ///         "id": "67cc95b32811515d37220000",
-    ///         "idUsuario": "67cc95b32811515d372209ce",
+    ///         "idAbrigo": "67cc95b32811515d372209ce",
     ///         "cep": "12345678",
     ///         "estado": "São Paulo",
     ///         "cidade": "São Paulo",
@@ -165,7 +165,7 @@ public class EnderecoAbrigoController : Controller
     }
 
     /// <summary>
-    ///     Consultar o endereço de preferência do usuário.
+    ///     Consultar o endereço de preferência do abrigo.
     /// </summary>
     /// 
     /// <remarks>
@@ -181,7 +181,7 @@ public class EnderecoAbrigoController : Controller
     ///
     /// ### Campos que disponíveis na requisição:
     /// - **id** : Id do banco de dados, que foi gerado automaticamente.
-    /// - **idUsuario** : IdAbrigo que deseja registrar o endereço
+    /// - **idAbrigo** : IdAbrigo que deseja registrar o endereço
     /// - **cep** string : CEP de preferência e não de residência
     /// - **estado** string : Estado de preferência e não de residência
     /// - **cidade** string : Cidade de preferência e não de residência
@@ -194,7 +194,7 @@ public class EnderecoAbrigoController : Controller
     ///[
     ///    {
     ///        "id": "67cdee51b304fd2aaac177c9",
-    ///        "idUsuario": "67cc95b32811515d372209ce",
+    ///        "idAbrigo": "67cc95b32811515d372209ce",
     ///        "cep": "01739018",
     ///        "estado": "São Paulo",
     ///        "cidade": "São Paulo",
@@ -203,7 +203,7 @@ public class EnderecoAbrigoController : Controller
     ///    },
     ///    {
     ///        "id": "67cdee91b304fd2aaac177ca",
-    ///        "idUsuario": "67cc95b32811515d372209ce",
+    ///        "idAbrigo": "67cc95b32811515d372209ce",
     ///        "cep": "05728020",
     ///        "estado": "São Paulo",
     ///        "cidade": "São Paulo",
@@ -231,7 +231,7 @@ public class EnderecoAbrigoController : Controller
     }
 
     /// <summary>
-    ///     Consultar um único registro de preferência de endereço que o usuário cadastrou.
+    ///     Consultar um único registro de preferência de endereço que o abrigo cadastrou.
     /// </summary>
     /// 
     /// <remarks>
@@ -242,7 +242,7 @@ public class EnderecoAbrigoController : Controller
     /// 
     /// ### Campos que devem ser utilizados para consultar um endereço de preferência:
     /// 
-    /// - **id**: ID do banco e não o idUsuario
+    /// - **id**: ID do banco e não o idAbrigo
     ///
     /// ### Exemplo de requisição:
     /// ```http
@@ -258,7 +258,7 @@ public class EnderecoAbrigoController : Controller
     /// ```json
     ///    {
     ///         "id": "67cdee91b304fd2aaac177ca",
-    ///         "idUsuario": "67cc95b32811515d372209ce",
+    ///         "idAbrigo": "67cc95b32811515d372209ce",
     ///         "cep": "05728020",
     ///         "estado": "São Paulo",
     ///         "cidade": "São Paulo",
@@ -290,12 +290,12 @@ public class EnderecoAbrigoController : Controller
 
 
     /// <summary>
-    ///     Atualiza o endereço completo existente do usuário, com base no ID do usuário e ID do banco de dados.
+    ///     Atualiza o endereço completo existente do abrigo, com base no ID do abrigo e ID do banco de dados.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Atualizar a preferência de endereço cadastrado pelo usuário
+    /// ## Atualizar a preferência de endereço cadastrado pelo abrigo
     /// 
     /// Use este endpoint se o objetivo for atualizar todos os campos do endereço no cadastro. Se for parcial, utilize outro endPoint.
     /// 
@@ -308,7 +308,7 @@ public class EnderecoAbrigoController : Controller
     /// ```json
     ///     {   
     ///         "id": "67ce4b3d61760e36f862dd59",
-    ///         "idUsuario": "67cc95b32811515d372209ce",
+    ///         "idAbrigo": "67cc95b32811515d372209ce",
     ///         "cep": "05763290",
     ///         "estado": "SP", 
     ///         "cidade": "São Paulo",
@@ -322,7 +322,7 @@ public class EnderecoAbrigoController : Controller
     /// </remarks>
     /// 
     /// 
-    /// <param name="id" type="string" example="67cc95b32811515d372209ce">ID do usuário a ser atualizado o endereço.</param>
+    /// <param name="id" type="string" example="67cc95b32811515d372209ce">ID do abrigo a ser atualizado o endereço.</param>
     /// <param name="enderecoAbrigoDTO">Dados do endereço a serem atualizados.</param>
     /// <response code="200">Endereço atualizado com sucesso</response>
     /// <response code="400">Dados inválidos</response>
@@ -379,7 +379,7 @@ public class EnderecoAbrigoController : Controller
     /// - **id**: ID gerado pelo banco de dados
     /// - **cep**: CEP do endereço
     /// - **Estado**: Estado do endereço
-    /// - **Cidade**: Cidade do endereço de preferência do usuário
+    /// - **Cidade**: Cidade do endereço de preferência do abrigo
     /// - **Bairro**: Bairro do endereço
     /// - **Rua**: Endereço completo com número
     /// 
@@ -406,7 +406,7 @@ public class EnderecoAbrigoController : Controller
     /// ```json
     /// {
     ///     "id": "67cdee91b304fd2aaac177ca",
-    ///     "idUsuario": "67cc95b32811515d372209ce",
+    ///     "idAbrigo": "67cc95b32811515d372209ce",
     ///     "cep": "05763290",
     ///     "estado": "São Paulo",
     ///     "cidade": "São Paulo",
@@ -449,7 +449,7 @@ public class EnderecoAbrigoController : Controller
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> Excluir(string id)
     {
-        var enderecoAbrigo = await _enderecoAbrigoService.ConsultarPorUsuarioId(id);
+        var enderecoAbrigo = await _enderecoAbrigoService.ConsultarId(id);
         
         if (enderecoAbrigo != null)
         {
@@ -464,12 +464,12 @@ public class EnderecoAbrigoController : Controller
     }
 
     /// <summary>
-    /// Exclui um endereço do usuário.
+    ///     Exclui um endereço do abrigo.
     /// </summary>
     /// 
     /// <remarks>
     /// 
-    /// ## Excluir um endereço de preferência do usuário cadastrado
+    /// ## Excluir um endereço de preferência do abrigo cadastrado
     /// 
     /// Use este endoPoint se seu objetivo é excluir um cadastro contendo o endereço de preferência cadastrado errado. 
     /// 
@@ -499,7 +499,7 @@ public class EnderecoAbrigoController : Controller
     /// 
     /// <param name="id" type="string" example="67cdee51b304fd2aaac177c9">ID do endereço a ser excluído.</param>
     /// <response code="200">Endereço excluído com sucesso</response>
-    /// <response code="401">Usuário não autorizado</response>
+    /// <response code="401">Abrigo não autorizado</response>
     /// <response code="404">Endereço não encontrado</response>
     /// <response code="500">Erro interno do servidor</response>
     [HttpDelete("ExcluirEnderecoAbrigo/{id}")]
