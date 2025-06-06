@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "doA65mz1+BbooIkUFxOALGyJtUL+SNj3GZCy2WzH2W8=",
+  "Hash": "JHpCfpYNYrgQlQCnEW7SfBg24MplXbm84OP/35FnETM=",
   "Source": "Project",
   "BasePath": "_content/Project",
   "Mode": "Default",
@@ -178,8 +178,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "3so61ngykn",
-      "Integrity": "85+YXyut5Ehx9Sb0LuPVN9tb+eV/pT6EuUMXY69ofwE=",
+      "Fingerprint": "a0cgtlrx0j",
+      "Integrity": "ykFLv1NjsZEaEGLwYst530rHivC7NBReZ5/qh2MPHFo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -220,8 +220,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "erynil7839",
-      "Integrity": "RrrP03ngTjOlc4oc+dqmErn828My3Dt/1TKDvomHZA4=",
+      "Fingerprint": "24zoqyost3",
+      "Integrity": "wmknAjl1K44sc+w4Pua+bBUFXJFm8R3AE3yfxP6p3zI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
@@ -1836,7 +1836,7 @@
       ]
     },
     {
-      "Route": "css/site.3so61ngykn.css",
+      "Route": "css/site.a0cgtlrx0j.css",
       "AssetFile": "C:\\Users\\claudio.bispo\\OneDrive - Ezze Seguros S.A\\Documentos\\dotnet\\dotnet\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -1846,7 +1846,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4496"
+          "Value": "4451"
         },
         {
           "Name": "Content-Type",
@@ -1854,11 +1854,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"85+YXyut5Ehx9Sb0LuPVN9tb+eV/pT6EuUMXY69ofwE=\""
+          "Value": "\"ykFLv1NjsZEaEGLwYst530rHivC7NBReZ5/qh2MPHFo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 06 Jun 2025 14:03:22 GMT"
+          "Value": "Fri, 06 Jun 2025 14:26:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1868,7 +1868,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "3so61ngykn"
+          "Value": "a0cgtlrx0j"
         },
         {
           "Name": "label",
@@ -1876,7 +1876,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-85+YXyut5Ehx9Sb0LuPVN9tb+eV/pT6EuUMXY69ofwE="
+          "Value": "sha256-ykFLv1NjsZEaEGLwYst530rHivC7NBReZ5/qh2MPHFo="
         }
       ]
     },
@@ -1891,7 +1891,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4496"
+          "Value": "4451"
         },
         {
           "Name": "Content-Type",
@@ -1899,11 +1899,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"85+YXyut5Ehx9Sb0LuPVN9tb+eV/pT6EuUMXY69ofwE=\""
+          "Value": "\"ykFLv1NjsZEaEGLwYst530rHivC7NBReZ5/qh2MPHFo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 06 Jun 2025 14:03:22 GMT"
+          "Value": "Fri, 06 Jun 2025 14:26:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1913,7 +1913,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-85+YXyut5Ehx9Sb0LuPVN9tb+eV/pT6EuUMXY69ofwE="
+          "Value": "sha256-ykFLv1NjsZEaEGLwYst530rHivC7NBReZ5/qh2MPHFo="
         }
       ]
     },
@@ -2000,7 +2000,7 @@
       ]
     },
     {
-      "Route": "js/site.erynil7839.js",
+      "Route": "js/site.24zoqyost3.js",
       "AssetFile": "C:\\Users\\claudio.bispo\\OneDrive - Ezze Seguros S.A\\Documentos\\dotnet\\dotnet\\wwwroot\\js\\site.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2010,7 +2010,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7971"
+          "Value": "7975"
         },
         {
           "Name": "Content-Type",
@@ -2018,11 +2018,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"RrrP03ngTjOlc4oc+dqmErn828My3Dt/1TKDvomHZA4=\""
+          "Value": "\"wmknAjl1K44sc+w4Pua+bBUFXJFm8R3AE3yfxP6p3zI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 06 Jun 2025 14:03:33 GMT"
+          "Value": "Fri, 06 Jun 2025 14:31:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2032,7 +2032,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "erynil7839"
+          "Value": "24zoqyost3"
         },
         {
           "Name": "label",
@@ -2040,7 +2040,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-RrrP03ngTjOlc4oc+dqmErn828My3Dt/1TKDvomHZA4="
+          "Value": "sha256-wmknAjl1K44sc+w4Pua+bBUFXJFm8R3AE3yfxP6p3zI="
         }
       ]
     },
@@ -2055,7 +2055,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7971"
+          "Value": "7975"
         },
         {
           "Name": "Content-Type",
@@ -2063,11 +2063,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"RrrP03ngTjOlc4oc+dqmErn828My3Dt/1TKDvomHZA4=\""
+          "Value": "\"wmknAjl1K44sc+w4Pua+bBUFXJFm8R3AE3yfxP6p3zI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 06 Jun 2025 14:03:33 GMT"
+          "Value": "Fri, 06 Jun 2025 14:31:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2077,7 +2077,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-RrrP03ngTjOlc4oc+dqmErn828My3Dt/1TKDvomHZA4="
+          "Value": "sha256-wmknAjl1K44sc+w4Pua+bBUFXJFm8R3AE3yfxP6p3zI="
         }
       ]
     },

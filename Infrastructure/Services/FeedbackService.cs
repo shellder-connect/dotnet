@@ -21,10 +21,15 @@ namespace Project.Application.Services
             {
                 var prediction = _sentimentAnalysisService.Predict(feedback.Comentario);
                 feedback.Sentimento = prediction.IsPositive ? "Positivo" : "Negativo";
+
+                // ✅ ADICIONAR NOTA REAVALIADA
+                feedback.NotaReavaliada = prediction.IsPositive ? "5" : "1";
+
             }
             else
             {
                 feedback.Sentimento = "Indefinido";
+                feedback.NotaReavaliada = "3";
             }
 
             return await _feedbackRepository.Criar(feedback);
@@ -44,11 +49,43 @@ namespace Project.Application.Services
 
         public async Task<Feedback?> Atualizar(Feedback feedback)
         {
+
+            // ✅ REAVALIAR SE TEM COMENTÁRIO
+            if (!string.IsNullOrWhiteSpace(feedback.Comentario))
+            {
+                var prediction = _sentimentAnalysisService.Predict(feedback.Comentario);
+                feedback.Sentimento = prediction.IsPositive ? "Positivo" : "Negativo";
+                feedback.NotaReavaliada = prediction.IsPositive ? "5" : "1";
+            }
+            else
+            {
+                feedback.Sentimento = "Indefinido";
+                feedback.NotaReavaliada = null;
+            }
+
             return await _feedbackRepository.Atualizar(feedback);
         }
 
         public async Task<Feedback?> AtualizarParcial(string id, Dictionary<string, object> camposParaAtualizar)
         {
+            // ✅ SE COMENTÁRIO FOI ALTERADO, REAVALIAR
+            if (camposParaAtualizar.ContainsKey("Comentario"))
+            {
+                var novoComentario = camposParaAtualizar["Comentario"]?.ToString();
+                
+                if (!string.IsNullOrWhiteSpace(novoComentario))
+                {
+                    var prediction = _sentimentAnalysisService.Predict(novoComentario);
+                    camposParaAtualizar["Sentimento"] = prediction.IsPositive ? "Positivo" : "Negativo";
+                    camposParaAtualizar["NotaReavaliada"] = prediction.IsPositive ? 5 : 1;
+                }
+                else
+                {
+                    camposParaAtualizar["Sentimento"] = "Indefinido";
+                    camposParaAtualizar["NotaReavaliada"] = 3;
+                }
+            }
+
             return await _feedbackRepository.AtualizarParcial(id, camposParaAtualizar);
         }
 

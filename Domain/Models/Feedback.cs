@@ -16,5 +16,8 @@ public class Feedback
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? Sentimento { get; set; } // Será bom ou ruim com base no comentário
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string? NotaReavaliada { get; set; }
 
 }
