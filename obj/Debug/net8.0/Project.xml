@@ -2364,6 +2364,7 @@
              ### Campos que devem ser utilizados para criar um novo Feedback:
              - **Nota** string : Nota do feedback
              - **Comentario** string : Comentário do feedback
+             - **Nota Reavaliada** string : Nota reajustada conforme o texto do avaliador
              
              ### Campos que não devem ser utilizados para criar um novo Feedback:
              - **Id** : Id do feedback que será gerado automaticamente
@@ -2382,7 +2383,8 @@
              ```json
                  {
                      "Nota": "5",
-                     "Comentario": "Excelente atendimento!"
+                     "Comentario": "Excelente atendimento!",
+                     "notaReavaliada": "5" -- Será 5 para Positivo e 1 para Negativo
                  }
              ```
              
@@ -2392,7 +2394,8 @@
                  {   
                      "Id": "67cc95b32811515d37220000", // gerado pelo banco de dados
                      "Nota": "5",
-                     "Comentario": "Excelente atendimento!"
+                     "Comentario": "Excelente atendimento!",
+                     "notaReavaliada": "5"
                  }
              ```
              </remarks>
@@ -2423,12 +2426,14 @@
                      { 
                          "Id": "67cc95b32811515d372209ce",
                          "Nota": "5",
-                         "Comentario": "Excelente atendimento!"
+                         "Comentario": "Excelente atendimento!",
+                         "notaReavaliada": "5"
                      },
                      {
                          "Id": "67cca0540924d08d2c4b7819",
                          "Nota": "4",
-                         "Comentario": "Bom atendimento, mas pode melhorar."
+                         "Comentario": "Bom atendimento, mas pode melhorar.",
+                         "notaReavaliada": "3"
                      }
                  ]
              ```
@@ -2471,7 +2476,8 @@
                 {
                      "Id": "67cc95b32811515d372209ce",
                      "Nota": "5",
-                     "Comentario": "Excelente atendimento!"
+                     "Comentario": "Excelente atendimento!",
+                     "notaReavaliada": "5"
                  }
              ```
              </remarks>
@@ -2501,7 +2507,8 @@
                  {   
                      "Id": "67ce4b3d61760e36f862dd59",
                      "Nota": "4",
-                     "Comentario": "Bom atendimento, mas pode melhorar."
+                     "Comentario": "Bom atendimento, mas pode melhorar.",
+                     "notaReavaliada": "5"
                  }
              ``` 
              
@@ -2546,7 +2553,8 @@
             ```json
             {
                 "Id": "67cc95b32811515d372209ce",
-                "Comentario": "Atendimento satisfatório."
+                "Comentario": "Atendimento satisfatório.",
+                "notaReavaliada": "5"
             }
             ```
             
@@ -2558,7 +2566,8 @@
             {
                 "Id": "67ce4b3d61760e36f862dd59",
                 "Nota": "4",
-                "Comentario": "Atendimento satisfatório."
+                "Comentario": "Atendimento satisfatório.",
+                "notaReavaliada": "5"
             }
             ```
             </remarks>
