@@ -1,0 +1,114 @@
+@{
+    ViewData["Title"] = "Dashboard de Proximidade";
+}
+
+<link href="~/css/site.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="header">
+        <h1>🏠 Dashboard de Proximidade</h1>
+        <p class="text-black">Sistema de análise de proximidade entre usuários e abrigos</p>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn-primary" onclick="calcularProximidades()">🔄 Recalcular Proximidades</button>
+        <button class="btn-secondary" onclick="recarregarDados()">📊 Atualizar Dashboard</button>
+        <button class="btn-secondary" onclick="exportarDados()">📥 Exportar Dados</button>
+    </div>
+
+    <div class="stats" id="stats">
+        <div class="stat-card">
+            <h3 id="totalUsuarios">-</h3>
+            <p>Total de Usuários</p>
+        </div>
+        <div class="stat-card">
+            <h3 id="totalAbrigos">-</h3>
+            <p>Total de Abrigos</p>
+        </div>
+        <div class="stat-card">
+            <h3 id="usuariosComCoordenadas">-</h3>
+            <p>Usuários Georreferenciados</p>
+        </div>
+        <div class="stat-card">
+            <h3 id="totalCalculos">-</h3>
+            <p>Cálculos de Proximidade</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="text-white">👥 Usuários e seus Endereços</h2>
+            <button class="btn" onclick="recarregarDados()">🔄 Atualizar</button>
+        </div>
+        <div class="table-container">
+            <div class="loading" id="loadingUsuarios">Carregando usuários...</div>
+            <table id="tabelaUsuarios" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>CEP</th>
+                        <th>Endereço</th>
+                        <th>Coordenadas</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaUsuarios"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="text-white">🏢 Abrigos e seus Endereços</h2>
+            <button class="btn" onclick="calcularProximidades()">🔄 Recalcular Proximidades</button>
+        </div>
+        <div class="table-container">
+            <div class="loading" id="loadingAbrigos">Carregando abrigos...</div>
+            <table id="tabelaAbrigos" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID Abrigo</th>
+                        <th>CEP</th>
+                        <th>Endereço</th>
+                        <th>Capacidade</th>
+                        <th>Ocupação</th>
+                        <th>Coordenadas</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaAbrigos"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="text-white">📍 Análise de Proximidade</h2>
+        </div>
+        <div class="user-filter">
+            <label for="filtroUsuario">Filtrar por usuário: </label>
+            <select id="filtroUsuario" onchange="filtrarProximidade()">
+                <option value="">Todos os usuários</option>
+            </select>
+        </div>
+        <div class="table-container">
+            <div class="loading" id="loadingProximidade">Calculando proximidades...</div>
+            <table id="tabelaProximidade" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Usuário</th>
+                        <th>Email</th>
+                        <th>Endereço do Usuário</th>
+                        <th>Endereço do Abrigo</th>
+                        <th>Distância (km)</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaProximidade"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/site.js"></script>

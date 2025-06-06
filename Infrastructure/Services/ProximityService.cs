@@ -8,8 +8,9 @@ namespace Project.Application.Services
     {
         private readonly IProximityRepository _proximityRepository;
         private readonly HttpClient _httpClient;
-        private readonly string _apiKey = "68ca43091a2d4763b237ed7e446ae216";
-        private readonly string _baseUrl = "https://api.opencagedata.com/geocode/v1/json";
+        private readonly string _apiKey = "lze01Ej8Jlh1m6cSIDDbJDCcBl1WZqfwTPlO8NmEK8Cq0q0HOSxs9AFmnI3XHveO";
+        private readonly string _baseUrl = "https://api.distancematrix.ai/maps/api/geocode/json";
+
 
         public ProximityService(IProximityRepository proximityRepository, HttpClient httpClient)
         {
@@ -19,20 +20,34 @@ namespace Project.Application.Services
 
         #region Geocodificação (OpenCage API)
 
+        /*
         public async Task<(double? lat, double? lng)> ObterCoordenadasAsync(string endereco)
         {
             try
             {
-                var url = $"{_baseUrl}?q={Uri.EscapeDataString(endereco)}&key={_apiKey}&language=pt&pretty=1";
+                var url = $"{_baseUrl}?address={Uri.EscapeDataString(endereco)}&key={_apiKey}&language=pt";
+
+                // 🔍 LOG 1: URL que está sendo chamada
+                Console.WriteLine($"🌐 URL: {url}");
+
                 var response = await _httpClient.GetAsync(url);
-                
+
+                // 🔍 LOG 2: Status da resposta HTTP
+                Console.WriteLine($"📡 Status HTTP: {response.StatusCode}");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
+
+                    // 🔍 LOG 3: Resposta completa da API
+                    Console.WriteLine($"📄 Resposta API: {jsonString}");
+
+
                     var data = JsonSerializer.Deserialize<OpenCageResponse>(jsonString, new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     });
+
 
                     if (data?.Results?.Any() == true)
                     {
@@ -47,7 +62,61 @@ namespace Project.Application.Services
 
             return (null, null);
         }
+        */
 
+        public async Task<(double? lat, double? lng)> ObterCoordenadasAsync(string endereco)
+        {
+            try
+            {
+                var url = $"{_baseUrl}?address={Uri.EscapeDataString(endereco)}&key={_apiKey}&language=pt";
+
+                // 🔍 LOG 1: URL que está sendo chamada
+                Console.WriteLine($"🌐 URL: {url}");
+
+                var response = await _httpClient.GetAsync(url);
+
+                // 🔍 LOG 2: Status da resposta HTTP
+                Console.WriteLine($"📡 Status HTTP: {response.StatusCode}");
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+
+                    // 🔍 LOG 3: Resposta completa da API
+                    Console.WriteLine($"📄 Resposta API: {jsonString}");
+
+                    // ✅ DTO CORRETO para DistanceMatrix.ai
+                    var data = JsonSerializer.Deserialize<DistanceMatrixResponse>(jsonString, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                    Console.WriteLine($"🔍 Data: Status={data?.Status}, Result.Count={data?.Result?.Count}");
+                    
+                    // ✅ VERIFICAÇÃO CORRETA para DistanceMatrix.ai
+                    if (data?.Result?.Any() == true && data.Status == "OK")
+                    {
+                        var location = data.Result[0].Geometry.Location;
+                        Console.WriteLine($"✅ Coordenadas encontradas: Lat={location.Lat}, Lng={location.Lng}");
+                        return (location.Lat, location.Lng);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"❌ API retornou: Status={data?.Status}, ResultCount={data?.Result?.Count ?? 0}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"❌ Erro HTTP: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Erro ao buscar coordenadas para {endereco}: {ex.Message}");
+            }
+
+            return (null, null);
+        }
         #endregion
 
         #region Cálculo de Distância
