@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("Usuario")]
+[Route("api/Usuario")]
 public class UsuarioController : Controller
 {
     private readonly IUsuarioService _usuarioService;
