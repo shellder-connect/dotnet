@@ -58,6 +58,69 @@
              <response code="401">Usuário ou senha inválidos</response>
              <response code="500">Erro interno do servidor</response>
         </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetUsuariosComEnderecos">
+            <summary>
+            Obtém todos os usuários com seus endereços e coordenadas
+            </summary>
+            <returns>Lista de usuários com endereços</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetAbrigosComEnderecos">
+            <summary>
+            Obtém todos os abrigos com seus endereços e coordenadas
+            </summary>
+            <returns>Lista de abrigos com endereços</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.CalcularProximidades">
+            <summary>
+            Calcula e salva todas as proximidades entre usuários e abrigos
+            </summary>
+            <returns>Confirmação do processamento</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetTodasProximidades">
+            <summary>
+            Obtém todas as proximidades calculadas
+            </summary>
+            <returns>Lista de proximidades com ranking</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetProximidadesPorUsuario(System.String)">
+            <summary>
+            Obtém as proximidades de um usuário específico
+            </summary>
+            <param name="idUsuario">ID do usuário</param>
+            <returns>Lista de abrigos mais próximos do usuário</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetTop3ProximidadesPorUsuario(System.String)">
+            <summary>
+            Obtém os 3 abrigos mais próximos de um usuário
+            </summary>
+            <param name="idUsuario">ID do usuário</param>
+            <returns>Top 3 abrigos mais próximos</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetDashboard">
+            <summary>
+            Obtém dados completos para o dashboard
+            </summary>
+            <returns>Dashboard com usuários, abrigos, proximidades e estatísticas</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetEstatisticas">
+            <summary>
+            Obtém estatísticas resumidas do sistema
+            </summary>
+            <returns>Estatísticas básicas</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.AtualizarCoordenadasUsuario(System.String)">
+            <summary>
+            Força atualização das coordenadas de um usuário específico
+            </summary>
+            <param name="idUsuario">ID do usuário</param>
+            <returns>Coordenadas atualizadas</returns>
+        </member>
+        <member name="M:Project.Controllers.ProximidadeController.GetHealth">
+            <summary>
+            Health check do serviço de proximidade
+            </summary>
+            <returns>Status do serviço</returns>
+        </member>
         <member name="M:AbrigoController.CadastrarAbrigo(Project.Models.Abrigo)">
             <summary>
                 Cria um novo abrigo.

@@ -7,6 +7,11 @@ using Project.Domain;
 using MongoDB.Driver;
 using Project.Services;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Options;
+using MongoDB.Bson.Serialization.Conventions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +51,9 @@ builder.Services.Configure<ConfigMongoDb>(options =>
     options.RegistroEventoCollectionName = builder.Configuration["ConfigMongoDb:RegistroEventoCollectionName"] ?? throw new Exception("RegistroEventoCollectionName is not configured in ConfigMongoDb.");
     options.MuralCollectionName = builder.Configuration["ConfigMongoDb:MuralCollectionName"] ?? throw new Exception("MuralCollectionName is not configured in ConfigMongoDb.");
     options.EnderecoAbrigoCollectionName = builder.Configuration["ConfigMongoDb:EnderecoAbrigoCollectionName"] ?? throw new Exception("EnderecoAbrigoCollectionName is not configured in ConfigMongoDb.");
+    options.CoordenadaCollectionName = builder.Configuration["ConfigMongoDb:CoordenadaCollectionName"] ?? throw new Exception("CoordenadaCollectionName is not configured in ConfigMongoDb.");
+    options.AnaliseProximidadeCollectionName = builder.Configuration["ConfigMongoDb:AnaliseProximidadeCollectionName"] ?? throw new Exception("AnaliseProximidadeCollectionName is not configured in ConfigMongoDb.");
+    options.RelatorioProximidadeCollectionName = builder.Configuration["ConfigMongoDb:RelatorioProximidadeCollectionName"] ?? throw new Exception("RelatorioProximidadeCollectionName is not configured in ConfigMongoDb.");
     
     
 });
@@ -54,6 +62,7 @@ builder.Services.AddTransient<IMongoClient>(_ =>
 {
     return new MongoClient(mongoDbConnectionString);
 });
+
 
 // Registrar os serviços necessários
 
@@ -122,6 +131,10 @@ builder.Services.AddTransient<IMuralService, MuralService>();
 // Endereço Abrigo
 builder.Services.AddTransient<IEnderecoAbrigoRepository, EnderecoAbrigoRepository>();
 builder.Services.AddTransient<IEnderecoAbrigoService, EnderecoAbrigoService>();
+
+// Roteirização das distância entre usuário e abrigo
+builder.Services.AddTransient<IProximityRepository, ProximityRepository>();
+builder.Services.AddTransient<IProximityService, ProximityService>();
 
 // Configurar autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

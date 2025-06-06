@@ -20,6 +20,9 @@ namespace Project.Domain
             public string LocalidadeCollectionName { get; set; } = null!;
             public string MuralCollectionName { get; set; } = null!;
             public string EnderecoAbrigoCollectionName { get; set; } = null!;
+            public string CoordenadaCollectionName { get; set; } = null!;
+            public string AnaliseProximidadeCollectionName { get; set; } = null!;
+            public string RelatorioProximidadeCollectionName { get; set; } = null!;
 
         public static implicit operator ConfigMongoDb(MongoDbContext v)
         {
