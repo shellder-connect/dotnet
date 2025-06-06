@@ -9,6 +9,7 @@ Link do GitHub com todos os arquivos do projeto:
 https://github.com/shellder-connect/dotnet
 
 Link do vídeo explicando nossa solução:
+https://youtu.be/qdt7LDM9pxo
 
 Link do vídeo da matéria de Dotnet:
 https://youtu.be/Zi1Z6D2Nz34
